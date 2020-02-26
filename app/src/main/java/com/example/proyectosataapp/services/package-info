@@ -1,0 +1,4 @@
+This package contains all relational
+with services that consumes from the API REST node,
+consider this package as a main package where all the
+services are independently of the model alienated to them.

@@ -1,0 +1,7 @@
+This package contains all relational
+with the model USER that comes from the API REST node,
+you can see this model in models/package.
+It´s also contains login and register activities.
+
+Consider this package as a main package where all the
+classes/views relational with this model are in.

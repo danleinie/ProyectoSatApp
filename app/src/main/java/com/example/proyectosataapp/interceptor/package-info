@@ -1,0 +1,4 @@
+This package contains all relational
+with interceptor that are necessary to make queries to the API,
+consider this package as a main package where all the
+interceptors are independently of the model/generatorService alienated to them.

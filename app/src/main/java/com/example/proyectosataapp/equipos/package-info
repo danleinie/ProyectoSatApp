@@ -1,0 +1,6 @@
+This package contains all relational
+with the model TEAM that comes from the API REST node,
+you can see this model in models/package
+
+Consider this package as a main package where all the
+classes/views relational with this model are in.
