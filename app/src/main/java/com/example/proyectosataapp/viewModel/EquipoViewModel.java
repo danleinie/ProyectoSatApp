@@ -29,6 +29,11 @@ public class EquipoViewModel extends AndroidViewModel {
         series = equipoRepository.getSeriesPopulares();
         return series;
     }
+    public void deleteEquipo(int id){
+        equipoRepository.deleteEquipo(id);
+    }
+
+
 
 
 

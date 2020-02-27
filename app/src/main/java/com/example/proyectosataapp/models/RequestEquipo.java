@@ -7,14 +7,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Equipo {
+public class RequestEquipo {
+
     private String nombre;
     private String tipo;
     private String descripcion;
     private String ubicacion;
     private String imagen;
-
-
-    public Equipo(Equipo equipo) {
-    }
 }

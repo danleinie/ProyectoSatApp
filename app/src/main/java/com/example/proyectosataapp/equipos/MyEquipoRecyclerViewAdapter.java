@@ -1,4 +1,4 @@
-package com.example.proyectosataapp;
+package com.example.proyectosataapp.equipos;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.models.Equipo;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
