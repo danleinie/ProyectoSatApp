@@ -10,7 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.Equipo;
+import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
     private List<Equipo> mValues;
     EquipoViewModel equipoViewModel;
     Context context;
+    EquipoService service;
 
 
     public MyEquipoRecyclerViewAdapter(Context ctx, List<Equipo> equipos, EquipoViewModel equipoViewModel) {
@@ -43,7 +47,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
 
         Glide
                 .with(context)
-                .load(holder.mItem.getImagen())
+                .load(service.imagenEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN), ))
                 .centerCrop()
                 .into(holder.ivImagen);
 

@@ -12,4 +12,7 @@ public interface EquipoService {
 
     @GET("inventariable")
     Call<List<Equipo>> listEquipo (@Query("access_token") String masterKey);
+
+    @GET("/inventariable/img/{id}")
+    Call<String> imagenEquipo(@Query("access_token") String masterKey, @Query("id") String idImag);
 }
