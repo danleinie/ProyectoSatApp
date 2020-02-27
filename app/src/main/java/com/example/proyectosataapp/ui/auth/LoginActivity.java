@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectosataapp.R;
@@ -25,7 +26,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText name;
     EditText password;
-    Button buttonLogin,buttonRegister;
+    TextView buttonRegister;
+    Button buttonLogin;
     UserService userService;
 
     @Override
