@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_activity_ticket">TicketActivity</string>
+    <string name="creado_por">Creado por:</string>
+    <string name="asignado_a">Asignado a:</string>
 </resources>

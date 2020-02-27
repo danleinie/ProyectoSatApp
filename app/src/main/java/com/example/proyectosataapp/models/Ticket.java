@@ -1,8 +1,7 @@
-package com.example.proyectosatapp.models;
+package com.example.proyectosataapp.models;
 
 import java.util.List;
 
-import com.example.proyectosataapp.models.UserResponseRegister;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

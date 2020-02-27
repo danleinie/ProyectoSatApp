@@ -45,11 +45,11 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        Glide
+        /*Glide
                 .with(context)
                 .load(service.imagenEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN), ))
                 .centerCrop()
-                .into(holder.ivImagen);
+                .into(holder.ivImagen);*/
 
         holder.tvNombre.setText(holder.mItem.getNombre());
         holder.tvUbicacion.setText(holder.mItem.getUbicacion());
