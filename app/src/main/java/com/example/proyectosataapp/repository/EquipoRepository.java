@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
-import com.example.proyectosataapp.models.Equipo;
+import com.example.proyectosataapp.models.ResponseEquipo;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 
@@ -21,7 +21,7 @@ public class EquipoRepository {
 
     EquipoService service;
     ServiceGenerator serviceGenerator;
-    MutableLiveData<List<Equipo>> equipoList;
+    MutableLiveData<List<ResponseEquipo>> equipoList;
 
 
     public EquipoRepository(){
@@ -30,14 +30,14 @@ public class EquipoRepository {
     }
 
 
-    public MutableLiveData<List<Equipo>> getSeriesPopulares(){
-        final MutableLiveData<List<Equipo>> data = new MutableLiveData<>();
+    public MutableLiveData<List<ResponseEquipo>> getSeriesPopulares(){
+        final MutableLiveData<List<ResponseEquipo>> data = new MutableLiveData<>();
 
-        Call<List<Equipo>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        Call<List<ResponseEquipo>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
-        call.enqueue(new Callback<List<Equipo>>() {
+        call.enqueue(new Callback<List<ResponseEquipo>>() {
             @Override
-            public void onResponse(Call<List<Equipo>> call, Response<List<Equipo>> response) {
+            public void onResponse(Call<List<ResponseEquipo>> call, Response<List<ResponseEquipo>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
                 } else {
@@ -46,7 +46,7 @@ public class EquipoRepository {
             }
 
             @Override
-            public void onFailure(Call<List<Equipo>> call, Throwable t) {
+            public void onFailure(Call<List<ResponseEquipo>> call, Throwable t) {
                 Toast.makeText(MyApp.getCtx(), "Error in the connection", Toast.LENGTH_SHORT).show();
             }
         });
