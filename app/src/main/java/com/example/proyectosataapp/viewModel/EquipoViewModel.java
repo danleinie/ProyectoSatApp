@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.proyectosataapp.models.ResponseEquipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.repository.EquipoRepository;
 
 
@@ -14,7 +14,7 @@ import java.util.List;
 
 public class EquipoViewModel extends AndroidViewModel {
 
-    MutableLiveData<List<ResponseEquipo>> series;
+    MutableLiveData<List<EquipoResponse>> series;
     EquipoRepository equipoRepository;
     MutableLiveData<Integer> idEquipoSeleccionado;
 
@@ -25,7 +25,7 @@ public class EquipoViewModel extends AndroidViewModel {
         this.idEquipoSeleccionado.setValue(null);
     }
 
-    public MutableLiveData<List<ResponseEquipo>> getEquipos() {
+    public MutableLiveData<List<EquipoResponse>> getEquipos() {
         series = equipoRepository.getSeriesPopulares();
         return series;
     }

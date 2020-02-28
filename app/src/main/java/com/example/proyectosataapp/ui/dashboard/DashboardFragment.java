@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.proyectosataapp.MyEquipoRecyclerViewAdapter;
 import com.example.proyectosataapp.R;
-import com.example.proyectosataapp.models.ResponseEquipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
 import java.util.List;
@@ -93,10 +93,10 @@ public class DashboardFragment extends Fragment {
         Toast.makeText(getActivity(), "onResume()", Toast.LENGTH_SHORT).show();
 
         //TODO IMPORTANTE
-        equipoViewModel.getEquipos().observe(getActivity(), new Observer<List<ResponseEquipo>>() {
+        equipoViewModel.getEquipos().observe(getActivity(), new Observer<List<EquipoResponse>>() {
             @Override
-            public void onChanged(List<ResponseEquipo> responseEquipos) {
-                adapter.setData(responseEquipos);
+            public void onChanged(List<EquipoResponse> equipoResponses) {
+                adapter.setData(equipoResponses);
             }
         });
 

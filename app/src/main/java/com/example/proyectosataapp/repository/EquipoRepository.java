@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
-import com.example.proyectosataapp.models.ResponseEquipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 
@@ -21,7 +21,7 @@ public class EquipoRepository {
 
     EquipoService service;
     ServiceGenerator serviceGenerator;
-    MutableLiveData<List<ResponseEquipo>> equipoList;
+    MutableLiveData<List<EquipoResponse>> equipoList;
 
 
     public EquipoRepository(){
@@ -30,14 +30,14 @@ public class EquipoRepository {
     }
 
 
-    public MutableLiveData<List<ResponseEquipo>> getSeriesPopulares(){
-        final MutableLiveData<List<ResponseEquipo>> data = new MutableLiveData<>();
+    public MutableLiveData<List<EquipoResponse>> getSeriesPopulares(){
+        final MutableLiveData<List<EquipoResponse>> data = new MutableLiveData<>();
 
-        Call<List<ResponseEquipo>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        Call<List<EquipoResponse>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
-        call.enqueue(new Callback<List<ResponseEquipo>>() {
+        call.enqueue(new Callback<List<EquipoResponse>>() {
             @Override
-            public void onResponse(Call<List<ResponseEquipo>> call, Response<List<ResponseEquipo>> response) {
+            public void onResponse(Call<List<EquipoResponse>> call, Response<List<EquipoResponse>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
                 } else {
@@ -46,7 +46,7 @@ public class EquipoRepository {
             }
 
             @Override
-            public void onFailure(Call<List<ResponseEquipo>> call, Throwable t) {
+            public void onFailure(Call<List<EquipoResponse>> call, Throwable t) {
                 Toast.makeText(MyApp.getCtx(), "Error in the connection", Toast.LENGTH_SHORT).show();
             }
         });

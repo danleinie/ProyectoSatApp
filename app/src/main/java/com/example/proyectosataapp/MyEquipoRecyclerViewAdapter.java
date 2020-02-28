@@ -3,7 +3,6 @@ package com.example.proyectosataapp;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
-import com.example.proyectosataapp.models.ResponseEquipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
@@ -24,16 +23,16 @@ import java.util.List;
 
 public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRecyclerViewAdapter.ViewHolder> {
 
-    private List<ResponseEquipo> mValues;
+    private List<EquipoResponse> mValues;
     EquipoViewModel equipoViewModel;
     ServiceGenerator serviceGenerator;
     Context context;
     EquipoService service;
 
 
-    public MyEquipoRecyclerViewAdapter(Context ctx, List<ResponseEquipo> responseEquipos, EquipoViewModel equipoViewModel) {
+    public MyEquipoRecyclerViewAdapter(Context ctx, List<EquipoResponse> equipoResponses, EquipoViewModel equipoViewModel) {
         this.context = ctx;
-        mValues = responseEquipos;
+        mValues = equipoResponses;
         this.equipoViewModel = equipoViewModel;
         service = serviceGenerator.createService(EquipoService.class);
     }
@@ -49,15 +48,6 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-       // Call<String> imagenCall = new Call();
-
-     //   String valor = service.imagenEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN),holder.mItem.getId());
-        Glide
-                .with(context)
-                .load(service.imagenEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN),holder.mItem.getId() ))
-                .centerCrop()
-                .into(holder.ivImagen);
-
         holder.tvNombre.setText(holder.mItem.getNombre());
         holder.tvUbicacion.setText(holder.mItem.getUbicacion());
 
@@ -70,7 +60,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         });
     }
 
-    public void setData(List<ResponseEquipo> list){
+    public void setData(List<EquipoResponse> list){
         if(this.mValues != null) {
             this.mValues.clear();
         } else {
@@ -93,15 +83,14 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         public final View mView;
         public final TextView tvNombre;
         public final TextView tvUbicacion;
-        public final ImageView ivImagen;
-        public ResponseEquipo mItem;
+        public EquipoResponse mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             tvNombre = view.findViewById(R.id.equipo_nombre);
             tvUbicacion = view.findViewById(R.id.equipo_ubicacion);
-            ivImagen= view.findViewById(R.id.equipo_img);
+
         }
     }
 }
