@@ -56,6 +56,10 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
             @Override
             public void onClick(View v) {
 
+                if (null != equipoViewModel) {
+                    equipoViewModel.setIdEquipoSeleccionado(holder.mItem.getId());
+                }
+
             }
         });
     }

@@ -17,4 +17,7 @@
     <string name="hint_signup">SIGN UP</string>
     <string name="text_login_button">Sign in</string>
     <string name="txBackToSignInHelp">Already have an account?</string>
+    <string name="title_activity_detalle_equipo">DetalleEquipoActivity</string>
+    <string name="equipo_tipo">Tipo</string>
+    <string name="equipo_ubicacion">Ubicacion</string>
 </resources>

@@ -30,7 +30,7 @@ public class EquipoRepository {
     }
 
 
-    public MutableLiveData<List<EquipoResponse>> getSeriesPopulares(){
+    public MutableLiveData<List<EquipoResponse>> getEquipos(){
         final MutableLiveData<List<EquipoResponse>> data = new MutableLiveData<>();
 
         Call<List<EquipoResponse>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
@@ -54,5 +54,23 @@ public class EquipoRepository {
     }
 
 
+    public MutableLiveData<EquipoResponse> getEquipo(String idEquipo) {
 
+        final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
+        Call <EquipoResponse> call = service.getEquipo(idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+
+        call.enqueue(new Callback<EquipoResponse>() {
+            @Override
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+
+            }
+        });
+
+        return data;
+    }
 }

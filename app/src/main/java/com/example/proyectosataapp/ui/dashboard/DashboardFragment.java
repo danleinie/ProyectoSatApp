@@ -1,6 +1,7 @@
 package com.example.proyectosataapp.ui.dashboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,8 +17,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 
+import com.example.proyectosataapp.DetalleEquipoActivity;
+import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.MyEquipoRecyclerViewAdapter;
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
@@ -59,6 +64,17 @@ public class DashboardFragment extends Fragment {
         }
 
         equipoViewModel = new ViewModelProvider(getActivity()).get(EquipoViewModel.class);
+
+        equipoViewModel.getIdEquipoSeleccionado().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String idEquipo) {
+                if(idEquipo != null) {
+                    Intent i = new Intent(MyApp.getCtx(), DetalleEquipoActivity.class);
+                    i.putExtra(Constantes.EXTRA_ID_EQUIPO, idEquipo);
+                    startActivity(i);
+                }
+            }
+        });
     }
 
     @Override
