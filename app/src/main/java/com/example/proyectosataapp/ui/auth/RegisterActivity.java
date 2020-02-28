@@ -3,6 +3,8 @@ package com.example.proyectosataapp.ui.auth;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+
+import androidx.appcompat.widget.Toolbar;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,10 +12,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -40,7 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
     EditText email,username,password;
-    Button btnRegister, btnGaleria;
+    TextView backToSignIn;
+    Button btnRegister;
     UserService servicio;
     ImageView imgFotoPerfil;
     Uri uriSelected;
@@ -50,18 +55,24 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        initToolbar();
 
         final Intent i = new Intent(this,LoginActivity.class);
 
         email = findViewById(R.id.email);
         username = findViewById(R.id.usernameRegister);
         password = findViewById(R.id.passwordRegister);
-        btnRegister = findViewById(R.id.btnRegister);
-        btnGaleria = findViewById(R.id.btnGaleria);
+        btnRegister = findViewById(R.id.btnRegisterInRegister);
         imgFotoPerfil = findViewById(R.id.imgFotoPerfil);
+        backToSignIn = findViewById(R.id.txBackToSignIn);
         uriSelected = null;
 
-        btnRegister.setEnabled(false);
+        backToSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         servicio = ServiceGenerator.createService(UserService.class);
 
@@ -114,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
                                     if (response.isSuccessful()) {
                                         Log.i("registrocorrecto", ""+response.body());
-                                        //startActivity(i);
+                                        finish();
                                     } else {
                                         Log.e("Upload error", response.errorBody().toString());
                                     }
@@ -139,12 +150,29 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        btnGaleria.setOnClickListener(new View.OnClickListener() {
+        imgFotoPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 performFileSearch();
             }
         });
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbarRegister);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        } else {
+            Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void performFileSearch() {
@@ -186,6 +214,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Glide
                         .with(this)
                         .load(uri)
+                        .circleCrop()
                         .into(imgFotoPerfil);
                 uriSelected = uri;
                 Cursor returnCursor =
@@ -193,8 +222,7 @@ public class RegisterActivity extends AppCompatActivity {
                 int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                 returnCursor.moveToFirst();
                 nombreFichero = returnCursor.getString(nameIndex);
-                Toast.makeText(this, "" + nombreFichero, Toast.LENGTH_SHORT).show();
-                btnRegister.setEnabled(true);
+                //Toast.makeText(this, "" + nombreFichero, Toast.LENGTH_SHORT).show();
             }
         }
     }
