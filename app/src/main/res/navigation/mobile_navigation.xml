@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.proyectosataapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.example.proyectosataapp.ui.usuarios.UsersFragment"
+        android:label="@string/title_usuarios"
+        tools:layout="@layout/fragment_user_list" />
 </navigation>

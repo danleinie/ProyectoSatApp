@@ -2,7 +2,7 @@
     <string name="app_name">ProyectoSataApp</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_usuarios">Usuarios</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_login">LOG IN</string>
