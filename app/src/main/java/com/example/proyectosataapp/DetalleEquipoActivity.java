@@ -1,5 +1,7 @@
 package com.example.proyectosataapp;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.bumptech.glide.Glide;
@@ -32,8 +34,8 @@ import retrofit2.Response;
 
 public class DetalleEquipoActivity extends AppCompatActivity {
     String idEquipo;
-    final MutableLiveData<String> data = new MutableLiveData<>();
     EquipoService service;
+    Uri data;
     ServiceGenerator serviceGenerator;
     DetalleEquipoViewModel detalleEquipoViewModel;
     @BindView(R.id.textView_detalle_equipo_nombre) TextView tvNombre;
@@ -55,15 +57,17 @@ public class DetalleEquipoActivity extends AppCompatActivity {
         Toast.makeText(this, "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
         service = serviceGenerator.createService(EquipoService.class);
 
-        Call<String> call = service.imagenEquipo( idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
-        call.enqueue(new Callback<String>() {
+        Call<Uri> call = service.imagenEquipo( idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        call.enqueue(new Callback<Uri>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                data.setValue(response.toString());
+            public void onResponse(Call<Uri> call, Response<Uri> response) {
+
+            data = response.body();
+
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<Uri> call, Throwable t) {
 
             }
         });
