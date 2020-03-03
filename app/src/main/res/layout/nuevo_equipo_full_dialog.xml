@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A6FFFFFF"
+    android:backgroundTint="#81FFFFFF">
+
+    <ImageView
+        android:id="@+id/cancelar"
+        android:layout_width="55dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="76dp"
+        app:layout_constraintBottom_toTopOf="@+id/imagen"
+        app:layout_constraintEnd_toStartOf="@+id/enviar"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.352"
+        app:srcCompat="@drawable/ic_x_mark" />
+
+    <Button
+        android:id="@+id/enviar"
+        android:layout_width="93dp"
+        android:layout_height="57dp"
+        android:layout_marginEnd="16dp"
+        android:background="#F57C00"
+        android:text="ENVIAR"
+        app:layout_constraintBottom_toBottomOf="@+id/cancelar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cancelar"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageView
+        android:id="@+id/imagen"
+        android:layout_width="129dp"
+        android:layout_height="89dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/nombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.827"
+        tools:srcCompat="@tools:sample/avatars[0]" />
+
+    <EditText
+        android:id="@+id/nombre"
+        android:layout_width="213dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Nombre"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/ubicacion"
+        app:layout_constraintEnd_toEndOf="@+id/imagen"
+        app:layout_constraintStart_toStartOf="@+id/imagen" />
+
+    <EditText
+        android:id="@+id/ubicacion"
+        android:layout_width="213dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Ubicación"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/tipo"
+        app:layout_constraintEnd_toEndOf="@+id/nombre"
+        app:layout_constraintStart_toStartOf="@+id/nombre" />
+
+    <EditText
+        android:id="@+id/tipo"
+        android:layout_width="213dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Tipo"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/descripcion"
+        app:layout_constraintEnd_toEndOf="@+id/ubicacion"
+        app:layout_constraintStart_toStartOf="@+id/ubicacion" />
+
+    <EditText
+        android:id="@+id/descripcion"
+        android:layout_width="216dp"
+        android:layout_height="112dp"
+        android:layout_marginBottom="60dp"
+        android:ems="10"
+        android:hint="Descripción"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tipo"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/tipo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
