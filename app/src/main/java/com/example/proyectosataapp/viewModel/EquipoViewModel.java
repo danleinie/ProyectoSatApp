@@ -35,6 +35,7 @@ public class EquipoViewModel extends AndroidViewModel {
         equipoRepository.createEquipo(url,ubicacion,nombre,tipo,descripcion);
     }
     public void deleteEquipo(int id){
+
         equipoRepository.deleteEquipo(id);
     }
 

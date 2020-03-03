@@ -16,13 +16,6 @@ public class RequestEquipo {
     private String imagen;
 
 
-    public RequestEquipo(String nombre, String tipo, String descripcion, String ubicacion, String imagen) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
-        this.imagen = imagen;
-    }
 
     public RequestEquipo(String nombre, String tipo, String descripcion, String ubicacion) {
         this.nombre = nombre;

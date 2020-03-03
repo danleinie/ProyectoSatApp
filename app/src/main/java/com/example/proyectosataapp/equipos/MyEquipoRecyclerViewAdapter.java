@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.R;
-import com.example.proyectosataapp.models.Equipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ import java.util.List;
 
 public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRecyclerViewAdapter.ViewHolder> {
 
-    private List<Equipo> mValues;
+    private List<EquipoResponse> mValues;
     EquipoViewModel equipoViewModel;
     Context context;
 
 
-    public MyEquipoRecyclerViewAdapter(Context ctx, List<Equipo> equipos, EquipoViewModel equipoViewModel) {
+    public MyEquipoRecyclerViewAdapter(Context ctx, List<EquipoResponse> equipos, EquipoViewModel equipoViewModel) {
         this.context = ctx;
         mValues = equipos;
         this.equipoViewModel = equipoViewModel;
@@ -60,7 +60,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         });
     }
 
-    public void setData(List<Equipo> list){
+    public void setData(List<EquipoResponse> list){
         if(this.mValues != null) {
             this.mValues.clear();
         } else {
@@ -84,7 +84,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         public final TextView tvNombre;
         public final TextView tvUbicacion;
         public final ImageView ivImagen;
-        public Equipo mItem;
+        public EquipoResponse mItem;
 
         public ViewHolder(View view) {
             super(view);
