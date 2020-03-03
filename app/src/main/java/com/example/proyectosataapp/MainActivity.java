@@ -1,21 +1,23 @@
 package com.example.proyectosataapp;
 
 import android.os.Bundle;
+
+import android.view.View;
+
+import com.example.proyectosataapp.equipos.NuevoEquipoDialogFragMent;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -31,13 +33,19 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    FloatingActionButton nuevoEquipo;
+
+
     TextView txNotificationsBadgeUsers;
     UsuarioViewModel usuarioViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        nuevoEquipo = findViewById(R.id.nuevoEquipo);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
 
@@ -49,6 +57,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+
+
+        nuevoEquipo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NuevoEquipoDialogFragMent dialog = new NuevoEquipoDialogFragMent();
+                dialog.show(getSupportFragmentManager(), "NuevoEquipoDialogFragMent");
+            }
+        });
 
         //Código para poner un badge de notificación
         BottomNavigationMenuView bottomNavigationMenuView =

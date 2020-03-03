@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".DetalleEquipoActivity"
+            android:name=".equipos.DetalleEquipoActivity"
             android:label="@string/title_activity_detalle_equipo"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity

@@ -1,5 +1,7 @@
 package com.example.proyectosataapp.viewModel;
 
+
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -26,3 +28,4 @@ public class DetalleEquipoViewModel extends AndroidViewModel {
 
 
 }
+

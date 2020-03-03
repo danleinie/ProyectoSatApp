@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 import com.example.proyectosataapp.DetalleEquipoActivity;
 import com.example.proyectosataapp.MainActivity;
-import com.example.proyectosataapp.MyEquipoRecyclerViewAdapter;
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
+import com.example.proyectosataapp.equipos.MyEquipoRecyclerViewAdapter;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
