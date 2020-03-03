@@ -7,6 +7,7 @@ import com.example.proyectosataapp.models.EquipoResponse;
 import java.io.File;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Part;
@@ -19,7 +20,7 @@ public interface EquipoService {
     Call<List<EquipoResponse>> listEquipo (@Query("access_token") String masterKey);
 
     @GET("inventariable/img/{id}")
-    Call<Uri> imagenEquipo(@Path("id") String idImag, @Query("access_token") String masterKey);
+    Call<ResponseBody> imagenEquipo(@Path("id") String idImag, @Query("access_token") String masterKey);
 
     @GET("/inventariable/{id}")
     Call<EquipoResponse> getEquipo(@Path("id") String idEquipo, @Query("access_token") String masterKey);

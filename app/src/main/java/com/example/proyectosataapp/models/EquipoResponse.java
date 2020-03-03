@@ -1,12 +1,7 @@
 package com.example.proyectosataapp.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+
 public class EquipoResponse {
     private String id;
     private String nombre;
@@ -15,4 +10,63 @@ public class EquipoResponse {
     private String ubicacion;
     private String imagen;
 
+    public EquipoResponse(String id, String nombre, String tipo, String descripcion, String ubicacion, String imagen) {
+        this.id = id;
+        this.nombre = nombre;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.ubicacion = ubicacion;
+        this.imagen = imagen;
+    }
+
+    public EquipoResponse() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
 }

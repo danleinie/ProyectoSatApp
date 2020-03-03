@@ -1,6 +1,7 @@
 package com.example.proyectosataapp;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -28,6 +29,7 @@ import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,7 +37,7 @@ import retrofit2.Response;
 public class DetalleEquipoActivity extends AppCompatActivity {
     String idEquipo;
     EquipoService service;
-    Uri data;
+
     ServiceGenerator serviceGenerator;
     DetalleEquipoViewModel detalleEquipoViewModel;
     @BindView(R.id.textView_detalle_equipo_nombre) TextView tvNombre;
@@ -48,42 +50,30 @@ public class DetalleEquipoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detalle_equipo);
-
         ButterKnife.bind(this);
-
         Bundle extras = getIntent().getExtras();
         idEquipo = extras.getString(Constantes.EXTRA_ID_EQUIPO);
-
         Toast.makeText(this, "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
         service = serviceGenerator.createService(EquipoService.class);
-
-        Call<Uri> call = service.imagenEquipo( idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
-        call.enqueue(new Callback<Uri>() {
-            @Override
-            public void onResponse(Call<Uri> call, Response<Uri> response) {
-
-            data = response.body();
-
-            }
-
-            @Override
-            public void onFailure(Call<Uri> call, Throwable t) {
-
-            }
-        });
-
         detalleEquipoViewModel = new ViewModelProvider(this).get(DetalleEquipoViewModel.class);
-
-        detalleEquipoViewModel.getEquipo(idEquipo).observe(this, new Observer<EquipoResponse>() {
+        detalleEquipoViewModel.getEquipo(idEquipo).observeForever( new Observer<EquipoResponse>() {
             @Override
             public void onChanged(EquipoResponse equipo) {
+                Call<ResponseBody> call = service.imagenEquipo( idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                       Bitmap foto =  BitmapFactory.decodeStream(response.body().byteStream());
+                        Glide
+                                .with(MyApp.getCtx())
+                                .load(foto).centerCrop().circleCrop()
+                                .into(ivFoto);
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    }
+                });
                 if(equipo != null) {
-
-                    Glide
-                            .with(MyApp.getCtx())
-                            .load(data).centerCrop()
-                            .into(ivFoto);
-
                     tvNombre.setText(equipo.getNombre());
                     tvDescripcion.setText(equipo.getDescripcion());
                     tvTipo.setText(equipo.getTipo());
