@@ -1,10 +1,13 @@
 package com.example.proyectosataapp;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.proyectosataapp.models.User;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -19,6 +22,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -57,8 +61,37 @@ public class MainActivity extends AppCompatActivity {
 
         usuarioViewModel.getUsersFromRepo().observe(this, new Observer<List<UserResponseRegister>>() {
             @Override
-            public void onChanged(List<UserResponseRegister> userResponseRegisters) {
-                usuarioViewModel.setListUsers(userResponseRegisters);
+            public void onChanged(final List<UserResponseRegister> userResponseRegisters) {
+                final List<UserResponseRegister> listUsuariosValidados = new ArrayList<>();
+                for (UserResponseRegister user : userResponseRegisters){
+                    if (user.getValidated()){
+                        listUsuariosValidados.add(user);
+                    }
+                }
+                final List<UserResponseRegister> list = new ArrayList<>();
+                for( int i=0;i<listUsuariosValidados.size();i++){
+                    final int finali=i;
+                    if (userResponseRegisters.get(i).getValidated()){
+                        usuarioViewModel.getImg(userResponseRegisters.get(i).getId()).observeForever(new Observer<ResponseBody>() {
+                            @Override
+                            public void onChanged(ResponseBody responseBody) {
+                                userResponseRegisters.get(finali).setPictureBitMap(BitmapFactory.decodeStream(responseBody.byteStream()));
+                                list.add(userResponseRegisters.get(finali));
+                                Log.i("sizedelresponse","" + userResponseRegisters.size());
+                                if (finali==(listUsuariosValidados.size()-1)){
+                                    Log.i("final","aquiiiiiiiiiiiiiii " + finali);
+                                    loadData(list);
+                                }
+                                //TODO:De esta forma la lista se va cargando poco a poco
+                                //usuarioViewModel.setListUsers(list);
+                                //Log.i("aver","" + list);
+                            }
+                        });
+
+                    }
+                }
+
+
             }
         });
 
@@ -114,6 +147,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
+    }
+
+    private void loadData(List<UserResponseRegister> list) {
+        usuarioViewModel.setListUsers(list);
     }
 
 

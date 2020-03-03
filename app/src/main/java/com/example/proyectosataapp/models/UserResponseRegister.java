@@ -30,7 +30,10 @@ public class UserResponseRegister {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
-    private InputStream pictureBitMap;
+    @SerializedName("validated")
+    @Expose
+    private Boolean validated;
+    private Bitmap pictureBitMap;
 
     /**
      * No args constructor for use in serialization
@@ -49,7 +52,7 @@ public class UserResponseRegister {
      * @param picture
      * @param updatedAt
      */
-    public UserResponseRegister(String id, String name, String email, String role, String picture, String createdAt, String updatedAt) {
+    public UserResponseRegister(String id, String name, String email, String role, String picture, String createdAt, String updatedAt,Boolean validated) {
         super();
         this.id = id;
         this.name = name;
@@ -58,6 +61,7 @@ public class UserResponseRegister {
         this.picture = picture;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.validated = validated;
     }
 
     public String getId() {
@@ -116,12 +120,20 @@ public class UserResponseRegister {
         this.updatedAt = updatedAt;
     }
 
-    public InputStream getPictureBitMap() {
+    public Bitmap getPictureBitMap() {
         return pictureBitMap;
     }
 
-    public void setPictureBitMap(InputStream pictureBitMap) {
+    public void setPictureBitMap(Bitmap pictureBitMap) {
         this.pictureBitMap = pictureBitMap;
+    }
+
+    public Boolean getValidated() {
+        return validated;
+    }
+
+    public void setValidated(Boolean validated) {
+        this.validated = validated;
     }
 
     @Override

@@ -18,6 +18,7 @@ import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -47,7 +48,7 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
         holder.textNombre.setText(holder.mItem.getName());
         holder.textRole.setText(holder.mItem.getRole());
 
-        if(isValidated){
+        if(holder.mItem.getValidated()){
             holder.buttonCancelar.setVisibility(View.GONE);
             holder.buttonAceptar.setVisibility(View.GONE);
         } else {
@@ -61,33 +62,32 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
                     .circleCrop()
                     .into(holder.imgFoto);
         }else {
-            usuarioViewModel.getImg(holder.mItem.getId()).observeForever(new Observer<ResponseBody>() {
-                @Override
-                public void onChanged(ResponseBody responseBody) {
-                    Bitmap fotoBitMap = BitmapFactory.decodeStream(responseBody.byteStream());
+            //usuarioViewModel.getImg(holder.mItem.getId()).observeForever(new Observer<ResponseBody>() {
+              //  @Override
+                //public void onChanged(ResponseBody responseBody) {
+                    //Bitmap fotoBitMap = BitmapFactory.decodeStream(responseBody.byteStream());
                     Glide
                             .with(MyApp.getCtx())
-                            .load(fotoBitMap)
+                            .load(holder.mItem.getPictureBitMap())
                             .circleCrop()
                             .into(holder.imgFoto);
-                }
-            });
+                //}
+            //});
         }
         holder.buttonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuarioViewModel.validarUsuario(holder.mItem.getId()).observeForever(new Observer<UserResponseRegister>() {
-                    @Override
-                    public void onChanged(UserResponseRegister userResponseRegister) {
-                        usuarioViewModel.isRefreshListUsers(true);
-                    }
-                });
+                //usuarioViewModel.validarUsuario(holder.mItem.getId()).observeForever(new Observer<UserResponseRegister>() {
+                  //  @Override
+                    //public void onChanged(final UserResponseRegister userResponseRegister) {
+                        usuarioViewModel.setNewUserValidated(holder.mItem);
+                    //}
+                //});
             }
         });
         holder.buttonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuarioViewModel.isRefreshListUsers(false);
             }
         });
     }
