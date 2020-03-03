@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
-import com.example.proyectosataapp.models.Equipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
@@ -23,7 +23,7 @@ public class EquipoRepository {
 
     EquipoService service;
     ServiceGenerator serviceGenerator;
-    MutableLiveData<List<Equipo>> equipoList;
+    MutableLiveData<List<EquipoResponse>> equipoList;
 
 
     public EquipoRepository(){
@@ -32,14 +32,14 @@ public class EquipoRepository {
     }
 
 
-    public MutableLiveData<List<Equipo>> getSeriesPopulares(){
-        final MutableLiveData<List<Equipo>> data = new MutableLiveData<>();
+    public MutableLiveData<List<EquipoResponse>> getSeriesPopulares(){
+        final MutableLiveData<List<EquipoResponse>> data = new MutableLiveData<>();
 
-        Call<List<Equipo>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        Call<List<EquipoResponse>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
-        call.enqueue(new Callback<List<Equipo>>() {
+        call.enqueue(new Callback<List<EquipoResponse>>() {
             @Override
-            public void onResponse(Call<List<Equipo>> call, Response<List<Equipo>> response) {
+            public void onResponse(Call<List<EquipoResponse>> call, Response<List<EquipoResponse>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
 
@@ -49,7 +49,7 @@ public class EquipoRepository {
             }
 
             @Override
-            public void onFailure(Call<List<Equipo>> call, Throwable t) {
+            public void onFailure(Call<List<EquipoResponse>> call, Throwable t) {
                 Toast.makeText(MyApp.getCtx(), "Error in the connection", Toast.LENGTH_SHORT).show();
             }
         });
@@ -57,17 +57,17 @@ public class EquipoRepository {
     }
 
     public void deleteEquipo(final int id){
-        Call<Equipo> call = service.eliminarEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN),id);
+        Call<EquipoResponse> call = service.eliminarEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN),id);
 
-        call.enqueue(new Callback<Equipo>() {
+        call.enqueue(new Callback<EquipoResponse>() {
             @Override
-            public void onResponse(Call<Equipo> call, Response<Equipo> response) {
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
                 if(response.isSuccessful()){
-                    List<Equipo> clonedEquipos = new ArrayList<>();
+                    List<EquipoResponse> clonedEquipos = new ArrayList<>();
                     for(int i = 0; i<equipoList.getValue().size(); i++){
                             if(equipoList.getValue().get(i).getId()  != id){
 
-                                clonedEquipos.add(new Equipo(equipoList.getValue().get(i)));
+                                clonedEquipos.add(new EquipoResponse(equipoList.getValue().get(i)));
                             }
                     }
 
@@ -80,8 +80,8 @@ public class EquipoRepository {
             }
 
             @Override
-            public void onFailure(Call<Equipo> call, Throwable t) {
-
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -92,25 +92,82 @@ public class EquipoRepository {
     public void createEquipo(String url,String ubicacion,String nombre, String tipo,String descripcion){
 
         RequestEquipo requestEquipo = new RequestEquipo(url,ubicacion,nombre,descripcion,tipo);
-        Call<Equipo> call = service.crearEquipo(requestEquipo);
+        Call<EquipoResponse> call = service.crearEquipo(requestEquipo);
 
-        call.enqueue(new Callback<Equipo>() {
+        call.enqueue(new Callback<EquipoResponse>() {
             @Override
-            public void onResponse(Call<Equipo> call, Response<Equipo> response) {
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
                 if(response.isSuccessful()){
-
+                    List<EquipoResponse> listaClonada = new ArrayList<>();
+                    listaClonada.add(response.body());
+                    for(int  i = 0; i< equipoList.getValue().size(); i++){
+                        listaClonada.add(new EquipoResponse(equipoList.getValue().get(i)));
+                    }
+                    equipoList.setValue(listaClonada);
                 }else{
                     Toast.makeText(MyApp.getCtx(),"Algo ha ido mal",Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<Equipo> call, Throwable t) {
-
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
+    public void createEquipo(String ubicacion,String nombre, String tipo,String descripcion){
+
+        RequestEquipo requestEquipo = new RequestEquipo(ubicacion,nombre,descripcion,tipo);
+        Call<EquipoResponse> call = service.crearEquipo(requestEquipo);
+
+        call.enqueue(new Callback<EquipoResponse>() {
+            @Override
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+                if(response.isSuccessful()){
+                    List<EquipoResponse> listaClonada = new ArrayList<>();
+                    listaClonada.add(response.body());
+                    for(int  i = 0; i< equipoList.getValue().size(); i++){
+                        listaClonada.add(new EquipoResponse(equipoList.getValue().get(i)));
+                    }
+                    equipoList.setValue(listaClonada);
+                }else{
+                    Toast.makeText(MyApp.getCtx(),"Algo ha ido mal",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+    public void editarEquipo(RequestEquipo requestEquipo){
+        Call<EquipoResponse> call = service.editarEquipo(requestEquipo);
+        call.enqueue(new Callback<EquipoResponse>() {
+            @Override
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+                if (response.isSuccessful()) {
+                    List<EquipoResponse> listaClonada = new ArrayList<>();
+                    listaClonada.add(response.body());
+                    for (int i = 0; i < equipoList.getValue().size(); i++) {
+                        listaClonada.add(new EquipoResponse(equipoList.getValue().get(i)));
+                    }
+                    equipoList.setValue(listaClonada);
+                } else {
+                    Toast.makeText(MyApp.getCtx(), "Algo ha ido mal", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+                Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 
 }

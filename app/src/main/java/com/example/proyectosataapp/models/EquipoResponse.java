@@ -2,13 +2,15 @@ package com.example.proyectosataapp.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RequestEquipo {
-
+public class EquipoResponse {
+    private int id;
     private String nombre;
     private String tipo;
     private String descripcion;
@@ -16,22 +18,15 @@ public class RequestEquipo {
     private String imagen;
 
 
-    public RequestEquipo(String nombre, String tipo, String descripcion, String ubicacion, String imagen) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
-        this.imagen = imagen;
+    public EquipoResponse(EquipoResponse equipo) {
     }
 
-    public RequestEquipo(String nombre, String tipo, String descripcion, String ubicacion) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
+    public int getId() {
+        return id;
     }
 
-    public RequestEquipo(EquipoResponse equipoResponse) {
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
