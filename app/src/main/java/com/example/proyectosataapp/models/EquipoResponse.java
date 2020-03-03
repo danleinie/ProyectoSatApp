@@ -2,15 +2,13 @@ package com.example.proyectosataapp.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class EquipoResponse {
-    private int id;
+    private String id;
     private String nombre;
     private String tipo;
     private String descripcion;
@@ -21,11 +19,11 @@ public class EquipoResponse {
     public EquipoResponse(EquipoResponse equipo) {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

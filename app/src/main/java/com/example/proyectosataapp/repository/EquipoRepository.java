@@ -32,7 +32,7 @@ public class EquipoRepository {
     }
 
 
-    public MutableLiveData<List<EquipoResponse>> getSeriesPopulares(){
+    public MutableLiveData<List<EquipoResponse>> getEquipos(){
         final MutableLiveData<List<EquipoResponse>> data = new MutableLiveData<>();
 
         Call<List<EquipoResponse>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
@@ -42,7 +42,6 @@ public class EquipoRepository {
             public void onResponse(Call<List<EquipoResponse>> call, Response<List<EquipoResponse>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
-
                 } else {
                     Toast.makeText(MyApp.getCtx(), "Error on the response from the Api", Toast.LENGTH_SHORT).show();
                 }
@@ -56,7 +55,27 @@ public class EquipoRepository {
         return data;
     }
 
-    public void deleteEquipo(final int id){
+    public MutableLiveData<EquipoResponse> getEquipo(String idEquipo) {
+
+        final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
+        Call <EquipoResponse> call = service.getEquipo(idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+
+        call.enqueue(new Callback<EquipoResponse>() {
+            @Override
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+
+            }
+        });
+
+        return data;
+    }
+
+    public void deleteEquipo(final String id){
         Call<EquipoResponse> call = service.eliminarEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN),id);
 
         call.enqueue(new Callback<EquipoResponse>() {

@@ -18,7 +18,7 @@ public class EquipoViewModel extends AndroidViewModel {
 
     MutableLiveData<List<EquipoResponse>> equipos;
     EquipoRepository equipoRepository;
-    MutableLiveData<Integer> idEquipoSeleccionado;
+    MutableLiveData<String> idEquipoSeleccionado;
 
     public EquipoViewModel(@NonNull Application application) {
         super(application);
@@ -28,21 +28,30 @@ public class EquipoViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<List<EquipoResponse>> getEquipos() {
-        equipos = equipoRepository.getSeriesPopulares();
+        equipos = equipoRepository.getEquipos();
         return equipos;
     }
+
+    public void setIdEquipoSeleccionado(String idSerieSeleccionada) {
+        this.idEquipoSeleccionado.setValue(idSerieSeleccionada);
+    }
+
+    public MutableLiveData<String> getIdEquipoSeleccionado() {
+        return idEquipoSeleccionado;
+    }
+
     public void insertEquipo(String url,String ubicacion,String nombre, String tipo,String descripcion){
         equipoRepository.createEquipo(url,ubicacion,nombre,tipo,descripcion);
     }
-    public void deleteEquipo(int id){
-
-        equipoRepository.deleteEquipo(id);
-    }
-
 
     public void insertEquipo(String ubicacion, String nombre, String tipo, String descripcion) {
         equipoRepository.createEquipo(ubicacion,nombre,tipo,descripcion);
     }
+    public void deleteEquipo(String id){
+
+        equipoRepository.deleteEquipo(id);
+    }
+
     public void editarEquipo(RequestEquipo requestEquipo){
         equipoRepository.editarEquipo(requestEquipo);
     }

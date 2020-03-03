@@ -1,6 +1,8 @@
 package com.example.proyectosataapp.services;
 
 
+import android.net.Uri;
+
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
 
@@ -20,8 +22,14 @@ public interface EquipoService {
     @GET("inventariable")
     Call<List<EquipoResponse>> listEquipo (@Query("access_token") String masterKey);
 
+    @GET("inventariable/img/{id}")
+    Call<Uri> imagenEquipo(@Path("id") String idImag, @Query("access_token") String masterKey);
+
+    @GET("/inventariable/{id}")
+    Call<EquipoResponse> getEquipo(@Path("id") String idEquipo, @Query("access_token") String masterKey);
+
     @DELETE("inventariable/{id}") //TODO el acces token es momentaneo
-    Call<EquipoResponse> eliminarEquipo(@Query("access_token") String masterKey,@Path("id") int id);
+    Call<EquipoResponse> eliminarEquipo(@Query("access_token") String masterKey,@Path("id") String id);
 
     @POST("inventariable/{id}")
     Call<EquipoResponse> crearEquipo(@Body RequestEquipo requestEquipo);

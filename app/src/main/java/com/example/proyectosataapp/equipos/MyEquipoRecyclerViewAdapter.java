@@ -11,7 +11,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
+import com.example.proyectosataapp.services.EquipoService;
+import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
 import java.util.ArrayList;
@@ -22,13 +26,16 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
 
     private List<EquipoResponse> mValues;
     EquipoViewModel equipoViewModel;
+    ServiceGenerator serviceGenerator;
     Context context;
+    EquipoService service;
 
 
-    public MyEquipoRecyclerViewAdapter(Context ctx, List<EquipoResponse> equipos, EquipoViewModel equipoViewModel) {
+    public MyEquipoRecyclerViewAdapter(Context ctx, List<EquipoResponse> equipoResponses, EquipoViewModel equipoViewModel) {
         this.context = ctx;
-        mValues = equipos;
+        mValues = equipoResponses;
         this.equipoViewModel = equipoViewModel;
+        service = serviceGenerator.createService(EquipoService.class);
     }
 
     @Override
@@ -42,12 +49,6 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        Glide
-                .with(context)
-                .load(holder.mItem.getImagen())
-                .centerCrop()
-                .into(holder.ivImagen);
-
         holder.tvNombre.setText(holder.mItem.getNombre());
         holder.tvUbicacion.setText(holder.mItem.getUbicacion());
 
@@ -55,6 +56,10 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (null != equipoViewModel) {
+                    equipoViewModel.setIdEquipoSeleccionado(holder.mItem.getId());
+                }
 
             }
         });
@@ -83,7 +88,6 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         public final View mView;
         public final TextView tvNombre;
         public final TextView tvUbicacion;
-        public final ImageView ivImagen;
         public EquipoResponse mItem;
 
         public ViewHolder(View view) {
@@ -91,7 +95,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
             mView = view;
             tvNombre = view.findViewById(R.id.equipo_nombre);
             tvUbicacion = view.findViewById(R.id.equipo_ubicacion);
-            ivImagen= view.findViewById(R.id.equipo_img);
+
         }
     }
 }

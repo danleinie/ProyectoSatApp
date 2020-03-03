@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class RequestEquipo {
 
@@ -17,14 +16,18 @@ public class RequestEquipo {
 
 
 
-    public RequestEquipo(String nombre, String tipo, String descripcion, String ubicacion) {
+    public RequestEquipo(EquipoResponse equipoResponse) {
+    }
+
+    public RequestEquipo(String ubicacion, String nombre, String descripcion, String tipo) {
+    }
+
+    public RequestEquipo(String nombre, String tipo, String descripcion, String ubicacion, String imagen) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;
-    }
-
-    public RequestEquipo(EquipoResponse equipoResponse) {
+        this.imagen = imagen;
     }
 
     public String getNombre() {
