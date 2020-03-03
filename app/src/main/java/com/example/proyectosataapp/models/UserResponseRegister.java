@@ -1,7 +1,11 @@
 package com.example.proyectosataapp.models;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.io.InputStream;
 
 public class UserResponseRegister {
 
@@ -26,6 +30,7 @@ public class UserResponseRegister {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+    private InputStream pictureBitMap;
 
     /**
      * No args constructor for use in serialization
@@ -111,6 +116,14 @@ public class UserResponseRegister {
         this.updatedAt = updatedAt;
     }
 
+    public InputStream getPictureBitMap() {
+        return pictureBitMap;
+    }
+
+    public void setPictureBitMap(InputStream pictureBitMap) {
+        this.pictureBitMap = pictureBitMap;
+    }
+
     @Override
     public String toString() {
         return "UserResponseRegister{" +
@@ -121,6 +134,7 @@ public class UserResponseRegister {
                 ", picture='" + picture + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
+                ", pictureBitMap='" + pictureBitMap + '\'' +
                 '}';
     }
 }

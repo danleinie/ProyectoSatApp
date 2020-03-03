@@ -2,15 +2,9 @@ package com.example.proyectosataapp;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -18,8 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -28,6 +20,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,9 +55,17 @@ public class MainActivity extends AppCompatActivity {
         txNotificationsBadgeUsers = badge.findViewById(R.id.txNotificationsBadge);
         txNotificationsBadgeUsers.setVisibility(View.GONE);
 
-        usuarioViewModel.getUsersNoValidated().observe(this, new Observer<List<UserResponseRegister>>() {
+        usuarioViewModel.getUsersFromRepo().observe(this, new Observer<List<UserResponseRegister>>() {
             @Override
             public void onChanged(List<UserResponseRegister> userResponseRegisters) {
+                usuarioViewModel.setListUsers(userResponseRegisters);
+            }
+        });
+
+        usuarioViewModel.getUsersNoValidatedFromRepo().observe(this, new Observer<List<UserResponseRegister>>() {
+            @Override
+            public void onChanged(List<UserResponseRegister> userResponseRegisters) {
+                usuarioViewModel.setListUsersNoValidated(userResponseRegisters);
                 usuarioViewModel.setSizeListUsersNoValidated(userResponseRegisters.size());
             }
         });

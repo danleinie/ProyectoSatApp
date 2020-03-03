@@ -55,10 +55,9 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
         }
 
         if (holder.mItem.getPicture() == null){
-            holder.mItem.setPicture("https://recursospracticos.com/wp-content/uploads/2017/10/Sin-foto-de-perfil-en-Facebook.jpg");
             Glide
                     .with(MyApp.getCtx())
-                    .load(holder.mItem.getPicture())
+                    .load("https://recursospracticos.com/wp-content/uploads/2017/10/Sin-foto-de-perfil-en-Facebook.jpg")
                     .circleCrop()
                     .into(holder.imgFoto);
         }else {
