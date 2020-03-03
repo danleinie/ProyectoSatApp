@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectosataapp.MainActivity;
@@ -27,7 +28,8 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText name;
     EditText password;
-    Button buttonLogin,buttonRegister;
+    TextView buttonRegister;
+    Button buttonLogin;
     UserService userService;
 
     @Override
@@ -40,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.btnRegister);
 
         final Intent i = new Intent(this, RegisterActivity.class);
+        final Intent mainActivity = new Intent(this, MainActivity.class);
 
         userService = ServiceGenerator.createService(UserService.class);
 
@@ -58,7 +61,11 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()){
 
                             SharedPreferencesManager.setStringValue(Constantes.LABEL_TOKEN,response.body().getToken());
+
                             cambiarDeActivity(MainActivity.class);
+
+                            SharedPreferencesManager.setStringValue(Constantes.ID_USER_LOGEADO,response.body().getUser().getId());
+                            startActivity(mainActivity);
                         } else {
                             Toast.makeText(LoginActivity.this, "Error name o password incorrectas", Toast.LENGTH_SHORT).show();
                         }
