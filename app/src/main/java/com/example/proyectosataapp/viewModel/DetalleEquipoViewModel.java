@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.proyectosataapp.models.EquipoResponse;
+import com.example.proyectosataapp.models.RequestEquipo;
 import com.example.proyectosataapp.repository.EquipoRepository;
 
 public class DetalleEquipoViewModel extends AndroidViewModel {
@@ -25,6 +26,7 @@ public class DetalleEquipoViewModel extends AndroidViewModel {
         equipo = equipoRepository.getEquipo(idEquipo);
         return equipo;
     }
+
 
 
 }

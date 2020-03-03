@@ -50,7 +50,5 @@ public class EquipoViewModel extends AndroidViewModel {
     public void insertEquipo(String ubicacion, String nombre, String tipo, String descripcion) {
         equipoRepository.createEquipo(ubicacion,nombre,tipo,descripcion);
     }
-    public void editarEquipo(RequestEquipo requestEquipo){
-        equipoRepository.editarEquipo(requestEquipo);
-    }
+
 }

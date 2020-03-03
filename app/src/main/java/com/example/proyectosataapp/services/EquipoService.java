@@ -31,12 +31,12 @@ public interface EquipoService {
     @GET("/inventariable/{id}")
     Call<EquipoResponse> getEquipo(@Path("id") String idEquipo, @Query("access_token") String masterKey);
 
-    @DELETE("inventariable/{id}") //TODO el acces token es momentaneo
+    @DELETE("/inventariable/{id}") //TODO el acces token es momentaneo
     Call<EquipoResponse> eliminarEquipo(@Query("access_token") String masterKey,@Path("id") String id);
 
-    @POST("inventariable/{id}")
+    @POST("/inventariable/{id}")
     Call<EquipoResponse> crearEquipo(@Body RequestEquipo requestEquipo);
 
-    @PUT("inventariable/{id}")
-    Call<EquipoResponse> editarEquipo(@Body RequestEquipo requestEquipo);
+    @PUT("/inventariable/{id}")
+    Call<EquipoResponse> editarEquipo(@Path("id") String idEquipo,@Body RequestEquipo requestEquipo);
 }

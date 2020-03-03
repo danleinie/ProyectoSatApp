@@ -24,11 +24,13 @@ public class EquipoRepository {
     EquipoService service;
     ServiceGenerator serviceGenerator;
     MutableLiveData<List<EquipoResponse>> equipoList;
+    MutableLiveData<EquipoResponse> equipo;
 
 
     public EquipoRepository(){
         service = serviceGenerator.createService(EquipoService.class);
         equipoList = null;
+        equipo = null;
     }
 
 
@@ -163,18 +165,13 @@ public class EquipoRepository {
         });
 
     }
-    public void editarEquipo(RequestEquipo requestEquipo){
-        Call<EquipoResponse> call = service.editarEquipo(requestEquipo);
+    public void editarEquipo(String id,RequestEquipo requestEquipo){
+        Call<EquipoResponse> call = service.editarEquipo(id,requestEquipo);
         call.enqueue(new Callback<EquipoResponse>() {
             @Override
             public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
                 if (response.isSuccessful()) {
-                    List<EquipoResponse> listaClonada = new ArrayList<>();
-                    listaClonada.add(response.body());
-                    for (int i = 0; i < equipoList.getValue().size(); i++) {
-                        listaClonada.add(new EquipoResponse(equipoList.getValue().get(i)));
-                    }
-                    equipoList.setValue(listaClonada);
+                    equipo.setValue(response.body());
                 } else {
                     Toast.makeText(MyApp.getCtx(), "Algo ha ido mal", Toast.LENGTH_SHORT).show();
                 }
