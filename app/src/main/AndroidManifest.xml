@@ -14,12 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.auth.RegisterActivity"
+        <activity
+            android:name=".DetalleEquipoActivity"
+            android:label="@string/title_activity_detalle_equipo"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.auth.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ui.auth.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-        <activity android:name=".ui.auth.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

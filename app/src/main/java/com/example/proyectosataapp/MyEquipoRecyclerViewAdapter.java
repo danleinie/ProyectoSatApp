@@ -12,8 +12,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
-import com.example.proyectosataapp.models.Equipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
+import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
 import java.util.ArrayList;
@@ -22,16 +23,18 @@ import java.util.List;
 
 public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRecyclerViewAdapter.ViewHolder> {
 
-    private List<Equipo> mValues;
+    private List<EquipoResponse> mValues;
     EquipoViewModel equipoViewModel;
+    ServiceGenerator serviceGenerator;
     Context context;
     EquipoService service;
 
 
-    public MyEquipoRecyclerViewAdapter(Context ctx, List<Equipo> equipos, EquipoViewModel equipoViewModel) {
+    public MyEquipoRecyclerViewAdapter(Context ctx, List<EquipoResponse> equipoResponses, EquipoViewModel equipoViewModel) {
         this.context = ctx;
-        mValues = equipos;
+        mValues = equipoResponses;
         this.equipoViewModel = equipoViewModel;
+        service = serviceGenerator.createService(EquipoService.class);
     }
 
     @Override
@@ -59,11 +62,15 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
             @Override
             public void onClick(View v) {
 
+                if (null != equipoViewModel) {
+                    equipoViewModel.setIdEquipoSeleccionado(holder.mItem.getId());
+                }
+
             }
         });
     }
 
-    public void setData(List<Equipo> list){
+    public void setData(List<EquipoResponse> list){
         if(this.mValues != null) {
             this.mValues.clear();
         } else {
@@ -86,15 +93,14 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         public final View mView;
         public final TextView tvNombre;
         public final TextView tvUbicacion;
-        public final ImageView ivImagen;
-        public Equipo mItem;
+        public EquipoResponse mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             tvNombre = view.findViewById(R.id.equipo_nombre);
             tvUbicacion = view.findViewById(R.id.equipo_ubicacion);
-            ivImagen= view.findViewById(R.id.equipo_img);
+
         }
     }
 }

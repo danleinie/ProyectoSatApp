@@ -7,7 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
-import com.example.proyectosataapp.models.Equipo;
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 
@@ -21,7 +21,7 @@ public class EquipoRepository {
 
     EquipoService service;
     ServiceGenerator serviceGenerator;
-    MutableLiveData<List<Equipo>> equipoList;
+    MutableLiveData<List<EquipoResponse>> equipoList;
 
 
     public EquipoRepository(){
@@ -30,14 +30,14 @@ public class EquipoRepository {
     }
 
 
-    public MutableLiveData<List<Equipo>> getSeriesPopulares(){
-        final MutableLiveData<List<Equipo>> data = new MutableLiveData<>();
+    public MutableLiveData<List<EquipoResponse>> getEquipos(){
+        final MutableLiveData<List<EquipoResponse>> data = new MutableLiveData<>();
 
-        Call<List<Equipo>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        Call<List<EquipoResponse>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
-        call.enqueue(new Callback<List<Equipo>>() {
+        call.enqueue(new Callback<List<EquipoResponse>>() {
             @Override
-            public void onResponse(Call<List<Equipo>> call, Response<List<Equipo>> response) {
+            public void onResponse(Call<List<EquipoResponse>> call, Response<List<EquipoResponse>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
                 } else {
@@ -46,7 +46,7 @@ public class EquipoRepository {
             }
 
             @Override
-            public void onFailure(Call<List<Equipo>> call, Throwable t) {
+            public void onFailure(Call<List<EquipoResponse>> call, Throwable t) {
                 Toast.makeText(MyApp.getCtx(), "Error in the connection", Toast.LENGTH_SHORT).show();
             }
         });
@@ -54,5 +54,23 @@ public class EquipoRepository {
     }
 
 
+    public MutableLiveData<EquipoResponse> getEquipo(String idEquipo) {
 
+        final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
+        Call <EquipoResponse> call = service.getEquipo(idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+
+        call.enqueue(new Callback<EquipoResponse>() {
+            @Override
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+
+            }
+        });
+
+        return data;
+    }
 }
