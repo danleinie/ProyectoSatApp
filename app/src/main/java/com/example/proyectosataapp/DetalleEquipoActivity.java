@@ -1,5 +1,6 @@
 package com.example.proyectosataapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -12,9 +13,12 @@ import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
+import com.example.proyectosataapp.ui.home.HomeFragment;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
+import com.example.proyectosataapp.viewModel.EquipoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -37,14 +41,14 @@ import retrofit2.Response;
 public class DetalleEquipoActivity extends AppCompatActivity {
     String idEquipo;
     EquipoService service;
-
+    EquipoViewModel equipoViewModel;
     ServiceGenerator serviceGenerator;
     DetalleEquipoViewModel detalleEquipoViewModel;
     @BindView(R.id.textView_detalle_equipo_nombre) TextView tvNombre;
     @BindView(R.id.textView_detalle_equipo_tipo) TextView tvTipo;
     @BindView(R.id.textView_detalle_equipo_ubicacion) TextView tvUbicacion;
     @BindView(R.id.editText_detalle_equipo_descripcion) TextView tvDescripcion;
-    @BindView(R.id.imageView_detalle_equipo) ImageView ivFoto;
+    @BindView(R.id.imageView_detalle_equipo) CircularImageView ivFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,10 @@ public class DetalleEquipoActivity extends AppCompatActivity {
         setContentView(R.layout.detalle_equipo);
         ButterKnife.bind(this);
         Bundle extras = getIntent().getExtras();
+
+
+        ivFoto.setBorderColor(0x00549D);
+        ivFoto.setBorderWidth(1);
         idEquipo = extras.getString(Constantes.EXTRA_ID_EQUIPO);
         Toast.makeText(this, "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
         service = serviceGenerator.createService(EquipoService.class);
@@ -82,6 +90,12 @@ public class DetalleEquipoActivity extends AppCompatActivity {
             }
         });
 
+        equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
+
+        equipoViewModel.setIdEquipoSeleccionado(null);
+
+        Intent i = new Intent(MyApp.getCtx(), HomeFragment.class);
+        i.putExtra(Constantes.EXTRA_ID_EQUIPO, " ");
     }
 
 }
