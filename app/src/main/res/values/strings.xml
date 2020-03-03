@@ -6,4 +6,19 @@
     <string name="title_activity_ticket">TicketActivity</string>
     <string name="creado_por">Creado por:</string>
     <string name="asignado_a">Asignado a:</string>
+    <string name="title_usuarios">Usuarios</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_login">LOG IN</string>
+    <string name="text_register_help">Don\'t have account?</string>
+    <string name="text_register_button">Sign up</string>
+    <string name="text_welcome">Welcome Back</string>
+    <string name="text_subtitle_login">Sign to continue</string>
+    <string name="text_title_register">Let`s Get Started!</string>
+    <string name="text_subtitle_register">Create a new account</string>
+    <string name="hint_username">Name</string>
+    <string name="hint_confirm_password">Confirm Password</string>
+    <string name="hint_signup">SIGN UP</string>
+    <string name="text_login_button">Sign in</string>
+    <string name="txBackToSignInHelp">Already have an account?</string>
 </resources>
