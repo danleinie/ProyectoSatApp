@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
     private final List<UserResponseRegister> mValues;
     private final UsuarioViewModel usuarioViewModel;
     private final boolean isValidated;
+    private final MyUserListRecyclerViewAdapter adapter = this;
 
     public MyUserListRecyclerViewAdapter(List<UserResponseRegister> items, UsuarioViewModel usuarioViewModel,boolean isValidated) {
         mValues = items;
@@ -77,17 +79,36 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
         holder.buttonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //usuarioViewModel.validarUsuario(holder.mItem.getId()).observeForever(new Observer<UserResponseRegister>() {
-                  //  @Override
-                    //public void onChanged(final UserResponseRegister userResponseRegister) {
+                usuarioViewModel.validarUsuario(holder.mItem.getId()).observeForever(new Observer<UserResponseRegister>() {
+                    @Override
+                    public void onChanged(final UserResponseRegister userResponseRegister) {
+                        holder.mItem.setValidated(true);
                         usuarioViewModel.setNewUserValidated(holder.mItem);
-                    //}
-                //});
+                    }
+                });
             }
         });
         holder.buttonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                usuarioViewModel.deleteUserFromRepo(holder.mItem.getId()).observeForever(new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+                        if (aBoolean){
+                            usuarioViewModel.getUsersNoValidated().observeForever(new Observer<List<UserResponseRegister>>() {
+                                @Override
+                                public void onChanged(List<UserResponseRegister> userResponseRegisters) {
+                                    if (userResponseRegisters.contains(holder.mItem)){
+                                        userResponseRegisters.remove(holder.mItem);
+                                        usuarioViewModel.setListUsersNoValidated(userResponseRegisters);
+                                        mValues.remove(holder.mItem);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
             }
         });
     }

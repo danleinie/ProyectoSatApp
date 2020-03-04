@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class UsersFragment extends Fragment {
         listUsersNoValidated = new ArrayList<>();
         loadAllUsers();
         loadUsersNoValidated();
+
         return view;
     }
 
@@ -108,9 +110,11 @@ public class UsersFragment extends Fragment {
             usuarioViewModel.getNewUserValidated().observe(getActivity(), new Observer<UserResponseRegister>() {
                 @Override
                 public void onChanged(UserResponseRegister userResponseRegister) {
-                    listUsers.add(userResponseRegister);
-                    adapter.notifyDataSetChanged();
-                    usuarioViewModel.setListUsers(listUsers);
+                    if (!listUsers.contains(userResponseRegister)){
+                        listUsers.add(userResponseRegister);
+                        adapter.notifyDataSetChanged();
+                        usuarioViewModel.setListUsers(listUsers);
+                    }
                 }
             });
         }

@@ -62,36 +62,8 @@ public class MainActivity extends AppCompatActivity {
         usuarioViewModel.getUsersFromRepo().observe(this, new Observer<List<UserResponseRegister>>() {
             @Override
             public void onChanged(final List<UserResponseRegister> userResponseRegisters) {
-                final List<UserResponseRegister> listUsuariosValidados = new ArrayList<>();
-                for (UserResponseRegister user : userResponseRegisters){
-                    if (user.getValidated()){
-                        listUsuariosValidados.add(user);
-                    }
-                }
-                final List<UserResponseRegister> list = new ArrayList<>();
-                for( int i=0;i<listUsuariosValidados.size();i++){
-                    final int finali=i;
-                    if (userResponseRegisters.get(i).getValidated()){
-                        usuarioViewModel.getImg(userResponseRegisters.get(i).getId()).observeForever(new Observer<ResponseBody>() {
-                            @Override
-                            public void onChanged(ResponseBody responseBody) {
-                                userResponseRegisters.get(finali).setPictureBitMap(BitmapFactory.decodeStream(responseBody.byteStream()));
-                                list.add(userResponseRegisters.get(finali));
-                                Log.i("sizedelresponse","" + userResponseRegisters.size());
-                                if (finali==(listUsuariosValidados.size()-1)){
-                                    Log.i("final","aquiiiiiiiiiiiiiii " + finali);
-                                    loadData(list);
-                                }
-                                //TODO:De esta forma la lista se va cargando poco a poco
-                                //usuarioViewModel.setListUsers(list);
-                                //Log.i("aver","" + list);
-                            }
-                        });
-
-                    }
-                }
-
-
+                Log.i("cambiando","Nombre "+ userResponseRegisters.get(0).getName() + userResponseRegisters.get(0).getPictureBitMap());
+                loadData(userResponseRegisters);
             }
         });
 

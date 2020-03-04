@@ -146,6 +146,7 @@ public class UserResponseRegister {
                 ", picture='" + picture + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
+                ", validated='" + validated + '\'' +
                 ", pictureBitMap='" + pictureBitMap + '\'' +
                 '}';
     }

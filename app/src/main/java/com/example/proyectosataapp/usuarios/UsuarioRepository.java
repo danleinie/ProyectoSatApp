@@ -1,11 +1,13 @@
 package com.example.proyectosataapp.usuarios;
 
 
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
@@ -37,9 +39,24 @@ public class UsuarioRepository {
         Call<List<UserResponseRegister>> call = service.getUsers();
         call.enqueue(new Callback<List<UserResponseRegister>>() {
             @Override
-            public void onResponse(Call<List<UserResponseRegister>> call, Response<List<UserResponseRegister>> response) {
+            public void onResponse(Call<List<UserResponseRegister>> call, final Response<List<UserResponseRegister>> response) {
                 if (response.isSuccessful()){
-                    data.setValue(response.body());
+                    final List<UserResponseRegister> listUsuariosValidados = new ArrayList<>();
+                    for (UserResponseRegister user: response.body()) {
+                        if (user.getValidated()){
+                            listUsuariosValidados.add(user);
+                        }
+                    }
+                    for (int i = 0; i < listUsuariosValidados.size() ; i++) {
+                        final int finalI = i;
+                        getImg(listUsuariosValidados.get(i).getId()).observeForever(new Observer<ResponseBody>() {
+                            @Override
+                            public void onChanged(ResponseBody responseBody) {
+                                listUsuariosValidados.get(finalI).setPictureBitMap(BitmapFactory.decodeStream(responseBody.byteStream()));
+                                }
+                        });
+                    }
+                    data.setValue(listUsuariosValidados);
                 } else {
                     Log.i("listausers", "Error al traer la lista de usuarios");
                 }
@@ -60,8 +77,17 @@ public class UsuarioRepository {
         Call<List<UserResponseRegister>> call = service.getUsersNoValidated();
         call.enqueue(new Callback<List<UserResponseRegister>>() {
             @Override
-            public void onResponse(Call<List<UserResponseRegister>> call, Response<List<UserResponseRegister>> response) {
+            public void onResponse(Call<List<UserResponseRegister>> call, final Response<List<UserResponseRegister>> response) {
                 if (response.isSuccessful()){
+                    for (int i = 0; i < response.body().size() ; i++) {
+                        final int finalI = i;
+                        getImg(response.body().get(i).getId()).observeForever(new Observer<ResponseBody>() {
+                            @Override
+                            public void onChanged(ResponseBody responseBody) {
+                                response.body().get(finalI).setPictureBitMap(BitmapFactory.decodeStream(responseBody.byteStream()));
+                            }
+                        });
+                    }
                     data.setValue(response.body());
                 } else {
                     data.setValue(new ArrayList<UserResponseRegister>());
@@ -118,6 +144,25 @@ public class UsuarioRepository {
             @Override
             public void onFailure(Call<UserResponseRegister> call, Throwable t) {
                 Toast.makeText(MyApp.getCtx(), "Error en el failure al validar usuario", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return data;
+    }
+
+    public LiveData<Boolean> deleteUser(String idUser){
+        final MutableLiveData<Boolean> data = new MutableLiveData<>();
+        Call<Void> call = service.deleteUsuario(idUser);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()){
+                    data.setValue(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
             }
         });
         return data;
