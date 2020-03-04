@@ -57,5 +57,31 @@ public class TicketRepository {
         return data;
     }
 
+    public LiveData<List<Ticket>> getTicketsByInventariable(String id) {
+        final MutableLiveData<List<Ticket>> data = new MutableLiveData<>();
+
+        Call<List<Ticket>> call = servicio.getTicketsByInventariable(id);
+        call.enqueue(new Callback<List<Ticket>>() {
+            @Override
+            public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
+                if (response.isSuccessful()) {
+                    data.setValue(response.body());
+                    Toast.makeText(MyApp.getCtx(), "Flama brother", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("Response", "Respuesta incorrecta");
+                    Toast.makeText(MyApp.getCtx(), "Algo fue mal", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Ticket>> call, Throwable t) {
+                Log.e("Response", "Respuesta no realizada");
+                Toast.makeText(MyApp.getCtx(), "Algo fue MUY mal", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return data;
+    }
+
 
 }

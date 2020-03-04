@@ -34,4 +34,5 @@
     <string name="create_ticket_boton_tecnico">Asignar a un técnico</string>
     <string name="create_ticket_boton_equipo">Asignar a un equiipo</string>
     <string name="create_ticket_boton_terminar">Registrar ticket</string>
+    <string name="fragment_ticket_por_asignar">Aún por asignar</string>
 </resources>

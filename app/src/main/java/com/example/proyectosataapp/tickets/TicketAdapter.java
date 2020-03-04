@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.models.Ticket;
+import com.example.proyectosataapp.models.TicketAsignacion;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.tickets.TicketFragment.OnListFragmentInteractionListener;
 import com.example.proyectosataapp.viewModel.TicketViewModel;
@@ -41,9 +42,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         holder.mItem = mValues.get(position);
         holder.tvTitulo.setText(holder.mItem.getTitulo());
         holder.tvCreadoPor.setText(holder.mItem.getCreadoPor().getEmail());
-        List<Object> asignaciones = holder.mItem.getAsignaciones();
-        if (!asignaciones.isEmpty())
-            holder.tvAsignadoA.setText(holder.mItem.getAsignaciones().get(asignaciones.size() - 1).getClass().getName());
+
+        List<TicketAsignacion> asignaciones = holder.mItem.getAsignaciones();
+        if (!asignaciones.isEmpty() && asignaciones != null) {
+            holder.tvAsignadoA.setText(holder.mItem.getAsignaciones().get(0).getTecnico_id());
+        }
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +77,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             mView = view;
             tvTitulo = view.findViewById(R.id.fragmentTicketTitulo);
             tvCreadoPor = view.findViewById(R.id.fragmentTicketCreadoPor);
-            tvAsignadoA = view.findViewById(R.id.fragmentTicketAsignadoA);
+            tvAsignadoA = view.findViewById(R.id.fragmentTicketAunPorAsignar);
         }
 
     }

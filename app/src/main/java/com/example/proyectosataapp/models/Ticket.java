@@ -30,7 +30,7 @@ public class Ticket {
     private List<Object> anotaciones = null;
     @SerializedName("asignaciones")
     @Expose
-    private List<Object> asignaciones = null;
+    private List<TicketAsignacion> asignaciones = null;
     @SerializedName("fotos")
     @Expose
     private List<Object> fotos = null;
@@ -97,11 +97,11 @@ public class Ticket {
         this.anotaciones = anotaciones;
     }
 
-    public List<Object> getAsignaciones() {
+    public List<TicketAsignacion> getAsignaciones() {
         return asignaciones;
     }
 
-    public void setAsignaciones(List<Object> asignaciones) {
+    public void setAsignaciones(List<TicketAsignacion> asignaciones) {
         this.asignaciones = asignaciones;
     }
 
