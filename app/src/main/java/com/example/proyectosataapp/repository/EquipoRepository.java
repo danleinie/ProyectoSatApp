@@ -11,6 +11,7 @@ import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,6 +41,14 @@ public class EquipoRepository {
             public void onResponse(Call<List<EquipoResponse>> call, Response<List<EquipoResponse>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
+                    for (EquipoResponse equipo: data.getValue()
+                         ) {
+                        List <String> palabras = new ArrayList<>();
+                        palabras.add(equipo.getNombre());
+                        palabras.add(equipo.getUbicacion());
+                        palabras.add(equipo.getTipo());
+                        equipo.setPalabrasClaves(palabras);
+                    }
                 } else {
                     Toast.makeText(MyApp.getCtx(), "Error on the response from the Api", Toast.LENGTH_SHORT).show();
                 }
