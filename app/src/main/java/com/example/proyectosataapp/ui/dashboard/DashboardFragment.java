@@ -1,5 +1,6 @@
 package com.example.proyectosataapp.ui.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,19 +10,31 @@ import androidx.lifecycle.ViewModelProviders;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.tickets.CreateTicketActivity;
 
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
+    private Button crearTicketButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        crearTicketButton = root.findViewById(R.id.fragmentDashboardBotonCrearTicket);
+
+        crearTicketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), CreateTicketActivity.class));
+            }
+        });
 
         return root;
     }

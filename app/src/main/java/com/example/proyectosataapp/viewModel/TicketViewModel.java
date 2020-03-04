@@ -12,6 +12,8 @@ import com.example.proyectosataapp.tickets.TicketAdapter;
 
 import java.util.List;
 
+import okhttp3.RequestBody;
+
 public class TicketViewModel extends AndroidViewModel {
 
     private TicketRepository repositorio;
@@ -20,6 +22,8 @@ public class TicketViewModel extends AndroidViewModel {
         super(application);
         repositorio = new TicketRepository();
     }
+
+    public LiveData<Ticket> postTicket(RequestBody titulo, RequestBody descripcion) {return repositorio.postTicket(titulo, descripcion);}
 
     public LiveData<List<Ticket>> getTickets() {return repositorio.getTickets();}
 

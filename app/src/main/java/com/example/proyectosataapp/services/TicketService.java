@@ -18,10 +18,11 @@ public interface TicketService {
 
     @Multipart
     @POST("/ticket")
-    Call<Ticket> register(@Part("titulo") RequestBody titulo,
-                          @Part("descripcion") RequestBody descripcion,
-                          @Part("tecnico") RequestBody tecnico,
-                          @Part MultipartBody.Part fotos);
+    Call<Ticket> postTicket(@Part("titulo") RequestBody titulo,
+                          @Part("descripcion") RequestBody descripcion/*,
+                          @Part("tecnico_id") RequestBody tecnico_id,
+                          @Part("inventariable") RequestBody inventariable,
+                          @Part MultipartBody.Part fotos*/);
 
     @GET("/ticket")
     Call<List<Ticket>> getAllTickets();
