@@ -1,4 +1,4 @@
-package com.example.proyectosataapp.equipos;
+package com.example.proyectosataapp;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
@@ -49,12 +48,6 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        /*Glide
-                .with(context)
-                .load(service.imagenEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN), ))
-                .centerCrop()
-                .into(holder.ivImagen);*/
-
         holder.tvNombre.setText(holder.mItem.getNombre());
         holder.tvUbicacion.setText(holder.mItem.getUbicacion());
 
@@ -65,6 +58,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
 
                 if (null != equipoViewModel) {
                     equipoViewModel.setIdEquipoSeleccionado(holder.mItem.getId());
+                    SharedPreferencesManager.setStringValue(Constantes.EXTRA_ID_EQUIPO, holder.mItem.getId());
                 }
 
             }

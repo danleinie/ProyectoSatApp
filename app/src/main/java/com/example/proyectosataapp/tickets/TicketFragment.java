@@ -19,10 +19,12 @@ import android.widget.Toast;
 import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.repository.TicketRepository;
 import com.example.proyectosataapp.services.TicketService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
+import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 import com.example.proyectosataapp.viewModel.TicketViewModel;
 
@@ -43,6 +45,7 @@ public class TicketFragment extends Fragment {
     private Context context;
     private RecyclerView recyclerView;
     private TicketViewModel ticketViewModel;
+    private EquipoViewModel equipoViewModel;
     private TicketAdapter adapter;
 
     public TicketFragment() {
@@ -71,6 +74,7 @@ public class TicketFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_ticket_list, container, false);
 
         ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
+        equipoViewModel = new ViewModelProvider(getActivity()).get(EquipoViewModel.class);
         // Set the adapter
         if (view instanceof RecyclerView) {
             context = view.getContext();
@@ -85,7 +89,9 @@ public class TicketFragment extends Fragment {
             adapter = new TicketAdapter(ticketList, mListener, ticketViewModel);
             recyclerView.setAdapter(adapter);
 
-            ticketViewModel.getTickets().observe(getActivity(), new Observer<List<Ticket>>() {
+            String idEquipoSeleccionado = SharedPreferencesManager.getStringValue(Constantes.EXTRA_ID_EQUIPO);
+
+            equipoViewModel.getTicketsByInventariable(idEquipoSeleccionado).observe(getActivity(), new Observer<List<Ticket>>() {
                 @Override
                 public void onChanged(List<Ticket> tickets) {
                     ticketList.addAll(tickets);

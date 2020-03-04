@@ -22,10 +22,12 @@ public class EquipoViewModel extends AndroidViewModel {
     MutableLiveData<List<EquipoResponse>> equipos;
     EquipoRepository equipoRepository;
     MutableLiveData<String> idEquipoSeleccionado;
+    TicketRepository ticketRepository;
 
     public EquipoViewModel(@NonNull Application application) {
         super(application);
         equipoRepository = new EquipoRepository();
+        ticketRepository = new TicketRepository();
         this.idEquipoSeleccionado =new MutableLiveData<>();
         this.idEquipoSeleccionado.setValue(null);
     }
@@ -52,6 +54,11 @@ public class EquipoViewModel extends AndroidViewModel {
 
     public void insertEquipo(String ubicacion, String nombre, String tipo, String descripcion) {
         equipoRepository.createEquipo(ubicacion,nombre,tipo,descripcion);
+    }
+
+    // By Álvaro Márquez
+    public LiveData<List<Ticket>> getTicketsByInventariable(String id) {
+        return ticketRepository.getTicketsByInventariable(id);
     }
 
 }

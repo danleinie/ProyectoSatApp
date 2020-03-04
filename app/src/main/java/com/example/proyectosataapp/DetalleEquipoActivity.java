@@ -11,8 +11,10 @@ import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
+import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
+import com.example.proyectosataapp.tickets.TicketFragment;
 import com.example.proyectosataapp.ui.home.HomeFragment;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
@@ -38,7 +40,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetalleEquipoActivity extends AppCompatActivity {
+public class DetalleEquipoActivity extends AppCompatActivity implements TicketFragment.OnListFragmentInteractionListener {
     String idEquipo;
     EquipoService service;
     EquipoViewModel equipoViewModel;
@@ -98,4 +100,8 @@ public class DetalleEquipoActivity extends AppCompatActivity {
         i.putExtra(Constantes.EXTRA_ID_EQUIPO, " ");
     }
 
+    @Override
+    public void onListFragmentInteraction(Ticket item) {
+
+    }
 }

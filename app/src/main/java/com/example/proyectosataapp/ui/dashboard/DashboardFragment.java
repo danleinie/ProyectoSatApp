@@ -1,40 +1,17 @@
 package com.example.proyectosataapp.ui.dashboard;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.Toast;
 
 
-import com.example.proyectosataapp.DetalleEquipoActivity;
-import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
-import com.example.proyectosataapp.common.Constantes;
-import com.example.proyectosataapp.common.MyApp;
-import com.example.proyectosataapp.equipos.MyEquipoRecyclerViewAdapter;
-import com.example.proyectosataapp.models.EquipoResponse;
-import com.example.proyectosataapp.ui.home.HomeViewModel;
-import com.example.proyectosataapp.viewModel.EquipoViewModel;
-
-import java.util.List;
 
 public class DashboardFragment extends Fragment {
 

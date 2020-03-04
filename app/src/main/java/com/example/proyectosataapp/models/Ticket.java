@@ -40,6 +40,9 @@ public class Ticket {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+    @SerializedName("inventariable")
+    @Expose
+    private String inventariableId;
 
     public String getId() {
         return id;
@@ -99,6 +102,14 @@ public class Ticket {
 
     public List<TicketAsignacion> getAsignaciones() {
         return asignaciones;
+    }
+
+    public void setInventariableId(String inventariableId) {
+        this.inventariableId = inventariableId;
+    }
+
+    public String getInventariableId() {
+        return inventariableId;
     }
 
     public void setAsignaciones(List<TicketAsignacion> asignaciones) {

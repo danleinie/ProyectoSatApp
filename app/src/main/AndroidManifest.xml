@@ -16,10 +16,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".tickets.CreateTicketActivity"></activity>
         <activity
-            android:name=".equipos.DetalleEquipoActivity"
-            android:label="@string/title_activity_detalle_equipo"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.auth.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -37,6 +33,9 @@
         <activity
             android:name=".tickets.TicketActivity"
             android:label="Tickets" />
+        <activity android:name=".DetalleEquipoActivity"
+            android:label="DetalleEquipoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

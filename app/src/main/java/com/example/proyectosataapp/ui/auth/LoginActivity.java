@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             SharedPreferencesManager.setStringValue(Constantes.LABEL_TOKEN,response.body().getToken());
                             SharedPreferencesManager.setStringValue(Constantes.ID_USER_LOGEADO,response.body().getUser().getId());
-                            cambiarDeActivity(TicketActivity.class);
+                            cambiarDeActivity(MainActivity.class);
                         } else {
                             Toast.makeText(LoginActivity.this, "Error name o password incorrectas", Toast.LENGTH_SHORT).show();
                         }
