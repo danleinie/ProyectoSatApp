@@ -168,5 +168,43 @@ public class UsuarioRepository {
         return data;
     }
 
+    public LiveData<UserResponseRegister> changeToTecnico(String idUser){
+        final MutableLiveData<UserResponseRegister> data = new MutableLiveData<>();
+        service.changeToTecnico(idUser).enqueue(new Callback<UserResponseRegister>() {
+            @Override
+            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+
+            }
+        });
+        return data;
+    }
+
+    public LiveData<UserResponseRegister> getUser(String idUser){
+        final MutableLiveData<UserResponseRegister> data = new MutableLiveData<>();
+
+        service.getUser(idUser).enqueue(new Callback<UserResponseRegister>() {
+            @Override
+            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+
+            }
+        });
+
+        return data;
+    }
+
 
 }

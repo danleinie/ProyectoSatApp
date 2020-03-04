@@ -40,6 +40,8 @@ public class UsuarioViewModel extends AndroidViewModel {
     public void setNewUserValidated(UserResponseRegister newUserValidated){this.newUserValidated.postValue(newUserValidated);}
     public LiveData<UserResponseRegister> getNewUserValidated(){return this.newUserValidated;}
     public LiveData<String> getUserIdDeleted(){return this.idUserToRemove;}
+    public LiveData<UserResponseRegister> changeToTecnico(String idUser){return repo.changeToTecnico(idUser);}
+    public LiveData<UserResponseRegister> getUser(String idUser){return repo.getUser(idUser);}
     public LiveData<Boolean> deleteUserFromRepo(String idUser){
         this.idUserToRemove.postValue(idUser);
         return repo.deleteUser(idUser);

@@ -47,4 +47,10 @@ public interface UserService {
 
     @DELETE("/users/{id}")
     Call<Void> deleteUsuario(@Path("id") String idUser);
+
+    @GET("/users/{id}")
+    Call<UserResponseRegister> getUser(@Path("id") String idUser);
+
+    @PUT("/users/{id}/validate")
+    Call<UserResponseRegister> changeToTecnico(@Path("id") String idUser);
 }

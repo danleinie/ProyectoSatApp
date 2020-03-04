@@ -3,6 +3,7 @@ package com.example.proyectosataapp.ui.usuarios;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
@@ -64,17 +66,26 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
                     .circleCrop()
                     .into(holder.imgFoto);
         }else {
-            //usuarioViewModel.getImg(holder.mItem.getId()).observeForever(new Observer<ResponseBody>() {
-              //  @Override
-                //public void onChanged(ResponseBody responseBody) {
-                    //Bitmap fotoBitMap = BitmapFactory.decodeStream(responseBody.byteStream());
-                    Glide
-                            .with(MyApp.getCtx())
-                            .load(holder.mItem.getPictureBitMap())
-                            .circleCrop()
-                            .into(holder.imgFoto);
-                //}
-            //});
+            if (holder.mItem.getPictureBitMap()!=null){
+                Glide
+                        .with(MyApp.getCtx())
+                        .load(holder.mItem.getPictureBitMap())
+                        .circleCrop()
+                        .into(holder.imgFoto);
+            }else {
+                usuarioViewModel.getImg(holder.mItem.getId()).observeForever(new Observer<ResponseBody>() {
+                  @Override
+                public void onChanged(ResponseBody responseBody) {
+                Bitmap fotoBitMap = BitmapFactory.decodeStream(responseBody.byteStream());
+                Glide
+                        .with(MyApp.getCtx())
+                        .load(fotoBitMap)
+                        .circleCrop()
+                        .into(holder.imgFoto);
+                }
+                });
+            }
+
         }
         holder.buttonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +120,15 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
                         }
                     }
                 });
+            }
+        });
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MyApp.getCtx(),DetailsUserActivity.class);
+                i.putExtra(Constantes.ID_USER_LOGEADO,holder.mItem.getId());
+                MyApp.getCtx().startActivity(i);
             }
         });
     }
