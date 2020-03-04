@@ -34,9 +34,6 @@ public class EquipoViewModel extends AndroidViewModel {
     public void insertEquipo(String url,String ubicacion,String nombre, String tipo,String descripcion){
         equipoRepository.createEquipo(url,ubicacion,nombre,tipo,descripcion);
     }
-    public void deleteEquipo(String id){
-        equipoRepository.deleteEquipo(id);
-    }
 
     public void setIdEquipoSeleccionado(String idSerieSeleccionada) {
         this.idEquipoSeleccionado.setValue(idSerieSeleccionada);
@@ -47,8 +44,8 @@ public class EquipoViewModel extends AndroidViewModel {
     }
 
 
-    public void insertEquipo(String ubicacion, String nombre, String tipo, String descripcion) {
-        equipoRepository.createEquipo(ubicacion,nombre,tipo,descripcion);
-    }
+
+
+
 
 }

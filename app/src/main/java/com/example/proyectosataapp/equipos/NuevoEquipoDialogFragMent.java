@@ -77,13 +77,14 @@ public class NuevoEquipoDialogFragMent extends DialogFragment implements View.On
         String nombre = enombre.getText().toString();
         String tipo = etipo.getText().toString();
         String descripcion = edescripcion.getText().toString();
+        String url = "";
 
         if (id == R.id.enviar) {
             if(ubicacion.isEmpty() || nombre.isEmpty() || tipo.isEmpty() || descripcion.isEmpty() || descripcion.isEmpty()){
                 Toast.makeText(MyApp.getCtx(),"Rellena los campos",Toast.LENGTH_SHORT).show();
             }else {
                 EquipoViewModel viewModel = ViewModelProviders.of(getActivity()).get(EquipoViewModel.class);
-                viewModel.insertEquipo(ubicacion, nombre, tipo, descripcion);
+                viewModel.insertEquipo(url,ubicacion, nombre, tipo, descripcion);
                 getDialog().dismiss();
             }
         } else if (id == R.id.cancelar) {

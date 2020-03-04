@@ -24,13 +24,11 @@ public class EquipoRepository {
     EquipoService service;
     ServiceGenerator serviceGenerator;
     MutableLiveData<List<EquipoResponse>> equipoList;
-    MutableLiveData<EquipoResponse> equipo;
 
 
     public EquipoRepository(){
         service = serviceGenerator.createService(EquipoService.class);
         equipoList = null;
-        equipo = null;
     }
 
 
@@ -77,8 +75,8 @@ public class EquipoRepository {
         return data;
     }
 
-    public void deleteEquipo(final String id){
-        Call<EquipoResponse> call = service.eliminarEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN),id);
+    public void deleteEquipo(final String idEquipo){
+        Call<EquipoResponse> call = service.eliminarEquipo(idEquipo);
 
         call.enqueue(new Callback<EquipoResponse>() {
             @Override
@@ -86,8 +84,7 @@ public class EquipoRepository {
                 if(response.isSuccessful()){
                     List<EquipoResponse> clonedEquipos = new ArrayList<>();
                     for(int i = 0; i<equipoList.getValue().size(); i++){
-                            if(equipoList.getValue().get(i).getId()  != id){
-
+                            if(equipoList.getValue().get(i).getId()  != idEquipo){
                                 clonedEquipos.add(new EquipoResponse(equipoList.getValue().get(i)));
                             }
                     }
@@ -96,7 +93,7 @@ public class EquipoRepository {
                 }
 
                 else{
-                    Toast.makeText(MyApp.getCtx(),"Algo ha ido mal)",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApp.getCtx(),"Algo ha ido mal"+response.code(),Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -137,43 +134,18 @@ public class EquipoRepository {
         });
 
     }
-
-    public void createEquipo(String ubicacion,String nombre, String tipo,String descripcion){
-
-        RequestEquipo requestEquipo = new RequestEquipo(ubicacion,nombre,descripcion,tipo);
-        Call<EquipoResponse> call = service.crearEquipo(requestEquipo);
-
-        call.enqueue(new Callback<EquipoResponse>() {
-            @Override
-            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
-                if(response.isSuccessful()){
-                    List<EquipoResponse> listaClonada = new ArrayList<>();
-                    listaClonada.add(response.body());
-                    for(int  i = 0; i< equipoList.getValue().size(); i++){
-                        listaClonada.add(new EquipoResponse(equipoList.getValue().get(i)));
-                    }
-                    equipoList.setValue(listaClonada);
-                }else{
-                    Toast.makeText(MyApp.getCtx(),"Algo ha ido mal",Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<EquipoResponse> call, Throwable t) {
-                Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-    public void editarEquipo(String id,RequestEquipo requestEquipo){
+    public void editarEquipo(final String id, final RequestEquipo requestEquipo){
         Call<EquipoResponse> call = service.editarEquipo(id,requestEquipo);
         call.enqueue(new Callback<EquipoResponse>() {
             @Override
             public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
                 if (response.isSuccessful()) {
-                    equipo.setValue(response.body());
+                    getEquipo(id).getValue().setNombre(response.body().getNombre());
+                    getEquipo(id).getValue().setDescripcion(response.body().getDescripcion());
+                    getEquipo(id).getValue().setTipo(response.body().getTipo());
+                    getEquipo(id).getValue().setUbicacion(response.body().getUbicacion());
                 } else {
-                    Toast.makeText(MyApp.getCtx(), "Algo ha ido mal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MyApp.getCtx(), "Algo ha ido mal"+response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
