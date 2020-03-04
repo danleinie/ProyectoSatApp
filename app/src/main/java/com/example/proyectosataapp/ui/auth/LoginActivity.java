@@ -18,6 +18,7 @@ import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.UserResponseLogin;
 import com.example.proyectosataapp.services.UserService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
+import com.example.proyectosataapp.tickets.TicketActivity;
 import com.example.proyectosataapp.ui.dashboard.DashboardFragment;
 
 import retrofit2.Call;
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             SharedPreferencesManager.setStringValue(Constantes.LABEL_TOKEN,response.body().getToken());
                             SharedPreferencesManager.setStringValue(Constantes.ID_USER_LOGEADO,response.body().getUser().getId());
-                            cambiarDeActivity(MainActivity.class);
+                            cambiarDeActivity(TicketActivity.class);
                         } else {
                             Toast.makeText(LoginActivity.this, "Error name o password incorrectas", Toast.LENGTH_SHORT).show();
                         }

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +20,11 @@ import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.models.Ticket;
+import com.example.proyectosataapp.repository.TicketRepository;
 import com.example.proyectosataapp.services.TicketService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
+import com.example.proyectosataapp.viewModel.EquipoViewModel;
+import com.example.proyectosataapp.viewModel.TicketViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +38,12 @@ public class TicketFragment extends Fragment {
     private static final String ARG_COLUMN_COUNT = "column-count";
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private List<Ticket> tickets;
+    private List<Ticket> ticketList;
     private View view;
     private Context context;
-    RecyclerView recyclerView;
-    TicketService servicio;
+    private RecyclerView recyclerView;
+    private TicketViewModel ticketViewModel;
+    private TicketAdapter adapter;
 
     public TicketFragment() {
     }
@@ -64,6 +70,7 @@ public class TicketFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_ticket_list, container, false);
 
+        ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
         // Set the adapter
         if (view instanceof RecyclerView) {
             context = view.getContext();
@@ -73,26 +80,16 @@ public class TicketFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            tickets = new ArrayList<>();
-            servicio = ServiceGenerator.createService(TicketService.class);
-            Call<List<Ticket>> call = servicio.getAllTickets(Constantes.MASTER_KEY);
+            ticketList = new ArrayList<>();
 
-            call.enqueue(new Callback<List<Ticket>>() {
-                @Override
-                public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
-                    if (response.isSuccessful()) {
-                        tickets = response.body();
-                        recyclerView.setAdapter(new TicketAdapter(tickets, mListener, context, R.layout.fragment_ticket));
-                    } else {
-                        Toast.makeText(context, "Algo ha ido mal.", Toast.LENGTH_SHORT).show();
-                        cambiarActividad(MainActivity.class);
-                    }
-                }
+            adapter = new TicketAdapter(ticketList, mListener, ticketViewModel);
+            recyclerView.setAdapter(adapter);
 
+            ticketViewModel.getTickets().observe(getActivity(), new Observer<List<Ticket>>() {
                 @Override
-                public void onFailure(Call<List<Ticket>> call, Throwable t) {
-                    Toast.makeText(context, "Algo ha ido MUY mal.", Toast.LENGTH_SHORT).show();
-                    cambiarActividad(MainActivity.class);
+                public void onChanged(List<Ticket> tickets) {
+                    ticketList.addAll(tickets);
+                    adapter.notifyDataSetChanged();
                 }
             });
 
@@ -127,4 +124,6 @@ public class TicketFragment extends Fragment {
         Intent i = new Intent(context, activity);
         startActivity(i);
     }
+
+
 }

@@ -27,4 +27,11 @@
     <string name="title_activity_detalle_equipo">DetalleEquipoActivity</string>
     <string name="equipo_tipo">Tipo</string>
     <string name="equipo_ubicacion">Ubicacion</string>
+    <string name="create_ticket_tv_portada">Crear un nuevo ticket:</string>
+    <string name="titulo">Título</string>
+    <string name="create_ticket_descripcion">Descripción</string>
+    <string name="create_text_boton_subir_imagen">Adjuntar imagen</string>
+    <string name="create_ticket_boton_tecnico">Asignar a un técnico</string>
+    <string name="create_ticket_boton_equipo">Asignar a un equiipo</string>
+    <string name="create_ticket_boton_terminar">Registrar ticket</string>
 </resources>

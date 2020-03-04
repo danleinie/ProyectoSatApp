@@ -24,5 +24,5 @@ public interface TicketService {
                                                             @Part MultipartBody.Part fotos);
 
     @GET("/ticket")
-    Call<List<Ticket>> getAllTickets(@Query("access_token") String masterKey);
+    Call<List<Ticket>> getAllTickets();
 }

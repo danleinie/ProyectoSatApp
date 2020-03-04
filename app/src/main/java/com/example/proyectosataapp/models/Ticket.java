@@ -129,4 +129,20 @@ public class Ticket {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id='" + id + '\'' +
+                ", creadoPor=" + creadoPor +
+                ", fechaCreacion='" + fechaCreacion + '\'' +
+                ", estado='" + estado + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", anotaciones=" + anotaciones +
+                ", asignaciones=" + asignaciones +
+                ", fotos=" + fotos +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
+    }
 }

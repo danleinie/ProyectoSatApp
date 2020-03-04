@@ -12,6 +12,7 @@ import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.tickets.TicketFragment.OnListFragmentInteractionListener;
+import com.example.proyectosataapp.viewModel.TicketViewModel;
 
 import java.util.List;
 
@@ -19,15 +20,13 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
 
     private final List<Ticket> mValues;
     private final OnListFragmentInteractionListener mListener;
-    private Context ctx;
-    private int layout;
+    private TicketViewModel viewModel;
     private View view;
 
-    public TicketAdapter(List<Ticket> items, OnListFragmentInteractionListener listener, Context ctx, int layout) {
+    public TicketAdapter(List<Ticket> items, OnListFragmentInteractionListener listener, TicketViewModel viewModel) {
         mValues = items;
         mListener = listener;
-        this.ctx = ctx;
-        this.layout = layout;
+        this.viewModel = viewModel;
     }
 
     @Override

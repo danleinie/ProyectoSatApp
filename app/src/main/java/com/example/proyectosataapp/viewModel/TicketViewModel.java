@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.repository.TicketRepository;
+import com.example.proyectosataapp.tickets.TicketAdapter;
 
 import java.util.List;
 
