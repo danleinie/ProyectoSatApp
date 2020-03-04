@@ -41,8 +41,8 @@ public class EquipoViewModel extends AndroidViewModel {
         equipoRepository.deleteEquipo(id);
     }
 
-    public void setIdEquipoSeleccionado(String idSerieSeleccionada) {
-        this.idEquipoSeleccionado.setValue(idSerieSeleccionada);
+    public void setIdEquipoSeleccionado(String idEquipoSeleccionado) {
+        this.idEquipoSeleccionado.setValue(idEquipoSeleccionado);
     }
 
     public MutableLiveData<String> getIdEquipoSeleccionado() {
@@ -52,10 +52,6 @@ public class EquipoViewModel extends AndroidViewModel {
 
     public void insertEquipo(String ubicacion, String nombre, String tipo, String descripcion) {
         equipoRepository.createEquipo(ubicacion,nombre,tipo,descripcion);
-    }
-
-    public void editarEquipo(RequestEquipo requestEquipo){
-        equipoRepository.editarEquipo(requestEquipo);
     }
 
 }

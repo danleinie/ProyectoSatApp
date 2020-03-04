@@ -1,10 +1,7 @@
 package com.example.proyectosataapp.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+
 public class EquipoResponse {
     private String id;
     private String nombre;
