@@ -75,11 +75,10 @@ public class EquipoRepository {
         return data;
     }
 
-    public void deleteEquipo(final String idEquipo){
-
+    public MutableLiveData<EquipoResponse> deleteEquipo(final String idEquipo){
         final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
-        Call<EquipoResponse> call = service.eliminarEquipo(idEquipo);
 
+        Call<EquipoResponse> call = service.eliminarEquipo(idEquipo,SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
         call.enqueue(new Callback<EquipoResponse>() {
             @Override
@@ -99,6 +98,7 @@ public class EquipoRepository {
                 Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
             }
         });
+        return data;
 
 
     }

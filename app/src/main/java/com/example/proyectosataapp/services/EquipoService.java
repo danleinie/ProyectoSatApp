@@ -36,7 +36,7 @@ public interface EquipoService {
     Call<EquipoResponse> getEquipo(@Path("id") String idEquipo, @Query("access_token") String masterKey);
 
     @DELETE("/inventariable/{id}") //TODO el acces token es momentaneo
-    Call<EquipoResponse> eliminarEquipo(@Path("id") String id);
+    Call<EquipoResponse> eliminarEquipo(@Path("id") String id,@Query("access_token") String masterKey);
 
 
     Call<EquipoResponse> crearEquipo(@Body RequestEquipo requestEquipo);
