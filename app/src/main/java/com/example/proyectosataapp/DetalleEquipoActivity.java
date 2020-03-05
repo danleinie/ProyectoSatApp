@@ -94,7 +94,7 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
 
         equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
 
-        equipoViewModel.setIdEquipoSeleccionado(null);
+
 
         Intent i = new Intent(MyApp.getCtx(), HomeFragment.class);
         i.putExtra(Constantes.EXTRA_ID_EQUIPO, " ");
