@@ -63,6 +63,7 @@ public class EquipoRepository {
         call.enqueue(new Callback<EquipoResponse>() {
             @Override
             public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+
                 data.setValue(response.body());
             }
 
@@ -131,16 +132,17 @@ public class EquipoRepository {
         });
 
     }
-    public void editarEquipo(final String id, final RequestEquipo requestEquipo){
-        Call<EquipoResponse> call = service.editarEquipo(id,requestEquipo);
+    public MutableLiveData<EquipoResponse> editarEquipo(final String id,RequestEquipo requestEquipo){
+
+        final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
+
+        Call<EquipoResponse> call = service.editarEquipo(id,requestEquipo,SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+
         call.enqueue(new Callback<EquipoResponse>() {
             @Override
             public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
                 if (response.isSuccessful()) {
-                    getEquipo(id).getValue().setNombre(response.body().getNombre());
-                    getEquipo(id).getValue().setDescripcion(response.body().getDescripcion());
-                    getEquipo(id).getValue().setTipo(response.body().getTipo());
-                    getEquipo(id).getValue().setUbicacion(response.body().getUbicacion());
+                    data.setValue(response.body());
                 } else {
                     Toast.makeText(MyApp.getCtx(), "Algo ha ido mal"+response.code(), Toast.LENGTH_SHORT).show();
                 }
@@ -151,6 +153,32 @@ public class EquipoRepository {
                 Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
             }
         });
+
+        return data;
+    }
+    public List<String> getTipos(){
+        final List<String> data = new ArrayList<>();
+
+        Call<List<String>> call = service.getTipos(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+               if(response.isSuccessful()) {
+                   List<String> clonedList = response.body();
+                   for(int i = 0; i<clonedList.size(); i++){
+                       data.add(clonedList.get(i));
+                   }
+               }else{
+                   Toast.makeText(MyApp.getCtx(),"Error ocurrido"+response.code(),Toast.LENGTH_SHORT).show();
+               }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Toast.makeText(MyApp.getCtx(),"Error de conexion",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return data;
     }
 
 

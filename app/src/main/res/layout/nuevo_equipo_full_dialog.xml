@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="@+id/nombre"
         app:layout_constraintStart_toStartOf="@+id/nombre" />
 
-    <EditText
+    <Spinner
         android:id="@+id/tipo"
         android:layout_width="213dp"
         android:layout_height="45dp"

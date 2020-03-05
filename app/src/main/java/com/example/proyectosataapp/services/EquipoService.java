@@ -52,5 +52,8 @@ public interface EquipoService {
 
 
     @PUT("/inventariable/{id}")
-    Call<EquipoResponse> editarEquipo(@Path("id") String idEquipo,@Body RequestEquipo requestEquipo);
+    Call<EquipoResponse> editarEquipo(@Path("id") String idEquipo,@Body RequestEquipo requestEquipo,@Query("access_token") String masterKey);
+
+    @GET("/inventariable/tipos")
+    Call<List<String>> getTipos(@Query("access_token") String masterKey);
 }

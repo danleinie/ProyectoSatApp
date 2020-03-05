@@ -32,9 +32,8 @@ public class DetalleEquipoViewModel extends AndroidViewModel {
         equipoRepository.deleteEquipo(idEquipo);
     }
 
-    public void editEquipo(String id,String ubicacion, String nombre, String tipo, String descripcion){
-        RequestEquipo equipo = new RequestEquipo(ubicacion,nombre,tipo,descripcion);
-        equipoRepository.editarEquipo(id,equipo);
+    public void editEquipo(String id,RequestEquipo requestEquipo){
+        equipoRepository.editarEquipo(id,requestEquipo);
     }
 
 

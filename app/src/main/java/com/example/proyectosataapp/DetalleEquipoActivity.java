@@ -1,5 +1,6 @@
 package com.example.proyectosataapp;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
+import com.example.proyectosataapp.equipos.EditEquipoFragment;
 import com.example.proyectosataapp.equipos.EditarEquipoActivity;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.repository.EquipoRepository;
@@ -134,14 +136,11 @@ public class DetalleEquipoActivity extends AppCompatActivity{
         btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent i = new Intent(DetalleEquipoActivity.this,EditarEquipoActivity.class);
-                i.putExtra("NOMBRE",tvNombre.getText());
-                i.putExtra("DESCRIPCION",tvDescripcion.getText());
-                i.putExtra("TIPO",tvTipo.getText());
-                i.putExtra("UBICACION",tvUbicacion.getText());
-                i.putExtra("ID",idEquipo);
-                startActivity(i);
+                EditEquipoFragment dialog = new EditEquipoFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("ID",extras.getString(Constantes.EXTRA_ID_EQUIPO));
+                dialog.setArguments(bundle);
+                dialog.show(getSupportFragmentManager(), "EditEquipoDialogFragment");
             }
         });
 

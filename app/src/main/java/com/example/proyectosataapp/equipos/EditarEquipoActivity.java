@@ -2,6 +2,8 @@ package com.example.proyectosataapp.equipos;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -11,40 +13,49 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.DetalleEquipoActivity;
 import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.common.MyApp;
+import com.example.proyectosataapp.models.EquipoResponse;
+import com.example.proyectosataapp.models.RequestEquipo;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
 
 public class EditarEquipoActivity extends AppCompatActivity {
 
     String idEquipo,subicacion,sdescripcion,stipo,snombre;
-    EditText nombre,ubicacion,descripcion,tipo;
+    EditText etnombre,etubicacion,etdescripcion,ettipo;
     Button aceptar,cancelar;
     DetalleEquipoViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_equipo);
-
-        Bundle bundle = getIntent().getExtras();
-
-
-
-        nombre = findViewById(R.id.nombre);
-        ubicacion = findViewById(R.id.Ubicacion);
-        descripcion = findViewById(R.id.Descripcion);
-        tipo = findViewById(R.id.Tipo);
+        etnombre = findViewById(R.id.nombre);
+        etubicacion = findViewById(R.id.Ubicacion);
+        etdescripcion = findViewById(R.id.Descripcion);
+        ettipo = findViewById(R.id.Tipo);
         cancelar = findViewById(R.id.Cancelar);
         aceptar = findViewById(R.id.Aceptar);
 
+        Bundle bundle = getIntent().getExtras();
         idEquipo = bundle.getString("ID");
-        nombre.setText(bundle.getString("NOMBRE"));
-        ubicacion.setText(bundle.getString("UBICACION"));
-        descripcion.setText(bundle.getString("DESCRIPCION"));
-        tipo.setText(bundle.getString("TIPO"));
-        Toast.makeText(this, "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
 
+        viewModel = new ViewModelProvider(EditarEquipoActivity.this).get(DetalleEquipoViewModel.class);
+
+        viewModel.getEquipo(idEquipo).observe(this, new Observer<EquipoResponse>() {
+            @Override
+            public void onChanged(EquipoResponse equipo) {
+
+                    etnombre.setText(equipo.getNombre());
+                    etdescripcion.setText(equipo.getDescripcion());
+                    ettipo.setText(equipo.getTipo());
+                    etubicacion.setText(equipo.getUbicacion());
+                }
+        });
+
+        Toast.makeText(this, "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,11 +68,29 @@ public class EditarEquipoActivity extends AppCompatActivity {
         aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewModel = new ViewModelProvider(EditarEquipoActivity.this).get(DetalleEquipoViewModel.class);
+                String nombre = etnombre.getText().toString();
+                String descripcion = etdescripcion.getText().toString();
+                String ubicacion = etubicacion.getText().toString();
+                String tipo = ettipo.getText().toString();
+                if(nombre.isEmpty()){
+                    etnombre.setError("El nombre del equipo es requerido");
+                }
+                else if(descripcion.isEmpty()){
+                    etdescripcion.setError("La descripcion es requerida");
+                }
+                else if(ubicacion.isEmpty()){
+                    etubicacion.setError("La descripcion es requerida");
+                }
+                else if(tipo.isEmpty()){
+                    ettipo.setError("La descripcion es requerida");
+                }
+                else {
+                    RequestEquipo requestEquipo = new RequestEquipo(nombre,descripcion,ubicacion);
+                    viewModel.editEquipo(idEquipo,requestEquipo);
+                    Intent intent = new Intent(EditarEquipoActivity.this,MainActivity.class);
+                }
 
-                viewModel.editEquipo(idEquipo,ubicacion.getText().toString(),nombre.getText().toString(),tipo.getText().toString(),descripcion.getText().toString());
 
-                Intent intent = new Intent(EditarEquipoActivity.this,MainActivity.class);
             }
         });
 
