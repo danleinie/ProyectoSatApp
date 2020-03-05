@@ -12,5 +12,6 @@ public class Constantes {
     public static final String TIPO_SELECCION= "tipoSeleccion";
     public static final String TECNICO = "tecnico";
     public static final String EQUIPO = "equipo";
+    public static final String ROLE_USER_LOGEADO = "ROLEUSER";
 }
 

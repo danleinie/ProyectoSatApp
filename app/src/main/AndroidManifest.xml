@@ -18,6 +18,10 @@
         <activity
             android:name=".ui.auth.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.usuarios.DetailsUserActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity
             android:name=".ui.auth.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">

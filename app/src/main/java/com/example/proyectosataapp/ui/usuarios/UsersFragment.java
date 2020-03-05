@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.MyApp;
@@ -44,52 +44,16 @@ public class UsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.prueba_dos_recyclerview, container, false);
+        listUsers = new ArrayList<>();
+        listUsersNoValidated = new ArrayList<>();
         loadAllUsers();
         loadUsersNoValidated();
 
-        usuarioViewModel.isRefreshListUsers().observe(getActivity(), new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean){
-                    listUsers.clear();
-                    listUsersNoValidated.clear();
-                    adapter.notifyDataSetChanged();
-                    adapter1.notifyDataSetChanged();
-                    loadAllUsers();
-                    loadUsersNoValidated();
-                    usuarioViewModel.isRefreshListUsers(false);
-                }else {
-
-                }
-            }
-        });
-
-        // Set the adapter
-        /*if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            adapter = new MyUserListRecyclerViewAdapter(listUsers,usuarioViewModel);
-            recyclerView.setAdapter(adapter);
-
-            usuarioViewModel.getUsers().observe(getActivity(), new Observer<List<UserResponseRegister>>() {
-                @Override
-                public void onChanged(List<UserResponseRegister> userResponseRegisters) {
-                    listUsers.addAll(userResponseRegisters);
-                    adapter.notifyDataSetChanged();
-                }
-            });
-        }*/
         return view;
     }
 
     private void loadUsersNoValidated() {
         recyclerViewUsersNoValidated = (RecyclerView) view.findViewById(R.id.recycler_view1);
-        listUsersNoValidated = new ArrayList<>();
         if (mColumnCount <= 1) {
             recyclerViewUsersNoValidated.setLayoutManager(new LinearLayoutManager(MyApp.getCtx()));
         } else {
@@ -101,15 +65,31 @@ public class UsersFragment extends Fragment {
             @Override
             public void onChanged(List<UserResponseRegister> userResponseRegisters) {
                 usuarioViewModel.setSizeListUsersNoValidated(userResponseRegisters.size());
-                listUsersNoValidated.addAll(userResponseRegisters);
-                adapter1.notifyDataSetChanged();
+                if(userResponseRegisters.size()>listUsersNoValidated.size()){
+                    listUsersNoValidated.addAll(userResponseRegisters);
+                    adapter1.notifyDataSetChanged();
+                }else if (listUsersNoValidated.size()>userResponseRegisters.size()) {
+                    listUsersNoValidated.clear();
+                    adapter1.notifyDataSetChanged();
+                    listUsersNoValidated.addAll(userResponseRegisters);
+                    adapter.notifyDataSetChanged();
+                }
             }
         });
+
+        usuarioViewModel.getNewUserValidated().observe(getActivity(), new Observer<UserResponseRegister>() {
+            @Override
+            public void onChanged(UserResponseRegister userResponseRegister) {
+                listUsersNoValidated.remove(userResponseRegister);
+                adapter1.notifyDataSetChanged();
+                usuarioViewModel.setListUsersNoValidated(listUsersNoValidated);
+            }
+        });
+
     }
 
     private void loadAllUsers() {
         recyclerViewAllUsers = (RecyclerView) view.findViewById(R.id.recycler_view);
-        listUsers = new ArrayList<>();
         if (mColumnCount <= 1) {
             recyclerViewAllUsers.setLayoutManager(new LinearLayoutManager(MyApp.getCtx()));
         } else {
@@ -118,10 +98,39 @@ public class UsersFragment extends Fragment {
         adapter = new MyUserListRecyclerViewAdapter(listUsers,usuarioViewModel,true);
         recyclerViewAllUsers.setAdapter(adapter);
         usuarioViewModel.getUsers().observe(getActivity(), new Observer<List<UserResponseRegister>>() {
+                    @Override
+                    public void onChanged(List<UserResponseRegister> userResponseRegisters) {
+                        if (listUsers.size()<userResponseRegisters.size()){
+                            listUsers.addAll(userResponseRegisters);
+                            adapter.notifyDataSetChanged();
+                        }else if (listUsers.size()>userResponseRegisters.size()) {
+                            listUsers.clear();
+                            adapter.notifyDataSetChanged();
+                            listUsers.addAll(userResponseRegisters);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            for (UserResponseRegister user : userResponseRegisters) {
+                                for (UserResponseRegister userEnMemoria: listUsers){
+                                    if (user.getName().equals(userEnMemoria.getName())){
+                                        if (!user.getRole().equals(userEnMemoria.getRole())){
+                                            userEnMemoria.setRole(user.getRole().toUpperCase());
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+            }
+        });
+
+        usuarioViewModel.getNewUserValidated().observe(getActivity(), new Observer<UserResponseRegister>() {
             @Override
-            public void onChanged(List<UserResponseRegister> userResponseRegisters) {
-                listUsers.addAll(userResponseRegisters);
-                adapter.notifyDataSetChanged();
+            public void onChanged(UserResponseRegister userResponseRegister) {
+                if (!listUsers.contains(userResponseRegister)){
+                    listUsers.add(userResponseRegister);
+                    adapter.notifyDataSetChanged();
+                    usuarioViewModel.setListUsers(listUsers);
+                }
             }
         });
     }

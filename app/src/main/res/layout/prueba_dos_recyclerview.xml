@@ -12,15 +12,37 @@
         android:layout_height="match_parent"
         android:layout_margin="5dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/txNoValidados"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/text_list_no_validated"
+            android:textAlignment="center"
+            android:textColor="#000000" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp" />
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:id="@+id/txListUsuarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/text_list_usuarios_validados"
+            android:textAlignment="center"
+            android:textColor="@android:color/black" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+
+
 
     </LinearLayout>
 

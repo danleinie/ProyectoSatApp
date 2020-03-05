@@ -3,8 +3,10 @@ package com.example.proyectosataapp.ui.usuarios;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +16,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -27,6 +31,7 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
     private final List<UserResponseRegister> mValues;
     private final UsuarioViewModel usuarioViewModel;
     private final boolean isValidated;
+    private final MyUserListRecyclerViewAdapter adapter = this;
 
     public MyUserListRecyclerViewAdapter(List<UserResponseRegister> items, UsuarioViewModel usuarioViewModel,boolean isValidated) {
         mValues = items;
@@ -45,9 +50,9 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.textNombre.setText(holder.mItem.getName());
-        holder.textRole.setText(holder.mItem.getRole());
+        holder.textRole.setText(holder.mItem.getRole().toUpperCase());
 
-        if(isValidated){
+        if(holder.mItem.getValidated()){
             holder.buttonCancelar.setVisibility(View.GONE);
             holder.buttonAceptar.setVisibility(View.GONE);
         } else {
@@ -55,32 +60,41 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
         }
 
         if (holder.mItem.getPicture() == null){
-            holder.mItem.setPicture("https://recursospracticos.com/wp-content/uploads/2017/10/Sin-foto-de-perfil-en-Facebook.jpg");
             Glide
                     .with(MyApp.getCtx())
-                    .load(holder.mItem.getPicture())
+                    .load("https://recursospracticos.com/wp-content/uploads/2017/10/Sin-foto-de-perfil-en-Facebook.jpg")
                     .circleCrop()
                     .into(holder.imgFoto);
         }else {
-            usuarioViewModel.getImg(holder.mItem.getId()).observeForever(new Observer<ResponseBody>() {
-                @Override
+            if (holder.mItem.getPictureBitMap()!=null){
+                Glide
+                        .with(MyApp.getCtx())
+                        .load(holder.mItem.getPictureBitMap())
+                        .circleCrop()
+                        .into(holder.imgFoto);
+            }else {
+                usuarioViewModel.getImg(holder.mItem.getId()).observeForever(new Observer<ResponseBody>() {
+                  @Override
                 public void onChanged(ResponseBody responseBody) {
-                    Bitmap fotoBitMap = BitmapFactory.decodeStream(responseBody.byteStream());
-                    Glide
-                            .with(MyApp.getCtx())
-                            .load(fotoBitMap)
-                            .circleCrop()
-                            .into(holder.imgFoto);
+                Bitmap fotoBitMap = BitmapFactory.decodeStream(responseBody.byteStream());
+                Glide
+                        .with(MyApp.getCtx())
+                        .load(fotoBitMap)
+                        .circleCrop()
+                        .into(holder.imgFoto);
                 }
-            });
+                });
+            }
+
         }
         holder.buttonAceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 usuarioViewModel.validarUsuario(holder.mItem.getId()).observeForever(new Observer<UserResponseRegister>() {
                     @Override
-                    public void onChanged(UserResponseRegister userResponseRegister) {
-                        usuarioViewModel.isRefreshListUsers(true);
+                    public void onChanged(final UserResponseRegister userResponseRegister) {
+                        holder.mItem.setValidated(true);
+                        usuarioViewModel.setNewUserValidated(holder.mItem);
                     }
                 });
             }
@@ -88,7 +102,34 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
         holder.buttonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuarioViewModel.isRefreshListUsers(false);
+                usuarioViewModel.deleteUserFromRepo(holder.mItem.getId()).observeForever(new Observer<Boolean>() {
+                    @Override
+                    public void onChanged(Boolean aBoolean) {
+                        if (aBoolean){
+                            usuarioViewModel.getUsersNoValidated().observeForever(new Observer<List<UserResponseRegister>>() {
+                                @Override
+                                public void onChanged(List<UserResponseRegister> userResponseRegisters) {
+                                    if (userResponseRegisters.contains(holder.mItem)){
+                                        userResponseRegisters.remove(holder.mItem);
+                                        usuarioViewModel.setListUsersNoValidated(userResponseRegisters);
+                                        mValues.remove(holder.mItem);
+                                        adapter.notifyDataSetChanged();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MyApp.getCtx(),DetailsUserActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                i.putExtra(Constantes.ID_USER_LOGEADO,holder.mItem.getId());
+                MyApp.getCtx().startActivity(i);
             }
         });
     }
