@@ -2,6 +2,7 @@ package com.example.proyectosataapp.tickets;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.viewModel.CreateTicketViewModel;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 import com.example.proyectosataapp.viewModel.TicketViewModel;
@@ -39,7 +41,7 @@ public class CreateTicketActivity extends AppCompatActivity {
     private static final int READ_REQUEST_CODE = 42;
 
     private EditText etTitulo, etDescripcion;
-    private Button botonImagen, botonTecnico, botonEquipo, botonEnviar;
+    private Button botonTecnico, botonEquipo, botonEnviar;
     private ImageView ivFoto;
     private Uri uriFoto;
     private String titulo, descripcion, nombreFichero;
@@ -62,7 +64,6 @@ public class CreateTicketActivity extends AppCompatActivity {
 
         etTitulo = findViewById(R.id.createTicketEvTitulo);
         etDescripcion = findViewById(R.id.createTicketEvDescripcion);
-        botonImagen = findViewById(R.id.createTicketBotonImagen);
         botonTecnico = findViewById(R.id.createTicketBotonTecnico);
         botonEquipo = findViewById(R.id.createTicketBotonEquipo);
         botonEnviar = findViewById(R.id.createTicketBotonSubmit);
@@ -74,7 +75,7 @@ public class CreateTicketActivity extends AppCompatActivity {
         idTecnicoRequest = RequestBody.create("", MultipartBody.FORM);
         idEquipoRequest = RequestBody.create("", MultipartBody.FORM);
 
-        if (getCallingActivity().getClassName().contains("DetalleEquipoActivity")) {
+        if (getCallingActivity().getClassName().contains(Constantes.DETALLE_EQUIPO_ACTIVITY_CLASS_NAME)) {
             botonEquipo.setVisibility(View.GONE);
             idEquipoRequest = RequestBody.create(extraData.getString("idEquipo"), MultipartBody.FORM);
         }
@@ -134,6 +135,15 @@ public class CreateTicketActivity extends AppCompatActivity {
         ivFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { performFileSearch(); }});
+
+        botonTecnico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialogSeleccion = new DialogSeleccionarTecnico();
+                Bundle bundleTecnicos = new Bundle();
+
+            }
+        });
 
     }
 

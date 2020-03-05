@@ -5,7 +5,7 @@
     android:padding="20dp">
 
     <ListView
-        android:id="@+id/dialogSeleccionarTecnicoOpciones"
+        android:id="@+id/dialogSeleccionarTecnicoListaOpciones"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

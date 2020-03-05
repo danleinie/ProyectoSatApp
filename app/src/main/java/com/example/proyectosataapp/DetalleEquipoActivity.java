@@ -64,7 +64,6 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
         ButterKnife.bind(this);
         Bundle extras = getIntent().getExtras();
 
-
         ivFoto.setBorderColor(0x00549D);
         ivFoto.setBorderWidth(1);
         idEquipo = extras.getString(Constantes.EXTRA_ID_EQUIPO);
