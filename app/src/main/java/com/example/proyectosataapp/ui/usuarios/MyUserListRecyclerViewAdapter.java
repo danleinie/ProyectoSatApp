@@ -50,7 +50,7 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.textNombre.setText(holder.mItem.getName());
-        holder.textRole.setText(holder.mItem.getRole());
+        holder.textRole.setText(holder.mItem.getRole().toUpperCase());
 
         if(holder.mItem.getValidated()){
             holder.buttonCancelar.setVisibility(View.GONE);
@@ -127,6 +127,7 @@ public class MyUserListRecyclerViewAdapter extends RecyclerView.Adapter<MyUserLi
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MyApp.getCtx(),DetailsUserActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra(Constantes.ID_USER_LOGEADO,holder.mItem.getId());
                 MyApp.getCtx().startActivity(i);
             }

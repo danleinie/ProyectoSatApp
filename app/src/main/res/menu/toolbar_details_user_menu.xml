@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/borrar_usuario"
+        android:orderInCategory="300"
+        android:title="Borrar Usuario"></item>
+    <item
+        android:id="@+id/cambiar_rol"
+        android:orderInCategory="300"
+        android:title="Cambiar Rol"></item>
+</menu>

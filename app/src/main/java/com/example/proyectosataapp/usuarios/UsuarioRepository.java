@@ -206,5 +206,25 @@ public class UsuarioRepository {
         return data;
     }
 
+    public LiveData<UserResponseRegister> getUserLogeado(){
+        final MutableLiveData<UserResponseRegister> data = new MutableLiveData<>();
+
+        service.getUserLogeado().enqueue(new Callback<UserResponseRegister>() {
+            @Override
+            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                    SharedPreferencesManager.setStringValue(Constantes.ROLE_USER_LOGEADO,response.body().getRole());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+
+            }
+        });
+        return data;
+    }
+
 
 }

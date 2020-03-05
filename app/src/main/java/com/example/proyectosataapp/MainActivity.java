@@ -1,13 +1,10 @@
 package com.example.proyectosataapp;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.example.proyectosataapp.models.User;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -22,29 +19,59 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView txNotificationsBadgeUsers;
     UsuarioViewModel usuarioViewModel;
+    BottomNavigationView navView;
+    AppBarConfiguration appBarConfiguration;
+    NavController navController;
+    String roleUserLogeado = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        setContentView(R.layout.pantalla_loading);
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
+        usuarioViewModel.getUserLogeadoFromRepo().observe(this, new Observer<UserResponseRegister>() {
+            @Override
+            public void onChanged(UserResponseRegister userResponseRegister) {
+                usuarioViewModel.setUserLogeado(userResponseRegister);
+                roleUserLogeado = userResponseRegister.getRole();
+                if (userResponseRegister.getRole().equals("admin")){
+                    loadiuAdmin();
+                }else {
+                    loadiuUser();
+                }
+            }
+        });
 
+    }
+
+    private void loadiuUser() {
+        setContentView(R.layout.activity_main_user);
+        navView = findViewById(R.id.nav_view_user);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+        appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_profile)
+                .build();
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_user);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    private void loadiuAdmin() {
+        setContentView(R.layout.activity_main);
+        navView = findViewById(R.id.nav_view_admin);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_admin);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
@@ -58,12 +85,14 @@ public class MainActivity extends AppCompatActivity {
                 .inflate(R.layout.notification_badge, itemView, true);
         txNotificationsBadgeUsers = badge.findViewById(R.id.txNotificationsBadge);
         txNotificationsBadgeUsers.setVisibility(View.GONE);
+        loadData();
+    }
 
+    private void loadData() {
         usuarioViewModel.getUsersFromRepo().observe(this, new Observer<List<UserResponseRegister>>() {
             @Override
             public void onChanged(final List<UserResponseRegister> userResponseRegisters) {
-                Log.i("cambiando","Nombre "+ userResponseRegisters.get(0).getName() + userResponseRegisters.get(0).getPictureBitMap());
-                loadData(userResponseRegisters);
+                usuarioViewModel.setListUsers(userResponseRegisters);
             }
         });
 
@@ -87,43 +116,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        /*AHBottomNavigation bottomNavigation = findViewById(R.id.nav_view);
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.title_home,R.drawable.ic_home_black_24dp,R.color.colorPrimary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.title_dashboard,R.drawable.ic_dashboard_black_24dp,R.color.colorPrimary);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.title_usuarios,R.drawable.ic_supervisor_account_black_24dp,R.color.colorPrimary);
-
-        bottomNavigation.addItem(item1);
-        bottomNavigation.addItem(item2);
-        bottomNavigation.addItem(item3);
-
-
-        AHNotification notification = new AHNotification.Builder()
-                .setText("1")
-                .setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary))
-                .setTextColor(ContextCompat.getColor(this,R.color.colorAccent))
-                .build();
-
-        bottomNavigation.setNotification(notification,2);
-
-        // Set listeners
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                // Do something cool here...
-                return true;
-            }
-        });
-        bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
-            @Override public void onPositionChange(int y) {
-                // Manage the new y position
-            }
-        });*/
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (roleUserLogeado.equals("admin")){
+            loadData();
+        }
 
-    private void loadData(List<UserResponseRegister> list) {
-        usuarioViewModel.setListUsers(list);
     }
-
-
 }

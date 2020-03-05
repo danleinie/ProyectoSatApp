@@ -51,6 +51,9 @@ public interface UserService {
     @GET("/users/{id}")
     Call<UserResponseRegister> getUser(@Path("id") String idUser);
 
-    @PUT("/users/{id}/validate")
+    @PUT("/users/{id}/tecnico")
     Call<UserResponseRegister> changeToTecnico(@Path("id") String idUser);
+
+    @GET("/users/me")
+    Call<UserResponseRegister> getUserLogeado();
 }

@@ -20,6 +20,7 @@ public class UsuarioViewModel extends AndroidViewModel {
     private MutableLiveData<List<UserResponseRegister>> listUsers = new MutableLiveData<>();
     private MutableLiveData<Integer> sizeListUsersNoValidated = new MutableLiveData<>();
     private MutableLiveData<UserResponseRegister> newUserValidated = new MutableLiveData<>();
+    private MutableLiveData<UserResponseRegister> userLogeado = new MutableLiveData<>();
     private MutableLiveData<String> idUserToRemove = new MutableLiveData<>();
 
     public UsuarioViewModel(@NonNull Application application) {
@@ -42,6 +43,9 @@ public class UsuarioViewModel extends AndroidViewModel {
     public LiveData<String> getUserIdDeleted(){return this.idUserToRemove;}
     public LiveData<UserResponseRegister> changeToTecnico(String idUser){return repo.changeToTecnico(idUser);}
     public LiveData<UserResponseRegister> getUser(String idUser){return repo.getUser(idUser);}
+    public LiveData<UserResponseRegister> getUserLogeadoFromRepo(){return repo.getUserLogeado();}
+    public void setUserLogeado(UserResponseRegister userLogeado){ this.userLogeado.postValue(userLogeado);}
+    public LiveData<UserResponseRegister> getUserLogeado(){return this.userLogeado;}
     public LiveData<Boolean> deleteUserFromRepo(String idUser){
         this.idUserToRemove.postValue(idUser);
         return repo.deleteUser(idUser);

@@ -1,13 +1,16 @@
 package com.example.proyectosataapp.ui.usuarios;
 
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,15 +33,16 @@ public class DetailsUserActivity extends AppCompatActivity {
     TextView email,nombre,createdAt,role;
     UsuarioViewModel usuarioViewModel;
     ProgressBar progressBar;
+    String idUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pantalla_loading);
-
+        idUser = getIntent().getExtras().getString(Constantes.ID_USER_LOGEADO);
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
 
-        usuarioViewModel.getUser(getIntent().getExtras().getString(Constantes.ID_USER_LOGEADO)).observe(this, new Observer<UserResponseRegister>() {
+        usuarioViewModel.getUser(idUser).observe(this, new Observer<UserResponseRegister>() {
             @Override
             public void onChanged(UserResponseRegister userResponseRegister) {
                 loadData(userResponseRegister);
@@ -58,7 +62,7 @@ public class DetailsUserActivity extends AppCompatActivity {
         role = findViewById(R.id.txRoleDetalle);
         email.setText(userResponseRegister.getEmail());
         nombre.setText(userResponseRegister.getName());
-        role.setText(userResponseRegister.getRole());
+        role.setText(userResponseRegister.getRole().toUpperCase());
         createdAt.setText(userResponseRegister.getCreatedAt());
 
         usuarioViewModel.getImg(userResponseRegister.getId()).observe(this, new Observer<ResponseBody>() {
@@ -74,6 +78,13 @@ public class DetailsUserActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_details_user_menu, menu);
+        return true;
+    }
+
     private void initToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbarDetailsUser);
         setSupportActionBar(toolbar);
@@ -85,7 +96,43 @@ public class DetailsUserActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
-        } else {
+        } else if(item.getItemId() == R.id.borrar_usuario){
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    this);
+            alertDialogBuilder.setTitle(R.string.title_dialog_borrar);
+            alertDialogBuilder
+                    .setMessage(R.string.message_dialog_borrar)
+                    .setCancelable(true)
+                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            usuarioViewModel.deleteUserFromRepo(idUser).observeForever( new Observer<Boolean>() {
+                                @Override
+                                public void onChanged(Boolean aBoolean) {
+                                    if (aBoolean){
+                                        finish();
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog,int id) {
+                            dialog.cancel();
+                            finish();
+                        }
+                    });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        } else if(item.getItemId() == R.id.cambiar_rol){
+            usuarioViewModel.changeToTecnico(idUser).observeForever(new Observer<UserResponseRegister>() {
+                @Override
+                public void onChanged(UserResponseRegister userResponseRegister) {
+                    role.setText(userResponseRegister.getRole().toUpperCase());
+                }
+            });
+        }
+
+        else {
             Toast.makeText(getApplicationContext(), item.getTitle(), Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
