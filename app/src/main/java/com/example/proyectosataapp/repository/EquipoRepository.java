@@ -76,20 +76,17 @@ public class EquipoRepository {
     }
 
     public void deleteEquipo(final String idEquipo){
+
+        final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
         Call<EquipoResponse> call = service.eliminarEquipo(idEquipo);
+
 
         call.enqueue(new Callback<EquipoResponse>() {
             @Override
             public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
                 if(response.isSuccessful()){
-                    List<EquipoResponse> clonedEquipos = new ArrayList<>();
-                    for(int i = 0; i<equipoList.getValue().size(); i++){
-                            if(equipoList.getValue().get(i).getId()  != idEquipo){
-                                clonedEquipos.add(new EquipoResponse(equipoList.getValue().get(i)));
-                            }
-                    }
 
-                    equipoList.setValue(clonedEquipos);
+                    data.setValue(response.body());
                 }
 
                 else{

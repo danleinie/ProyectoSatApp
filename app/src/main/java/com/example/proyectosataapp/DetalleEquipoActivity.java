@@ -44,7 +44,6 @@ import retrofit2.Response;
 
 public class DetalleEquipoActivity extends AppCompatActivity{
     String idEquipo;
-    EquipoRepository repository;
     Uri data;
     EquipoService service;
     ServiceGenerator serviceGenerator;
