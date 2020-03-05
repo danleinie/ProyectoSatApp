@@ -1,5 +1,6 @@
 package com.example.proyectosataapp.services;
 
+import com.example.proyectosataapp.models.PasswordRequest;
 import com.example.proyectosataapp.models.UserResponseLogin;
 import com.example.proyectosataapp.models.UserResponseRegister;
 
@@ -9,6 +10,7 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -56,4 +58,12 @@ public interface UserService {
 
     @GET("/users/me")
     Call<UserResponseRegister> getUserLogeado();
+
+    @Multipart
+    @PUT("/users/{id}/img")
+    Call<UserResponseRegister> updatePhoto(@Path("id")String id,
+                                    @Part MultipartBody.Part avatar);
+
+    @PUT("/users/{id}/password")
+    Call<UserResponseRegister> updatePassword(@Header("Authorization") String authHeader ,@Path("id")String idUser, @Body PasswordRequest password);
 }

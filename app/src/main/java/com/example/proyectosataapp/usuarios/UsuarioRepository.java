@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
+import com.example.proyectosataapp.models.PasswordRequest;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.services.UserService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
@@ -19,6 +20,7 @@ import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -223,6 +225,47 @@ public class UsuarioRepository {
 
             }
         });
+        return data;
+    }
+
+    public LiveData<UserResponseRegister> updatePhoto(String idUser, MultipartBody.Part avatar){
+        final MutableLiveData<UserResponseRegister> data = new MutableLiveData<>();
+
+        service.updatePhoto(idUser,avatar).enqueue(new Callback<UserResponseRegister>() {
+            @Override
+            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+
+            }
+        });
+        return data;
+    }
+
+    public LiveData<UserResponseRegister> updatePassword(String autHeader, String idUser, PasswordRequest password){
+        final MutableLiveData<UserResponseRegister> data = new MutableLiveData<>();
+
+        service.updatePassword(autHeader,idUser,password).enqueue(new Callback<UserResponseRegister>() {
+            @Override
+            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }else {
+                    Toast.makeText(MyApp.getCtx(), "Ha habido un error", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+
+            }
+        });
+
         return data;
     }
 

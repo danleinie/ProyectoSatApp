@@ -7,26 +7,46 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class UserProfileFragment extends Fragment {
 
@@ -39,6 +59,7 @@ public class UserProfileFragment extends Fragment {
     Uri uriSelected;
     String nombreFichero;
     View v;
+    MenuItem cambiarPassword;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -143,8 +164,73 @@ public class UserProfileFragment extends Fragment {
                 int nameIndex = returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                 returnCursor.moveToFirst();
                 nombreFichero = returnCursor.getString(nameIndex);
-                //Toast.makeText(this, "" + nombreFichero, Toast.LENGTH_SHORT).show();
+
+                if (uriSelected != null) {
+
+                    try {
+                        InputStream inputStream = getActivity().getContentResolver().openInputStream(uriSelected);
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                        int cantBytes;
+                        byte[] buffer = new byte[1024*4];
+
+                        while ((cantBytes = bufferedInputStream.read(buffer,0,1024*4)) != -1) {
+                            baos.write(buffer,0,cantBytes);
+                        }
+
+
+                        RequestBody requestFile =
+                                RequestBody.create(baos.toByteArray(),
+                                        MediaType.parse(getActivity().getContentResolver().getType(uriSelected)));
+
+
+                        MultipartBody.Part body =
+                                MultipartBody.Part.createFormData("avatar", nombreFichero, requestFile);
+
+                        usuarioViewModel.updatePhoto(usuarioLogeado.getId(),body).observe(getActivity(), new Observer<UserResponseRegister>() {
+                            @Override
+                            public void onChanged(UserResponseRegister userResponseRegister) {
+                                Toast.makeText(getActivity(), "Foto actualizada", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
             }
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_profile_user_menu,menu);
+
+        cambiarPassword = menu.findItem(R.id.cambiar_password);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.cambiar_password:
+                DialogFragment dialogEditPassword = new EditarPerfilUsuarioDialogFragment();
+                dialogEditPassword.show(getFragmentManager(),"EditPassword");
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

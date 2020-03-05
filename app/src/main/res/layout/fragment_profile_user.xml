@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,6 +74,8 @@
             app:layout_constraintEnd_toEndOf="@+id/cardViewImg"
             app:layout_constraintStart_toStartOf="@+id/cardViewImg"
             app:layout_constraintTop_toBottomOf="@+id/cardViewImg" />
+
+
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -190,6 +193,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
