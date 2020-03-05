@@ -22,31 +22,14 @@ public class EquipoResponse {
         this.imagen = imagen;
     }
 
+    public EquipoResponse(EquipoResponse equipoResponse) {
+    }
+
     public EquipoResponse() {
     }
 
     public String getId() {
         return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public String getImagen() {
-        return imagen;
     }
 
     public void setId(String id) {
@@ -61,20 +44,40 @@ public class EquipoResponse {
         this.palabrasClaves = palabrasClaves;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getTipo() {
+        return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
+    public String getUbicacion() {
+        return ubicacion;
+    }
+
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public String getImagen() {
+        return imagen;
     }
 
     public void setImagen(String imagen) {

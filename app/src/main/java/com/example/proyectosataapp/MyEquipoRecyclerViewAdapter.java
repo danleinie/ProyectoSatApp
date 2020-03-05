@@ -64,6 +64,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
 
                 if (null != equipoViewModel) {
                     equipoViewModel.setIdEquipoSeleccionado(holder.mItem.getId());
+                    SharedPreferencesManager.setStringValue(Constantes.EXTRA_ID_EQUIPO, holder.mItem.getId());
                 }
 
             }

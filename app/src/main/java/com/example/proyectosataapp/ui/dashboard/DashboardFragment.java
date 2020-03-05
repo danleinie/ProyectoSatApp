@@ -1,50 +1,41 @@
 package com.example.proyectosataapp.ui.dashboard;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.Button;
 
 
-import com.example.proyectosataapp.DetalleEquipoActivity;
-import com.example.proyectosataapp.MainActivity;
-import com.example.proyectosataapp.MyEquipoRecyclerViewAdapter;
 import com.example.proyectosataapp.R;
-import com.example.proyectosataapp.common.Constantes;
-import com.example.proyectosataapp.common.MyApp;
-import com.example.proyectosataapp.models.EquipoResponse;
-import com.example.proyectosataapp.ui.home.HomeViewModel;
-import com.example.proyectosataapp.viewModel.EquipoViewModel;
-
-import java.util.List;
+import com.example.proyectosataapp.tickets.CreateTicketActivity;
 
 public class DashboardFragment extends Fragment {
+    final static int CREAR_TICKET_REQUEST = 2;
 
     private DashboardViewModel dashboardViewModel;
+    private Button crearTicketButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        crearTicketButton = root.findViewById(R.id.fragmentDashboardBotonCrearTicket);
+
+        crearTicketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getActivity(), CreateTicketActivity.class), CREAR_TICKET_REQUEST);
+            }
+        });
 
         return root;
     }

@@ -18,6 +18,7 @@ import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.UserResponseLogin;
 import com.example.proyectosataapp.services.UserService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
+import com.example.proyectosataapp.tickets.TicketActivity;
 import com.example.proyectosataapp.ui.dashboard.DashboardFragment;
 
 import retrofit2.Call;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonRegister = findViewById(R.id.btnRegister);
 
         final Intent i = new Intent(this, RegisterActivity.class);
+        final Intent mainActivity = new Intent(this, MainActivity.class);
 
         userService = ServiceGenerator.createService(UserService.class);
 
@@ -60,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()){
 
                             SharedPreferencesManager.setStringValue(Constantes.LABEL_TOKEN,response.body().getToken());
+                            SharedPreferencesManager.setStringValue(Constantes.ID_USER_LOGEADO,response.body().getUser().getId());
                             cambiarDeActivity(MainActivity.class);
                         } else {
                             Toast.makeText(LoginActivity.this, "Error name o password incorrectas", Toast.LENGTH_SHORT).show();

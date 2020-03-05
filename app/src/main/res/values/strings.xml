@@ -3,6 +3,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_activity_ticket">TicketActivity</string>
+    <string name="creado_por">Creado por:</string>
+    <string name="asignado_a">Asignado a:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_usuarios">Usuarios</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
     <string name="hint_login">LOG IN</string>
@@ -20,4 +27,12 @@
     <string name="title_activity_detalle_equipo">DetalleEquipoActivity</string>
     <string name="equipo_tipo">Tipo</string>
     <string name="equipo_ubicacion">Ubicacion</string>
+    <string name="create_ticket_tv_portada">Crear un nuevo ticket:</string>
+    <string name="titulo">Título</string>
+    <string name="create_ticket_descripcion">Descripción</string>
+    <string name="create_text_boton_subir_imagen">Adjuntar imagen</string>
+    <string name="create_ticket_boton_tecnico">Asignar a un técnico</string>
+    <string name="create_ticket_boton_equipo">Asignar a un equiipo</string>
+    <string name="create_ticket_boton_terminar">Registrar ticket</string>
+    <string name="fragment_ticket_por_asignar">Aún por asignar</string>
 </resources>
