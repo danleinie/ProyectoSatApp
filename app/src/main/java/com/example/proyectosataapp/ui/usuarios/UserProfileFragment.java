@@ -92,22 +92,37 @@ public class UserProfileFragment extends Fragment {
         createdAt = v.findViewById(R.id.txCreatedAtDetalle);
         progressBar = v.findViewById(R.id.progressBarImgPerfil);
         role = v.findViewById(R.id.txRoleDetalle);
-        email.setText(usuarioLogeado.getEmail());
+        if (usuarioLogeado.getEmail().length()>20){
+            email.setText(usuarioLogeado.getEmail());
+            email.setTextSize(12);
+        }else {
+            email.setText(usuarioLogeado.getEmail());
+        }
         nombre.setText(usuarioLogeado.getName());
         role.setText(usuarioLogeado.getRole().toUpperCase());
         createdAt.setText(usuarioLogeado.getCreatedAt());
 
-        usuarioViewModel.getImg(usuarioLogeado.getId()).observe(this, new Observer<ResponseBody>() {
-            @Override
-            public void onChanged(ResponseBody responseBody) {
-                progressBar.setVisibility(View.GONE);
-                Glide
-                        .with(MyApp.getCtx())
-                        .load(BitmapFactory.decodeStream(responseBody.byteStream()))
-                        .centerCrop()
-                        .into(imgPerfil);
-            }
-        });
+        if (usuarioLogeado.getPicture() == null){
+            progressBar.setVisibility(View.GONE);
+            Glide
+                    .with(MyApp.getCtx())
+                    .load("https://recursospracticos.com/wp-content/uploads/2017/10/Sin-foto-de-perfil-en-Facebook.jpg")
+                    .centerCrop()
+                    .into(imgPerfil);
+        }else {
+            usuarioViewModel.getImg(usuarioLogeado.getId()).observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(ResponseBody responseBody) {
+                    progressBar.setVisibility(View.GONE);
+                    Glide
+                            .with(MyApp.getCtx())
+                            .load(BitmapFactory.decodeStream(responseBody.byteStream()))
+                            .centerCrop()
+                            .into(imgPerfil);
+                }
+            });
+        }
+
 
         imgPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +205,7 @@ public class UserProfileFragment extends Fragment {
                         usuarioViewModel.updatePhoto(usuarioLogeado.getId(),body).observe(getActivity(), new Observer<UserResponseRegister>() {
                             @Override
                             public void onChanged(UserResponseRegister userResponseRegister) {
-                                Toast.makeText(getActivity(), "Foto actualizada", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MyApp.getCtx(), "Foto actualizada", Toast.LENGTH_SHORT).show();
                             }
                         });
 

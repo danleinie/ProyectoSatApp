@@ -60,22 +60,36 @@ public class DetailsUserActivity extends AppCompatActivity {
         createdAt = findViewById(R.id.txCreatedAtDetalle);
         progressBar = findViewById(R.id.progressBarImgPerfil);
         role = findViewById(R.id.txRoleDetalle);
-        email.setText(userResponseRegister.getEmail());
+        if (userResponseRegister.getEmail().length()>20){
+            email.setText(userResponseRegister.getEmail());
+            email.setTextSize(12);
+        }else {
+            email.setText(userResponseRegister.getEmail());
+        }
         nombre.setText(userResponseRegister.getName());
         role.setText(userResponseRegister.getRole().toUpperCase());
         createdAt.setText(userResponseRegister.getCreatedAt());
 
-        usuarioViewModel.getImg(userResponseRegister.getId()).observe(this, new Observer<ResponseBody>() {
-            @Override
-            public void onChanged(ResponseBody responseBody) {
-                progressBar.setVisibility(View.GONE);
-                Glide
-                        .with(MyApp.getCtx())
-                        .load(BitmapFactory.decodeStream(responseBody.byteStream()))
-                        .centerCrop()
-                        .into(imgPerfil);
-            }
-        });
+        if (userResponseRegister.getPicture() == null){
+            progressBar.setVisibility(View.GONE);
+            Glide
+                    .with(MyApp.getCtx())
+                    .load("https://recursospracticos.com/wp-content/uploads/2017/10/Sin-foto-de-perfil-en-Facebook.jpg")
+                    .centerCrop()
+                    .into(imgPerfil);
+        }else {
+            usuarioViewModel.getImg(userResponseRegister.getId()).observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(ResponseBody responseBody) {
+                    progressBar.setVisibility(View.GONE);
+                    Glide
+                            .with(MyApp.getCtx())
+                            .load(BitmapFactory.decodeStream(responseBody.byteStream()))
+                            .centerCrop()
+                            .into(imgPerfil);
+                }
+            });
+        }
     }
 
     @Override

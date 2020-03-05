@@ -43,7 +43,7 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     private static final int READ_REQUEST_CODE = 42;
-    EditText email,username,password;
+    EditText email,username,password,confirmPassword;
     TextView backToSignIn;
     Button btnRegister;
     UserService servicio;
@@ -62,9 +62,11 @@ public class RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         username = findViewById(R.id.usernameRegister);
         password = findViewById(R.id.passwordRegister);
+        confirmPassword = findViewById(R.id.confirmPasswordRegister);
         btnRegister = findViewById(R.id.btnRegisterInRegister);
         imgFotoPerfil = findViewById(R.id.imgFotoPerfil);
         backToSignIn = findViewById(R.id.txBackToSignIn);
+        MultipartBody.Part body = null;
         uriSelected = null;
 
         backToSignIn.setOnClickListener(new View.OnClickListener() {
@@ -88,30 +90,33 @@ public class RegisterActivity extends AppCompatActivity {
 
                     Toast.makeText(RegisterActivity.this, "Debe rellenar todos los campos", Toast.LENGTH_SHORT).show();
 
-                } else {
+                } else if (!password.getText().toString().equals(confirmPassword.getText().toString())){
+                    Toast.makeText(RegisterActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
 
+            }else if (password.getText().toString().length()<6){
+                    Toast.makeText(RegisterActivity.this, "Las contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
+
+                }else {
                     if (uriSelected != null) {
-
                         try {
-                            InputStream inputStream = getContentResolver().openInputStream(uriSelected);
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-                            int cantBytes;
-                            byte[] buffer = new byte[1024*4];
+                                InputStream inputStream = getContentResolver().openInputStream(uriSelected);
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                                int cantBytes;
+                                byte[] buffer = new byte[1024 * 4];
 
-                            while ((cantBytes = bufferedInputStream.read(buffer,0,1024*4)) != -1) {
-                                baos.write(buffer,0,cantBytes);
-                            }
-
-
-                            RequestBody requestFile =
-                                    RequestBody.create(baos.toByteArray(),
-                                            MediaType.parse(getContentResolver().getType(uriSelected)));
+                                while ((cantBytes = bufferedInputStream.read(buffer, 0, 1024 * 4)) != -1) {
+                                    baos.write(buffer, 0, cantBytes);
+                                }
 
 
-                            MultipartBody.Part body =
-                                    MultipartBody.Part.createFormData("avatar", nombreFichero, requestFile);
+                                RequestBody requestFile =
+                                        RequestBody.create(baos.toByteArray(),
+                                                MediaType.parse(getContentResolver().getType(uriSelected)));
 
+
+                                MultipartBody.Part body =
+                                        MultipartBody.Part.createFormData("avatar", nombreFichero, requestFile);
 
                             RequestBody emailRequest = RequestBody.create(email.getText().toString(),MultipartBody.FORM);
                             RequestBody usernameRequest = RequestBody.create(username.getText().toString(),MultipartBody.FORM);
@@ -145,6 +150,30 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
 
+                    } else {
+                        RequestBody emailRequest = RequestBody.create(email.getText().toString(),MultipartBody.FORM);
+                        RequestBody usernameRequest = RequestBody.create(username.getText().toString(),MultipartBody.FORM);
+                        RequestBody passwordRequest = RequestBody.create(password.getText().toString(),MultipartBody.FORM);
+
+
+                        Call<UserResponseRegister> callRegister = servicio.register(Constantes.MASTER_KEY, emailRequest,passwordRequest,usernameRequest,null);
+
+                        callRegister.enqueue(new Callback<UserResponseRegister>() {
+                            @Override
+                            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                                if (response.isSuccessful()) {
+                                    Log.i("registrocorrecto", ""+response.body());
+                                    finish();
+                                } else {
+                                    Log.e("Upload error", response.errorBody().toString());
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+                                Log.e("Upload error", t.getMessage());
+                            }
+                        });
                     }
                 }
             }
