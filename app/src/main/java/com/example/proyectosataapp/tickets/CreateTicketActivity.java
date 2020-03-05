@@ -3,6 +3,7 @@ package com.example.proyectosataapp.tickets;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
@@ -22,6 +23,8 @@ import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.models.UserResponseRegister;
+import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.example.proyectosataapp.viewModel.CreateTicketViewModel;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 import com.example.proyectosataapp.viewModel.TicketViewModel;
@@ -31,6 +34,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -44,12 +49,14 @@ public class CreateTicketActivity extends AppCompatActivity {
     private Button botonTecnico, botonEquipo, botonEnviar;
     private ImageView ivFoto;
     private Uri uriFoto;
-    private String titulo, descripcion, nombreFichero;
+    private String nombreFichero;
     private CreateTicketViewModel createTicketViewModel;
     private EquipoViewModel equipoViewModel;
+    private UsuarioViewModel usuarioViewModel;
     private Bundle extraData;
     private RequestBody tituloRequest, descripcionRequest, idTecnicoRequest, idEquipoRequest;
     private MultipartBody.Part fotosPart;
+    private List<UserResponseRegister> tecnicos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +94,9 @@ public class CreateTicketActivity extends AppCompatActivity {
 
         equipoViewModel = new ViewModelProvider(this)
                 .get(EquipoViewModel.class);
+
+        usuarioViewModel = new ViewModelProvider(this)
+                .get(UsuarioViewModel.class);
 
         botonEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,10 +151,16 @@ public class CreateTicketActivity extends AppCompatActivity {
             public void onClick(View v) {
                 DialogFragment dialogSeleccion = new DialogSeleccionarTecnico();
                 Bundle bundleTecnicos = new Bundle();
-
+                bundleTecnicos.putString(Constantes.TIPO_SELECCION, Constantes.TECNICO);
+                dialogSeleccion.setArguments(bundleTecnicos);
+                dialogSeleccion.show(getSupportFragmentManager(), "SeleccionarTecnicoFragment");
             }
         });
 
+    }
+
+    public List<UserResponseRegister> getTecnicos() {
+        return tecnicos;
     }
 
     public RequestBody getIdTecnicoRequest() {

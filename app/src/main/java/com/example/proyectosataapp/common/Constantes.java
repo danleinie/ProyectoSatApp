@@ -9,6 +9,8 @@ public class Constantes {
     public static final String ID_USER_LOGEADO = "IDUSER";
     public static final String EXTRA_ID_EQUIPO = "idEquipo";
     public static final String DETALLE_EQUIPO_ACTIVITY_CLASS_NAME = "DetalleEquipoActivity";
-
+    public static final String TIPO_SELECCION= "tipoSeleccion";
+    public static final String TECNICO = "tecnico";
+    public static final String EQUIPO = "equipo";
 }
 
