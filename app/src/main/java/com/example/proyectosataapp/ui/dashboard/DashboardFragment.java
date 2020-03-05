@@ -17,6 +17,7 @@ import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.tickets.CreateTicketActivity;
 
 public class DashboardFragment extends Fragment {
+    final static int CREAR_TICKET_REQUEST = 2;
 
     private DashboardViewModel dashboardViewModel;
     private Button crearTicketButton;
@@ -32,7 +33,7 @@ public class DashboardFragment extends Fragment {
         crearTicketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), CreateTicketActivity.class));
+                startActivityForResult(new Intent(getActivity(), CreateTicketActivity.class), CREAR_TICKET_REQUEST);
             }
         });
 

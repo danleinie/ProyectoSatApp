@@ -14,6 +14,7 @@ import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
+import com.example.proyectosataapp.tickets.CreateTicketActivity;
 import com.example.proyectosataapp.tickets.TicketFragment;
 import com.example.proyectosataapp.ui.home.HomeFragment;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
@@ -28,6 +29,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,11 +43,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetalleEquipoActivity extends AppCompatActivity implements TicketFragment.OnListFragmentInteractionListener {
+    static final int CREAR_TICKET_REQUEST = 1;
+
     String idEquipo;
     EquipoService service;
     EquipoViewModel equipoViewModel;
     ServiceGenerator serviceGenerator;
     DetalleEquipoViewModel detalleEquipoViewModel;
+    @BindView(R.id.boton_detalle_equipo_crear_ticket) FloatingActionButton botonCrearTicket;
     @BindView(R.id.textView_detalle_equipo_nombre) TextView tvNombre;
     @BindView(R.id.textView_detalle_equipo_tipo) TextView tvTipo;
     @BindView(R.id.textView_detalle_equipo_ubicacion) TextView tvUbicacion;
@@ -94,8 +99,15 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
 
         equipoViewModel = new ViewModelProvider(this).get(EquipoViewModel.class);
 
-
-
+        botonCrearTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent crearTicketIntent = new Intent(DetalleEquipoActivity.this, CreateTicketActivity.class);
+                crearTicketIntent.putExtra("idEquipo", idEquipo);
+                crearTicketIntent.putExtra("nombreClase", getLocalClassName());
+                startActivityForResult(crearTicketIntent, CREAR_TICKET_REQUEST);
+            }
+        });
         Intent i = new Intent(MyApp.getCtx(), HomeFragment.class);
         i.putExtra(Constantes.EXTRA_ID_EQUIPO, " ");
     }

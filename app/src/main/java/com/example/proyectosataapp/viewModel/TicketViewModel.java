@@ -23,7 +23,6 @@ public class TicketViewModel extends AndroidViewModel {
         repositorio = new TicketRepository();
     }
 
-    public LiveData<Ticket> postTicket(RequestBody titulo, RequestBody descripcion) {return repositorio.postTicket(titulo, descripcion);}
 
     public LiveData<List<Ticket>> getTickets() {return repositorio.getTickets();}
 

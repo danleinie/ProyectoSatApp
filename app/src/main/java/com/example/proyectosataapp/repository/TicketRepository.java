@@ -15,8 +15,10 @@ import com.example.proyectosataapp.services.TicketService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.tickets.TicketAdapter;
 
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,11 +86,20 @@ public class TicketRepository {
         return data;
     }
 
-    public LiveData<Ticket> postTicket(RequestBody titulo, RequestBody descripcion) {
+    public LiveData<Ticket> postTicket(RequestBody titulo, RequestBody descripcion, RequestBody tecnico_id, RequestBody inventariable, MultipartBody.Part fotos) {
 
         final MutableLiveData<Ticket> data = new MutableLiveData<>();
 
-        Call<Ticket> call = servicio.postTicket(titulo, descripcion);
+        try {
+            if (tecnico_id.contentLength() == 0)
+                tecnico_id = null;
+
+            if (inventariable.contentLength() == 0)
+                inventariable = null;
+
+        } catch (IOException e) {e.printStackTrace();}
+
+        Call<Ticket> call = servicio.postTicket(titulo, descripcion, tecnico_id, inventariable, fotos);
 
         call.enqueue(new Callback<Ticket>() {
             @Override
@@ -104,8 +115,8 @@ public class TicketRepository {
 
             @Override
             public void onFailure(Call<Ticket> call, Throwable t) {
-                Log.e("Response", "Respuesta no realizada");
-                Toast.makeText(MyApp.getCtx(), "Algo fue MUY mal", Toast.LENGTH_SHORT).show();
+                Log.e("Response", "Respuesta no realizada" + t.getMessage());
+                Toast.makeText(MyApp.getCtx(), "Algo fue MUY mal" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
