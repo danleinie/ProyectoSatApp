@@ -1,10 +1,8 @@
 package com.example.proyectosataapp.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
+import java.util.List;
+
 public class EquipoResponse {
     private String id;
     private String nombre;
@@ -12,6 +10,8 @@ public class EquipoResponse {
     private String descripcion;
     private String ubicacion;
     private String imagen;
+    //Atributo propio para filtro
+    private List<String> palabrasClaves;
 
     public EquipoResponse(String id, String nombre, String tipo, String descripcion, String ubicacion, String imagen) {
         this.id = id;
@@ -34,6 +34,14 @@ public class EquipoResponse {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public List<String> getPalabrasClaves() {
+        return palabrasClaves;
+    }
+
+    public void setPalabrasClaves(List<String> palabrasClaves) {
+        this.palabrasClaves = palabrasClaves;
     }
 
     public String getNombre() {

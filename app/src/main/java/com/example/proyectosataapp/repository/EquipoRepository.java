@@ -42,6 +42,14 @@ public class EquipoRepository {
             public void onResponse(Call<List<EquipoResponse>> call, Response<List<EquipoResponse>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
+                    for (EquipoResponse equipo: data.getValue()
+                         ) {
+                        List <String> palabras = new ArrayList<>();
+                        palabras.add(equipo.getNombre());
+                        palabras.add(equipo.getUbicacion());
+                        palabras.add(equipo.getTipo());
+                        equipo.setPalabrasClaves(palabras);
+                    }
                 } else {
                     Toast.makeText(MyApp.getCtx(), "Error on the response from the Api", Toast.LENGTH_SHORT).show();
                 }

@@ -1,5 +1,6 @@
 package com.example.proyectosataapp.tickets;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.proyectosataapp.models.Ticket;
@@ -19,14 +20,12 @@ public class TicketActivity extends AppCompatActivity implements TicketFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(TicketActivity.this, CreateTicketActivity.class));
             }
         });
     }

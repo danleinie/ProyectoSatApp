@@ -1,17 +1,20 @@
-package com.example.proyectosataapp.equipos;
+package com.example.proyectosataapp;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
@@ -19,6 +22,7 @@ import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -36,6 +40,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
         mValues = equipoResponses;
         this.equipoViewModel = equipoViewModel;
         service = serviceGenerator.createService(EquipoService.class);
+
     }
 
     @Override
@@ -49,12 +54,6 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        /*Glide
-                .with(context)
-                .load(service.imagenEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN), ))
-                .centerCrop()
-                .into(holder.ivImagen);*/
-
         holder.tvNombre.setText(holder.mItem.getNombre());
         holder.tvUbicacion.setText(holder.mItem.getUbicacion());
 
@@ -65,6 +64,7 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
 
                 if (null != equipoViewModel) {
                     equipoViewModel.setIdEquipoSeleccionado(holder.mItem.getId());
+                    SharedPreferencesManager.setStringValue(Constantes.EXTRA_ID_EQUIPO, holder.mItem.getId());
                 }
 
             }
@@ -89,6 +89,40 @@ public class MyEquipoRecyclerViewAdapter extends RecyclerView.Adapter<MyEquipoRe
             return 0;
         }
     }
+/*
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+
+            List<EquipoResponse> filteredList = new ArrayList<>();
+
+            if (charSequence.toString().isEmpty()){
+                filteredList.addAll(listAll);
+            }else{
+                for (EquipoResponse equipo : listAll){
+                    if (equipo.getUbicacion().toLowerCase().contains(charSequence.toString().toLowerCase())){
+                        filteredList.add(equipo);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults filterResults) {
+            mValues.clear();
+            mValues.addAll((Collection<? extends EquipoResponse>) filterResults.values);
+            notifyDataSetChanged();
+
+        }
+    };*/
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;

@@ -30,7 +30,7 @@ public class Ticket {
     private List<Object> anotaciones = null;
     @SerializedName("asignaciones")
     @Expose
-    private List<Object> asignaciones = null;
+    private List<TicketAsignacion> asignaciones = null;
     @SerializedName("fotos")
     @Expose
     private List<Object> fotos = null;
@@ -40,6 +40,9 @@ public class Ticket {
     @SerializedName("updatedAt")
     @Expose
     private String updatedAt;
+    @SerializedName("inventariable")
+    @Expose
+    private String inventariableId;
 
     public String getId() {
         return id;
@@ -97,11 +100,19 @@ public class Ticket {
         this.anotaciones = anotaciones;
     }
 
-    public List<Object> getAsignaciones() {
+    public List<TicketAsignacion> getAsignaciones() {
         return asignaciones;
     }
 
-    public void setAsignaciones(List<Object> asignaciones) {
+    public void setInventariableId(String inventariableId) {
+        this.inventariableId = inventariableId;
+    }
+
+    public String getInventariableId() {
+        return inventariableId;
+    }
+
+    public void setAsignaciones(List<TicketAsignacion> asignaciones) {
         this.asignaciones = asignaciones;
     }
 
@@ -129,4 +140,20 @@ public class Ticket {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id='" + id + '\'' +
+                ", creadoPor=" + creadoPor +
+                ", fechaCreacion='" + fechaCreacion + '\'' +
+                ", estado='" + estado + '\'' +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", anotaciones=" + anotaciones +
+                ", asignaciones=" + asignaciones +
+                ", fotos=" + fotos +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
+    }
 }

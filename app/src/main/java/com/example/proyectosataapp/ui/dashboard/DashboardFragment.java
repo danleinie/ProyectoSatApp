@@ -1,47 +1,61 @@
 package com.example.proyectosataapp.ui.dashboard;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
 
-import com.example.proyectosataapp.DetalleEquipoActivity;
-import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
-import com.example.proyectosataapp.common.Constantes;
-import com.example.proyectosataapp.common.MyApp;
-import com.example.proyectosataapp.equipos.MyEquipoRecyclerViewAdapter;
-import com.example.proyectosataapp.models.EquipoResponse;
-import com.example.proyectosataapp.viewModel.EquipoViewModel;
-
-import java.util.List;
+import com.example.proyectosataapp.tickets.CreateTicketActivity;
 
 public class DashboardFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
-    private EquipoViewModel equipoViewModel;
-    MyEquipoRecyclerViewAdapter adapter;
-    RecyclerView recyclerView;
+    private DashboardViewModel dashboardViewModel;
+    private Button crearTicketButton;
 
-    /**
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        dashboardViewModel =
+                ViewModelProviders.of(this).get(DashboardViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        crearTicketButton = root.findViewById(R.id.fragmentDashboardBotonCrearTicket);
+
+        crearTicketButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), CreateTicketActivity.class));
+            }
+        });
+
+        return root;
+    }
+
+
+
+
+
+
+   /* // TODO: Customize parameter argument names
+        private static final String ARG_COLUMN_COUNT = "column-count";
+        // TODO: Customize parameters
+        private int mColumnCount = 1;
+        private EquipoViewModel equipoViewModel;
+        MyEquipoRecyclerViewAdapter adapter;
+        RecyclerView recyclerView;
+
+    *//**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
-     */
+     *//*
     public DashboardFragment() {
     }
 
@@ -80,7 +94,7 @@ public class DashboardFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_equipo_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -123,5 +137,5 @@ public class DashboardFragment extends Fragment {
         super.onPause();
         Toast.makeText(getActivity(), "onPause()", Toast.LENGTH_SHORT).show();
     }
-
+*/
 }

@@ -1,6 +1,10 @@
 package com.example.proyectosataapp;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.SearchView;
 
 import android.view.View;
 
@@ -16,9 +20,12 @@ import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.example.proyectosataapp.common.MyApp;
+import com.example.proyectosataapp.viewModel.EquipoViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuItemCompat;
@@ -28,6 +35,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -45,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        nuevoEquipo = findViewById(R.id.nuevoEquipo);
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
 
@@ -57,16 +65,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
-
-
-        nuevoEquipo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                NuevoEquipoDialogFragMent dialog = new NuevoEquipoDialogFragMent();
-                dialog.show(getSupportFragmentManager(), "NuevoEquipoDialogFragMent");
-            }
-        });
 
         //Código para poner un badge de notificación
         BottomNavigationMenuView bottomNavigationMenuView =
@@ -132,5 +130,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    }
 
-}

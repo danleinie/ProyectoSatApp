@@ -4,12 +4,15 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
+import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.repository.EquipoRepository;
+import com.example.proyectosataapp.repository.TicketRepository;
 
 
 import java.util.List;
@@ -19,10 +22,12 @@ public class EquipoViewModel extends AndroidViewModel {
     MutableLiveData<List<EquipoResponse>> equipos;
     EquipoRepository equipoRepository;
     MutableLiveData<String> idEquipoSeleccionado;
+    TicketRepository ticketRepository;
 
     public EquipoViewModel(@NonNull Application application) {
         super(application);
         equipoRepository = new EquipoRepository();
+        ticketRepository = new TicketRepository();
         this.idEquipoSeleccionado =new MutableLiveData<>();
         this.idEquipoSeleccionado.setValue(null);
     }
@@ -38,8 +43,8 @@ public class EquipoViewModel extends AndroidViewModel {
         equipoRepository.deleteEquipo(id);
     }
 
-    public void setIdEquipoSeleccionado(String idSerieSeleccionada) {
-        this.idEquipoSeleccionado.setValue(idSerieSeleccionada);
+    public void setIdEquipoSeleccionado(String idEquipoSeleccionado) {
+        this.idEquipoSeleccionado.setValue(idEquipoSeleccionado);
     }
 
     public MutableLiveData<String> getIdEquipoSeleccionado() {
@@ -50,7 +55,10 @@ public class EquipoViewModel extends AndroidViewModel {
     public void insertEquipo(String ubicacion, String nombre, String tipo, String descripcion) {
         equipoRepository.createEquipo(ubicacion,nombre,tipo,descripcion);
     }
-    public void editarEquipo(RequestEquipo requestEquipo){
-        equipoRepository.editarEquipo(requestEquipo);
+
+    // By Álvaro Márquez
+    public LiveData<List<Ticket>> getTicketsByInventariable(String id) {
+        return ticketRepository.getTicketsByInventariable(id);
     }
+
 }
