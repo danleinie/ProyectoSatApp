@@ -25,4 +25,6 @@ public interface EquipoService {
     @GET("/inventariable/{id}")
     Call<EquipoResponse> getEquipo(@Path("id") String idEquipo, @Query("access_token") String masterKey);
 
+    @GET("/inventariable/ubicaciones")
+    Call<List<String>> getUbicaciones(@Query("access_token") String masterKey);
 }

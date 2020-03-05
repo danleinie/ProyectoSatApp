@@ -38,5 +38,8 @@ public class EquipoViewModel extends AndroidViewModel {
         return idEquipoSeleccionado;
     }
 
+    public MutableLiveData<List<String>> getUbicaciones(){
+        return equipoRepository.getUbicaciones();
+    }
 
 }

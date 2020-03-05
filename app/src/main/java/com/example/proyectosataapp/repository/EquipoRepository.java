@@ -43,6 +43,15 @@ public class EquipoRepository {
                     data.setValue(response.body());
                     for (EquipoResponse equipo: data.getValue()
                          ) {
+                        if (equipo.getNombre()==null||equipo.getNombre().isEmpty()){
+                            equipo.setNombre("Unknow");
+                        }
+                        if (equipo.getTipo()==null||equipo.getTipo().isEmpty()){
+                            equipo.setTipo("Unknow");
+                        }
+                        if (equipo.getUbicacion()==null||equipo.getUbicacion().isEmpty()){
+                            equipo.setUbicacion("Unknow");
+                        }
                         List <String> palabras = new ArrayList<>();
                         palabras.add(equipo.getNombre());
                         palabras.add(equipo.getUbicacion());
@@ -82,4 +91,25 @@ public class EquipoRepository {
 
         return data;
     }
+
+    public MutableLiveData<List<String>> getUbicaciones(){
+
+        final  MutableLiveData<List<String>> data = new MutableLiveData<>();
+        Call <List<String>> call = service.getUbicaciones(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                data.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+
+            }
+        });
+        return data;
+    }
+
+
 }
