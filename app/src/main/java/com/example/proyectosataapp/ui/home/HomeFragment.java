@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.audiofx.DynamicsProcessing;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -28,6 +30,7 @@ import com.example.proyectosataapp.MyEquipoRecyclerViewAdapter;
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
+import com.example.proyectosataapp.equipos.DialogFilterUbication;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
@@ -43,7 +46,7 @@ public class HomeFragment extends Fragment implements IFiltroListener {
         private EquipoViewModel equipoViewModel;
         MyEquipoRecyclerViewAdapter adapter;
         RecyclerView recyclerView;
-        MenuItem itemLimpiarFiltro, busqueda;
+        MenuItem  busqueda;
         List<EquipoResponse> listadoEquipos;
 
     public HomeFragment() {
@@ -116,7 +119,7 @@ public class HomeFragment extends Fragment implements IFiltroListener {
             @Override
             public void onChanged(List<EquipoResponse> equipoResponses) {
                 adapter.setData(equipoResponses);
-                listadoEquipos = equipoResponses;
+                listadoEquipos =  equipoResponses;
             }
         });
     }
@@ -128,11 +131,13 @@ public class HomeFragment extends Fragment implements IFiltroListener {
     }
 
     @Override
-    public void onClickFiltros(String filtro, String tipo) {
-        itemLimpiarFiltro.setVisible(true);
+    public void onClickFiltros(String filtro) {
+        Log.i("filtro", filtro);
+        llamadaBusqueda(filtro);
+
     }
 
-    public List<EquipoResponse> llamadaFiltro(String palabraClave){
+    public List<EquipoResponse> llamadaBusqueda(String palabraClave){
         List<EquipoResponse> result = new ArrayList<>();
         for (EquipoResponse equipo : listadoEquipos ){
             for (String palabraClaveList : equipo.getPalabrasClaves()){
@@ -143,6 +148,7 @@ public class HomeFragment extends Fragment implements IFiltroListener {
                 }
             }
         }
+        adapter.setData(result); 
         return result;
     }
 
@@ -163,7 +169,7 @@ public class HomeFragment extends Fragment implements IFiltroListener {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                List<EquipoResponse> lista = llamadaFiltro(newText);
+                List<EquipoResponse> lista = llamadaBusqueda(newText);
                 cargarBusqueda(lista);
 
                 return false;
@@ -173,8 +179,15 @@ public class HomeFragment extends Fragment implements IFiltroListener {
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            DialogFragment dialogoUbicacion =new DialogFilterUbication();
+            dialogoUbicacion.setTargetFragment(this,0);
+            dialogoUbicacion.show(Objects.requireNonNull(getFragmentManager()),"FiltroMonedaFragment");
+
+        Toast.makeText( MyApp.getCtx(), "Filtro", Toast.LENGTH_SHORT).show();
+
         return super.onOptionsItemSelected(item);
     }
+
 
     public void cargarBusqueda (List<EquipoResponse> listaFiltrada){
         adapter.setData(listaFiltrada);
