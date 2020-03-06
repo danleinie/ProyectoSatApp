@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".equipos.EditarEquipoActivity"></activity>
+        <activity android:name=".equipos.NuevoEquipoActivity"></activity>
+        <activity android:name=".equipos.EditarEquipoActivity" />
         <activity
             android:name=".DetalleEquipoActivity"
             android:label="@string/title_activity_detalle_equipo"

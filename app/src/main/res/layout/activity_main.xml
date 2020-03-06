@@ -40,6 +40,7 @@
         android:layout_marginBottom="@android:dimen/notification_large_icon_height"
         android:clickable="true"
         android:src="@drawable/ic_add_black_24dp"
+        app:backgroundTint="#039BE5"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="@+id/nav_host_fragment" />
 

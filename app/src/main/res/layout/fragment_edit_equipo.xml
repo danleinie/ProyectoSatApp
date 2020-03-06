@@ -65,22 +65,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="56dp"
+        android:background="#039BE5"
         android:text="ACEPTAR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toEndOf="@+id/Cancelar"
         app:layout_constraintTop_toBottomOf="@+id/Descripcion"
-        app:layout_constraintVertical_bias="0.308" />
+        app:layout_constraintVertical_bias="0.177" />
 
     <Button
         android:id="@+id/Cancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
+        android:backgroundTint="#039BE5"
         android:text="CANCELAR"
         app:layout_constraintBottom_toBottomOf="@+id/Aceptar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Aceptar"
         app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/ImagenEditar"
+        android:layout_width="193dp"
+        android:layout_height="86dp"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toTopOf="@+id/nombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.824" />
 </androidx.constraintlayout.widget.ConstraintLayout>

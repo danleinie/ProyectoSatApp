@@ -1,10 +1,8 @@
 package com.example.proyectosataapp;
 
-import android.app.Dialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -13,27 +11,17 @@ import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.equipos.EditEquipoFragment;
-import com.example.proyectosataapp.equipos.EditarEquipoActivity;
 import com.example.proyectosataapp.models.EquipoResponse;
-import com.example.proyectosataapp.repository.EquipoRepository;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.example.proyectosataapp.viewModel.EquipoViewModel;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +38,7 @@ public class DetalleEquipoActivity extends AppCompatActivity{
     EquipoService service;
     ServiceGenerator serviceGenerator;
     DetalleEquipoViewModel detalleEquipoViewModel;
+
     @BindView(R.id.textView_detalle_equipo_nombre)
     TextView tvNombre;
     @BindView(R.id.textView_detalle_equipo_tipo)

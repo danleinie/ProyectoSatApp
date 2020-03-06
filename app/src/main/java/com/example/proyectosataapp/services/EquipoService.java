@@ -13,6 +13,7 @@ import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -38,18 +39,14 @@ public interface EquipoService {
     @DELETE("/inventariable/{id}") //TODO el acces token es momentaneo
     Call<EquipoResponse> eliminarEquipo(@Path("id") String id,@Query("access_token") String masterKey);
 
-
-    Call<EquipoResponse> crearEquipo(@Body RequestEquipo requestEquipo);
-
     @Multipart
     @POST("/inventariable")
-    Call<EquipoResponse> crearEquipo(@Part("nombre") RequestBody nombre,
-                                        @Part("descripcion") RequestBody descripcion,
-                                        @Part("ubicacion") RequestBody ubicacion,
-                                        @Part("tipo") RequestBody tipo,
-                                        @Part MultipartBody.Part imagen
-    );
-
+    Call<ResponseBody> crearEquipo(@Part MultipartBody.Part imagen,
+                                   @Part("ubicacion") RequestBody ubicacion,
+                                   @Part("tipo") RequestBody tipo,
+                                   @Part("nombre") RequestBody nombre,
+                                   @Part("descripcion") RequestBody descripcion,
+                                   @Query("access_token") String masterKey);
 
     @PUT("/inventariable/{id}")
     Call<EquipoResponse> editarEquipo(@Path("id") String idEquipo,@Body RequestEquipo requestEquipo,@Query("access_token") String masterKey);

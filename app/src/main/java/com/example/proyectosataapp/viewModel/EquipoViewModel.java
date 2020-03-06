@@ -31,9 +31,6 @@ public class EquipoViewModel extends AndroidViewModel {
         equipos = equipoRepository.getEquipos();
         return equipos;
     }
-    public void insertEquipo(String url,String ubicacion,String nombre, String tipo,String descripcion){
-        equipoRepository.createEquipo(url,ubicacion,nombre,tipo,descripcion);
-    }
 
     public void setIdEquipoSeleccionado(String idSerieSeleccionada) {
         this.idEquipoSeleccionado.setValue(idSerieSeleccionada);

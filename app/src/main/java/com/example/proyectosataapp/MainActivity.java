@@ -1,17 +1,16 @@
 package com.example.proyectosataapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
 
-import com.example.proyectosataapp.equipos.NuevoEquipoDialogFragMent;
+import com.example.proyectosataapp.common.MyApp;
+import com.example.proyectosataapp.equipos.NuevoEquipoActivity;
+
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
@@ -20,8 +19,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -63,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         nuevoEquipo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NuevoEquipoDialogFragMent dialog = new NuevoEquipoDialogFragMent();
-                dialog.show(getSupportFragmentManager(), "NuevoEquipoDialogFragMent");
+                Intent i = new Intent(MyApp.getCtx(), NuevoEquipoActivity.class);
+                startActivity(i);
             }
         });
 
