@@ -39,6 +39,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -57,6 +60,7 @@ public class UserProfileFragment extends Fragment {
     String nombreFichero;
     View v;
     MenuItem cambiarPassword;
+    int idLayoutProfile = 0;
 
     public UserProfileFragment() {
         // Required empty public constructor
@@ -73,14 +77,17 @@ public class UserProfileFragment extends Fragment {
         usuarioViewModel.getUserLogeado().observeForever(new Observer<UserResponseRegister>() {
             @Override
             public void onChanged(UserResponseRegister userResponseRegister) {
-                v = inflater.inflate(R.layout.fragment_profile_user, container, false);
-                imgPerfil = v.findViewById(R.id.imageViewPerfil);
-                editName = v.findViewById(R.id.editName);
-                email = v.findViewById(R.id.txEmailDetalle);
-                nombre = v.findViewById(R.id.txNombreDetalle);
-                createdAt = v.findViewById(R.id.txCreatedAtDetalle);
-                progressBar = v.findViewById(R.id.progressBarImgPerfil);
-                role = v.findViewById(R.id.txRoleDetalle);
+                if (idLayoutProfile != R.layout.fragment_profile_user){
+                    idLayoutProfile = R.layout.fragment_profile_user;
+                    v = inflater.inflate(R.layout.fragment_profile_user, container, false);
+                    imgPerfil = v.findViewById(R.id.imageViewPerfil);
+                    editName = v.findViewById(R.id.editName);
+                    email = v.findViewById(R.id.txEmailDetalle);
+                    nombre = v.findViewById(R.id.txNombreDetalle);
+                    createdAt = v.findViewById(R.id.txCreatedAtDetalle);
+                    progressBar = v.findViewById(R.id.progressBarImgPerfil);
+                    role = v.findViewById(R.id.txRoleDetalle);
+                }
                 usuarioLogeado = userResponseRegister;
                 loadData();
                 //Toast.makeText(MyApp.getCtx(), userResponseRegister.getName(), Toast.LENGTH_SHORT).show();
@@ -105,7 +112,19 @@ public class UserProfileFragment extends Fragment {
         }
         nombre.setText(usuarioLogeado.getName());
         role.setText(usuarioLogeado.getRole().toUpperCase());
-        createdAt.setText(usuarioLogeado.getCreatedAt());
+
+        Date fechaOriginal = new Date();
+        SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat formatoFinal = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            fechaOriginal = formatoOriginal.parse(usuarioLogeado.getCreatedAt());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String fechaFinal = formatoFinal.format(fechaOriginal);
+
+        createdAt.setText(fechaFinal.replace("-","/"));
 
         if (usuarioLogeado.getPicture() == null){
             progressBar.setVisibility(View.GONE);
@@ -170,7 +189,6 @@ public class UserProfileFragment extends Fragment {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri = null;
             if (data != null) {
-                Toast.makeText(MyApp.getCtx(), "Cargando imagen", Toast.LENGTH_SHORT).show();
                 uri = data.getData();
                 Glide
                         .with(this)

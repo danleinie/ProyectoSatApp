@@ -2,6 +2,7 @@ package com.example.proyectosataapp.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 public class SharedPreferencesManager {
 
@@ -21,5 +22,11 @@ public class SharedPreferencesManager {
 
     public static String getStringValue(String dataLabel){
         return getSharedPreferences().getString(dataLabel,null);
+    }
+
+    public static void removeStringValue(String dataLabel){
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        editor.remove(dataLabel);
+        editor.commit();
     }
 }

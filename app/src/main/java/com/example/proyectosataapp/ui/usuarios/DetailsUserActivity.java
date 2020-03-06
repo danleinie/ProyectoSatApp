@@ -24,6 +24,10 @@ import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import okhttp3.ResponseBody;
 
 public class DetailsUserActivity extends AppCompatActivity {
@@ -67,7 +71,19 @@ public class DetailsUserActivity extends AppCompatActivity {
         }
         nombre.setText(userResponseRegister.getName());
         role.setText(userResponseRegister.getRole().toUpperCase());
-        createdAt.setText(userResponseRegister.getCreatedAt());
+
+        Date fechaOriginal = new Date();
+        SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat formatoFinal = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            fechaOriginal = formatoOriginal.parse(userResponseRegister.getCreatedAt());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String fechaFinal = formatoFinal.format(fechaOriginal);
+
+        createdAt.setText(fechaFinal.replace("-","/"));
 
         if (userResponseRegister.getPicture() == null){
             progressBar.setVisibility(View.GONE);

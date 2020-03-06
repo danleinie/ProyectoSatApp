@@ -3,6 +3,7 @@ package com.example.proyectosataapp.servicesGenerators;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.interceptor.AccessTokenInterceptor;
 
 import java.io.IOException;
@@ -44,6 +45,12 @@ public class ServiceGenerator {
 
         if (!TextUtils.isEmpty(authToken)) {
             if (!httpClient.interceptors().contains(interceptor)){
+                interceptor = new AccessTokenInterceptor(authToken);
+                httpClient.addInterceptor(interceptor);
+                builder.client(httpClient.build());
+                retrofit = builder.build();
+            } else if (!authToken.equals(Constantes.LABEL_TOKEN)){
+                httpClient.interceptors().remove(interceptor);
                 interceptor = new AccessTokenInterceptor(authToken);
                 httpClient.addInterceptor(interceptor);
                 builder.client(httpClient.build());

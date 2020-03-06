@@ -21,6 +21,9 @@ public class User {
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
+    @SerializedName("role")
+    @Expose
+    private String role;
 
     /**
      * No args constructor for use in serialization
@@ -37,13 +40,14 @@ public class User {
      * @param picture
      * @param email
      */
-    public User(String id, String name, String picture, String email, String createdAt) {
+    public User(String id, String name, String picture, String email, String createdAt, String role) {
         super();
         this.id = id;
         this.name = name;
         this.picture = picture;
         this.email = email;
         this.createdAt = createdAt;
+        this.role = role;
     }
 
     public String getId() {
@@ -84,6 +88,14 @@ public class User {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
