@@ -2,6 +2,7 @@ package com.example.proyectosataapp.repository;
 
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.proyectosataapp.common.Constantes;
@@ -9,6 +10,7 @@ import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
+import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 
@@ -226,6 +228,25 @@ public class EquipoRepository {
                 Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public LiveData<EquipoResponse> borrarFotoEquipo(String idEquipo){
+        final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
+
+        service.borrarFotoEquipo(idEquipo).enqueue(new Callback<EquipoResponse>() {
+            @Override
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+
+            }
+        });
+        return data;
     }
 
 

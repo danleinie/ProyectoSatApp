@@ -43,7 +43,6 @@ public class ServiceGenerator {
     public static <S> S createService(Class<S> serviceClass, final String authToken) {
 
         if (!TextUtils.isEmpty(authToken)) {
-
             if (!httpClient.interceptors().contains(interceptor)){
                 interceptor = new AccessTokenInterceptor(authToken);
                 httpClient.addInterceptor(interceptor);

@@ -66,6 +66,7 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
     @BindView(R.id.imageView_detalle_equipo) CircularImageView ivFoto;
     @BindView(R.id.fragment_lista_tickets) RecyclerView listaTickets;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,19 +119,8 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
                 startActivityForResult(crearTicketIntent, CREAR_TICKET_REQUEST);
             }
         });
-
-
-       /* ticketViewModel.getTicketById(idTicket).observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String idTicket) {
-                Intent i = new Intent(MyApp.getCtx(), DetalleTicketActivity.class);
-                i.putExtra(Constantes.EXTRA_ID_TICKET, idTicket);
-                ticketViewModel.setIdTicketSeleccionado(null);
-                startActivity(i);
-            }
-        });
-*/
     }
+
 
     @Override
     public void onListFragmentInteraction(Ticket item) {

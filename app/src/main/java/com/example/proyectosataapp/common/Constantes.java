@@ -11,5 +11,6 @@ public class Constantes {
     public static final String EXTRA_ID_TICKET = "idTicket";
     public static final String DETALLE_EQUIPO_ACTIVITY_CLASS_NAME = "DetalleEquipoActivity";
 
+    public static final String ROLE_USER_LOGEADO = "ROLEUSER";
 }
 

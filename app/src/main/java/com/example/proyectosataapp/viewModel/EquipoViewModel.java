@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
 import com.example.proyectosataapp.models.Ticket;
+import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.repository.EquipoRepository;
 import com.example.proyectosataapp.repository.TicketRepository;
 
@@ -66,5 +67,6 @@ public class EquipoViewModel extends AndroidViewModel {
     public LiveData<List<Ticket>> getTicketsByInventariable(String id) {
         return ticketRepository.getTicketsByInventariable(id);
     }
+    public LiveData<EquipoResponse> borrarFotoEquipo(String idEquipo){return equipoRepository.borrarFotoEquipo(idEquipo);}
 
 }

@@ -6,6 +6,7 @@ import android.net.Uri;
 import com.example.proyectosataapp.models.RequestEquipo;
 
 import com.example.proyectosataapp.models.EquipoResponse;
+import com.example.proyectosataapp.models.UserResponseRegister;
 
 import java.io.File;
 import java.util.List;
@@ -48,6 +49,9 @@ public interface EquipoService {
 
     @Multipart
     @PUT("/inventariable/{id}/img")
-    Call<ResponseBody> putInventariableImg(@Path("id") String id,
+    Call<ResponseBody> putInventariableImg(@Path("id") String idEquipo,
                                            @Part MultipartBody.Part imagen);
+
+    @DELETE("/inventariable/{id}/img")
+    Call<EquipoResponse> borrarFotoEquipo(@Path("id") String idEquipo);
 }
