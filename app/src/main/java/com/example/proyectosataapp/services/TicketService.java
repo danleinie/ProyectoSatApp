@@ -32,5 +32,8 @@ public interface TicketService {
 
     @GET("/ticket/asignados/me")
     Call<List<Ticket>> getTicketsAsignadosAMi();
+    
+    @GET("/ticket/{id}")
+    Call<Ticket> getTicketById(@Path("id") String idTicket);
 
 }
