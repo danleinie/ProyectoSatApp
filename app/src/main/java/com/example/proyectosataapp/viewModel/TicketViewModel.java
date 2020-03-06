@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.repository.TicketRepository;
@@ -18,9 +19,12 @@ public class TicketViewModel extends AndroidViewModel {
 
     private TicketRepository repositorio;
 
+
     public TicketViewModel(@NonNull Application application) {
         super(application);
         repositorio = new TicketRepository();
+
+
     }
 
     public LiveData<List<Ticket>> getTickets() {return repositorio.getTickets();}

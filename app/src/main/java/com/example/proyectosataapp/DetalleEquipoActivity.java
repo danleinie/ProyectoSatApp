@@ -51,6 +51,8 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
 
     String idEquipo;
     String idTicket;
+    Bitmap foto;
+    EquipoResponse equipoIntent;
     EquipoService service;
     EquipoViewModel equipoViewModel;
     private TicketViewModel ticketViewModel;
@@ -80,11 +82,13 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
         detalleEquipoViewModel.getEquipo(idEquipo).observeForever( new Observer<EquipoResponse>() {
             @Override
             public void onChanged(EquipoResponse equipo) {
+                equipoIntent = equipo;
+
                 Call<ResponseBody> call = service.imagenEquipo( idEquipo, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                       Bitmap foto =  BitmapFactory.decodeStream(response.body().byteStream());
+                        foto =  BitmapFactory.decodeStream(response.body().byteStream());
                         Glide
                                 .with(MyApp.getCtx())
                                 .load(foto).centerCrop().circleCrop()
@@ -115,9 +119,8 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
             }
         });
 
-        ticketViewModel = new ViewModelProvider(this).get(TicketViewModel.class);
 
-        ticketViewModel.getTicketById().observe(this, new Observer<String>() {
+       /* ticketViewModel.getTicketById(idTicket).observe(this, new Observer<String>() {
             @Override
             public void onChanged(String idTicket) {
                 Intent i = new Intent(MyApp.getCtx(), DetalleTicketActivity.class);
@@ -126,11 +129,20 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
                 startActivity(i);
             }
         });
-
+*/
     }
 
     @Override
     public void onListFragmentInteraction(Ticket item) {
+        Toast.makeText(this, "iyo xd", Toast.LENGTH_SHORT).show();
+        ticketViewModel = new ViewModelProvider(this).get(TicketViewModel.class);
+        Intent intentEquipoDetalle = new Intent(DetalleEquipoActivity.this, DetalleTicketActivity.class);
+        intentEquipoDetalle.putExtra(Constantes.EXTRA_ID_TICKET, item.getId());
+        intentEquipoDetalle.putExtra("nombreEq", equipoIntent.getNombre());
+        intentEquipoDetalle.putExtra("UbicacionEq", equipoIntent.getUbicacion());
+        intentEquipoDetalle.putExtra("foto", foto);
+
+        startActivity(intentEquipoDetalle);
 
     }
 }
