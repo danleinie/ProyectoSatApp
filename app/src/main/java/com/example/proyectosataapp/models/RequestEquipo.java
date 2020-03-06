@@ -17,10 +17,7 @@ public class RequestEquipo {
     public RequestEquipo(EquipoResponse equipoResponse) {
     }
 
-    public RequestEquipo(String ubicacion, String nombre, String descripcion) {
-    }
-
-    public RequestEquipo(String nombre, String tipo, String descripcion, String ubicacion, String imagen) {
+    public RequestEquipo(String nombre, String descripcion, String ubicacion) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;

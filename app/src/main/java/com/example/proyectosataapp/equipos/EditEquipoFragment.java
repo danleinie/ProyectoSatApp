@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -19,10 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
-import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
@@ -58,7 +55,7 @@ public class EditEquipoFragment extends DialogFragment {
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_equipo, container, false);
-        etnombre = view.findViewById(R.id.nombre);
+        etnombre = view.findViewById(R.id.EditNombre);
         etubicacion = view.findViewById(R.id.Ubicacion);
         etdescripcion = view.findViewById(R.id.Descripcion);
         ettipo = view.findViewById(R.id.Tipo);
@@ -98,6 +95,8 @@ public class EditEquipoFragment extends DialogFragment {
                             RequestEquipo requestEquipo = new RequestEquipo(nombre, descripcion, ubicacion);
                             viewModel.editEquipo(idEquipo, requestEquipo);
                             getDialog().dismiss();
+                            Intent i = new Intent(MyApp.getCtx(), MainActivity.class);
+                            startActivity(i);
                         }
 
 
