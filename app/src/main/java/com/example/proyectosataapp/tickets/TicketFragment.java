@@ -103,11 +103,23 @@ public class TicketFragment extends Fragment {
                 ticketViewModel.getTicketsAsignadosAMi().observe(getActivity(), new Observer<List<Ticket>>() {
                     @Override
                     public void onChanged(List<Ticket> tickets) {
+                        ticketList.clear();
+                        adapter.notifyDataSetChanged();
                         ticketList.addAll(tickets);
                         adapter.notifyDataSetChanged();
                     }
                 });
             }
+
+            ticketViewModel.getTicketsCreadosPorMiEnLocal().observeForever(new Observer<List<Ticket>>() {
+                @Override
+                public void onChanged(List<Ticket> tickets) {
+                    ticketList.clear();
+                    adapter.notifyDataSetChanged();
+                    ticketList.addAll(tickets);
+                    adapter.notifyDataSetChanged();
+                }
+            });
 
         }
         return view;

@@ -112,7 +112,6 @@ public class HomeFragment extends Fragment implements IFiltroListener {
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getActivity(), "onResume()", Toast.LENGTH_SHORT).show();
 
         //TODO IMPORTANTE
         equipoViewModel.getEquipos().observe(getActivity(), new Observer<List<EquipoResponse>>() {
@@ -127,7 +126,6 @@ public class HomeFragment extends Fragment implements IFiltroListener {
     @Override
     public void onPause() {
         super.onPause();
-        Toast.makeText(getActivity(), "onPause()", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -182,8 +180,6 @@ public class HomeFragment extends Fragment implements IFiltroListener {
             DialogFragment dialogoUbicacion =new DialogFilterUbication();
             dialogoUbicacion.setTargetFragment(this,0);
             dialogoUbicacion.show(Objects.requireNonNull(getFragmentManager()),"FiltroMonedaFragment");
-
-        Toast.makeText( MyApp.getCtx(), "Filtro", Toast.LENGTH_SHORT).show();
 
         return super.onOptionsItemSelected(item);
     }

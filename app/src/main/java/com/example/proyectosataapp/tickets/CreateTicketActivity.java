@@ -65,10 +65,6 @@ public class CreateTicketActivity extends AppCompatActivity {
 
         extraData = getIntent().getExtras();
 
-        Toast.makeText(this, "" + getCallingActivity().getClassName(), Toast.LENGTH_SHORT).show();
-        Log.d("NombreClase", "" + getCallingActivity().getClassName());
-        Log.d("nombreClaseLocal", "" + getLocalClassName());
-
         etTitulo = findViewById(R.id.createTicketEvTitulo);
         etDescripcion = findViewById(R.id.createTicketEvDescripcion);
         botonTecnico = findViewById(R.id.createTicketBotonTecnico);

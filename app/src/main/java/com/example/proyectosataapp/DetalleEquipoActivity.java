@@ -67,7 +67,6 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
         ivFoto.setBorderColor(0x00549D);
         ivFoto.setBorderWidth(1);
         idEquipo = extras.getString(Constantes.EXTRA_ID_EQUIPO);
-        Toast.makeText(this, "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
         service = serviceGenerator.createService(EquipoService.class);
         detalleEquipoViewModel = new ViewModelProvider(this).get(DetalleEquipoViewModel.class);
         detalleEquipoViewModel.getEquipo(idEquipo).observeForever( new Observer<EquipoResponse>() {

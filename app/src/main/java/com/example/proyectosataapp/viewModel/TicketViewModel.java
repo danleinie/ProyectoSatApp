@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.models.UserResponseRegister;
@@ -21,6 +22,7 @@ public class TicketViewModel extends AndroidViewModel {
 
     private TicketRepository repositorio;
     private UsuarioRepository usuarioRepository;
+    private MutableLiveData<List<Ticket>> ticketsCreadosPorMi = new MutableLiveData<>();
 
     public TicketViewModel(@NonNull Application application) {
         super(application);
@@ -39,6 +41,10 @@ public class TicketViewModel extends AndroidViewModel {
     public LiveData<ResponseBody> getTicketImg(String id, String img) {return repositorio.getImgTicket(id, img);}
 
     public LiveData<List<Ticket>> getTicketsCreadosPorMi() {return repositorio.getTicketsCreadosPorMi();}
+
+    public LiveData<List<Ticket>> getTicketsCreadosPorMiEnLocal() {return this.ticketsCreadosPorMi;}
+
+    public void setTicketsCreadosPorMi(List<Ticket> listTickets) {this.ticketsCreadosPorMi.postValue(listTickets);}
 
 
 }

@@ -70,7 +70,6 @@ public class TicketRepository {
             public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
-                    Toast.makeText(MyApp.getCtx(), "Flama brother", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("Response", "Respuesta incorrecta");
                     Toast.makeText(MyApp.getCtx(), "Algo fue mal", Toast.LENGTH_SHORT).show();
@@ -107,7 +106,6 @@ public class TicketRepository {
             public void onResponse(Call<Ticket> call, Response<Ticket> response) {
                 if (response.isSuccessful()) {
                     data.setValue(response.body());
-                    Toast.makeText(MyApp.getCtx(), "Perfecto bro \n" + data.getValue().toString(), Toast.LENGTH_SHORT).show();
                 } else {
                     Log.e("Response", "Respuesta incorrecta");
                     Toast.makeText(MyApp.getCtx(), "Algo ha ido mal", Toast.LENGTH_SHORT).show();

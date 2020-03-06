@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.view.LayoutInflater;
@@ -14,9 +16,12 @@ import android.widget.Button;
 
 
 import com.example.proyectosataapp.R;
+import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.tickets.CreateTicketActivity;
 import com.example.proyectosataapp.tickets.TicketFragment;
 import com.example.proyectosataapp.viewModel.TicketViewModel;
+
+import java.util.List;
 
 public class DashboardFragment extends Fragment {
     final static int CREAR_TICKET_REQUEST = 2;
@@ -33,6 +38,7 @@ public class DashboardFragment extends Fragment {
                 ViewModelProviders.of(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
+        ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
         crearTicketButton = root.findViewById(R.id.fragmentDashboardBotonCrearTicket);
         cambiarListaButton = root.findViewById(R.id.fragmentDashboardBotonCambiarLista);
 
@@ -46,15 +52,28 @@ public class DashboardFragment extends Fragment {
         cambiarListaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (mostrandoAsignados) {
                     mostrandoAsignados = false;
                     ticketFragment.cambiarLista(mostrandoAsignados);
                     cambiarListaButton.setText("Tickets asignados");
+                    ticketViewModel.getTicketsCreadosPorMi().observeForever(new Observer<List<Ticket>>() {
+                        @Override
+                        public void onChanged(List<Ticket> tickets) {
+                            ticketViewModel.setTicketsCreadosPorMi(tickets);
+                        }
+                    });
 
                 } else {
                     mostrandoAsignados = true;
                     ticketFragment.cambiarLista(mostrandoAsignados);
                     cambiarListaButton.setText("Tickets creados");
+                    ticketViewModel.getTicketsAsignadosAMi().observeForever(new Observer<List<Ticket>>() {
+                        @Override
+                        public void onChanged(List<Ticket> tickets) {
+                            ticketViewModel.setTicketsCreadosPorMi(tickets);
+                        }
+                    });
                 }
 
             }
@@ -63,12 +82,7 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
-
-
-
-
-
-   /* // TODO: Customize parameter argument names
+    /* // TODO: Customize parameter argument names
         private static final String ARG_COLUMN_COUNT = "column-count";
         // TODO: Customize parameters
         private int mColumnCount = 1;
