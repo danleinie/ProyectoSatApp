@@ -1,6 +1,5 @@
 package com.example.proyectosataapp.ui.usuarios;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -54,7 +53,7 @@ public class DetailsUserActivity extends AppCompatActivity {
     private void loadData(UserResponseRegister userResponseRegister) {
         setContentView(R.layout.activity_details_user);
         initToolbar();
-        imgPerfil = findViewById(R.id.imgPerfilDetalle);
+        imgPerfil = findViewById(R.id.imgPerfilDetallePerfil);
         email = findViewById(R.id.txEmailDetalle);
         nombre = findViewById(R.id.txNombreDetalle);
         createdAt = findViewById(R.id.txCreatedAtDetalle);

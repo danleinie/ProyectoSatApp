@@ -21,10 +21,13 @@
     <string name="text_list_no_validated">No Validados</string>
     <string name="text_list_usuarios_validados">Validados</string>
     <string name="title_dialog_borrar">¿Estás seguro que desea borrar?</string>
+    <string name="title_dialog_borrar_foto">¿Estás seguro que desea borrar la foto?</string>
+    <string name="message_dialog_borrar_foto">Si borra la foto no podrá recuperarla</string>
     <string name="message_dialog_borrar">Esta acción no tiene vuelta atrás</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_actual_password">Tu contraseña</string>
     <string name="hint_confirm_new_password">Nueva contraseña</string>
+    <string name="hint_new_name">Nuevo nombre</string>
 </resources>

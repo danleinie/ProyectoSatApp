@@ -4,4 +4,7 @@
     <item
         android:id="@+id/cambiar_password"
         android:title="Cambiar contraseña" />
+    <item
+        android:id="@+id/borrar_foto"
+        android:title="Borrar foto" />
 </menu>

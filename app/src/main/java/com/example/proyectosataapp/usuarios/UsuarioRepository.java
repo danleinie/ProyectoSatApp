@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
+import com.example.proyectosataapp.models.DtoName;
 import com.example.proyectosataapp.models.PasswordRequest;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.services.UserService;
@@ -266,6 +267,44 @@ public class UsuarioRepository {
             }
         });
 
+        return data;
+    }
+
+    public LiveData<UserResponseRegister> deletePhoto(String idUser){
+        final MutableLiveData<UserResponseRegister> data = new MutableLiveData<>();
+
+        service.deletePhoto(idUser).enqueue(new Callback<UserResponseRegister>() {
+            @Override
+            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+
+            }
+        });
+        return data;
+    }
+
+    public LiveData<UserResponseRegister> changeName(String idUser, DtoName nombreNuevo){
+        final MutableLiveData<UserResponseRegister> data = new MutableLiveData<>();
+
+        service.changeName(idUser,nombreNuevo).enqueue(new Callback<UserResponseRegister>() {
+            @Override
+            public void onResponse(Call<UserResponseRegister> call, Response<UserResponseRegister> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponseRegister> call, Throwable t) {
+
+            }
+        });
         return data;
     }
 
