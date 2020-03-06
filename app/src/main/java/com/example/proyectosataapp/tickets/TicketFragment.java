@@ -91,13 +91,23 @@ public class TicketFragment extends Fragment {
 
             String idEquipoSeleccionado = SharedPreferencesManager.getStringValue(Constantes.EXTRA_ID_EQUIPO);
 
-            equipoViewModel.getTicketsByInventariable(idEquipoSeleccionado).observe(getActivity(), new Observer<List<Ticket>>() {
-                @Override
-                public void onChanged(List<Ticket> tickets) {
-                    ticketList.addAll(tickets);
-                    adapter.notifyDataSetChanged();
-                }
-            });
+            if (getActivity().getLocalClassName().contains(Constantes.DETALLE_EQUIPO_ACTIVITY_CLASS_NAME)) {
+                equipoViewModel.getTicketsByInventariable(idEquipoSeleccionado).observe(getActivity(), new Observer<List<Ticket>>() {
+                    @Override
+                    public void onChanged(List<Ticket> tickets) {
+                        ticketList.addAll(tickets);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            } else if (getActivity().getLocalClassName().contains(Constantes.MAIN_ACTIVITY_CLASS_NAME)) {
+                ticketViewModel.getTicketsAsignadosAMi().observe(getActivity(), new Observer<List<Ticket>>() {
+                    @Override
+                    public void onChanged(List<Ticket> tickets) {
+                        ticketList.addAll(tickets);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
 
         }
         return view;

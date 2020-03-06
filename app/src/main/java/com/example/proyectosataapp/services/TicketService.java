@@ -30,4 +30,7 @@ public interface TicketService {
     @GET("/ticket/inventariable/{id}")
     Call<List<Ticket>> getTicketsByInventariable(@Path("id") String idInventariable);
 
+    @GET("/ticket/asignados/me")
+    Call<List<Ticket>> getTicketsAsignadosAMi();
+
 }

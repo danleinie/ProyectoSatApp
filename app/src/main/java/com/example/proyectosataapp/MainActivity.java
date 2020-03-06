@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 
 import android.view.View;
@@ -16,7 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.models.UserResponseRegister;
+import com.example.proyectosataapp.tickets.TicketFragment;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -39,7 +43,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TicketFragment.OnListFragmentInteractionListener {
 
     FloatingActionButton nuevoEquipo;
 
@@ -130,5 +134,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onListFragmentInteraction(Ticket item) {
+
     }
+}
 

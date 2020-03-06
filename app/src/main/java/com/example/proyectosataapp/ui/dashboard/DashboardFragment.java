@@ -15,11 +15,13 @@ import android.widget.Button;
 
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.tickets.CreateTicketActivity;
+import com.example.proyectosataapp.viewModel.TicketViewModel;
 
 public class DashboardFragment extends Fragment {
     final static int CREAR_TICKET_REQUEST = 2;
 
     private DashboardViewModel dashboardViewModel;
+    private TicketViewModel ticketViewModel;
     private Button crearTicketButton;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

@@ -23,8 +23,8 @@ public class TicketViewModel extends AndroidViewModel {
         repositorio = new TicketRepository();
     }
 
-
     public LiveData<List<Ticket>> getTickets() {return repositorio.getTickets();}
 
+    public LiveData<List<Ticket>> getTicketsAsignadosAMi() {return repositorio.getTicketsAsignadosAMi();}
 
 }

@@ -123,5 +123,32 @@ public class TicketRepository {
         return data;
     }
 
+    public LiveData<List<Ticket>> getTicketsAsignadosAMi() {
+        final MutableLiveData<List<Ticket>> data = new MutableLiveData<>();
+
+        Call<List<Ticket>> call = servicio.getTicketsAsignadosAMi();
+        call.enqueue(new Callback<List<Ticket>>() {
+            @Override
+            public void onResponse(Call<List<Ticket>> call, Response<List<Ticket>> response) {
+                if (response.isSuccessful()) {
+                    Log.d("Response", response.body() + "");
+                    data.setValue(response.body());
+                    Log.d("data.getValue()", data.getValue().toString() + "");
+                } else {
+                    Toast.makeText(MyApp.getCtx(), "Algo ha ido mal.", Toast.LENGTH_SHORT).show();
+                    Log.d("Lista Tickets", "Respuesta mal recibida");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Ticket>> call, Throwable t) {
+                Toast.makeText(MyApp.getCtx(), "Algo ha ido mal.", Toast.LENGTH_SHORT).show();
+                Log.d("Lista Tickets", "Fallo en la peticion");
+            }
+        });
+
+        return data;
+    }
+
 
 }
