@@ -3,11 +3,13 @@ package com.example.proyectosataapp.tickets;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.viewModel.CreateTicketViewModel;
@@ -26,11 +29,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 public class DialogSeleccionarTecnico extends DialogFragment {
 
     private View view;
     private ArrayAdapter<String> adapter;
     private List<String> listaElementos = new ArrayList<>();
+    private List<String> listaIds = new ArrayList<>();
     private ListView listView;
     private CreateTicketViewModel createTicketViewModel;
 
@@ -50,8 +57,10 @@ public class DialogSeleccionarTecnico extends DialogFragment {
                     @Override
                     public void onChanged(List<UserResponseRegister> userResponseRegisters) {
                         for (UserResponseRegister user : userResponseRegisters)
-                            if (user.getRole().equals("tecnico"))
+                            if (user.getRole().equals("tecnico")) {
                                 listaElementos.add(user.getName());
+                                listaIds.add(user.getId());
+                            }
 
                         adapter = new ArrayAdapter<String>(
                                 getActivity(),
@@ -67,9 +76,10 @@ public class DialogSeleccionarTecnico extends DialogFragment {
                 createTicketViewModel.getEquipos().observe(getActivity(), new Observer<List<EquipoResponse>>() {
                     @Override
                     public void onChanged(List<EquipoResponse> equipoResponses) {
-                        for (EquipoResponse equipo : equipoResponses)
+                        for (EquipoResponse equipo : equipoResponses) {
                             listaElementos.add(equipo.getNombre());
-
+                            listaIds.add(equipo.getId());
+                        }
                         adapter = new ArrayAdapter<String>(
                                 getActivity(),
                                 android.R.layout.simple_list_item_1,
@@ -86,9 +96,11 @@ public class DialogSeleccionarTecnico extends DialogFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (getArguments() != null) {
                     if (getArguments().getString(Constantes.TIPO_SELECCION).equals(Constantes.TECNICO)){
-
+                        RequestBody idTecnico = RequestBody.create(listaIds.get(position), MultipartBody.FORM);
+                        ((CreateTicketActivity) getActivity()).setIdTecnicoRequest(idTecnico);
                     } else if (getArguments().getString(Constantes.TIPO_SELECCION).equals(Constantes.EQUIPO)){
-
+                        RequestBody idEquipo = RequestBody.create(listaIds.get(position), MultipartBody.FORM);
+                        ((CreateTicketActivity) getActivity()).setIdEquipoRequest(idEquipo);
                     }
                 }
                 dismiss();

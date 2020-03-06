@@ -141,5 +141,25 @@ public class TicketFragment extends Fragment {
         startActivity(i);
     }
 
+    public void cambiarLista(boolean mostrarAsignados) {
+//        ticketViewModel = new ViewModelProvider(getActivity()).get(TicketViewModel.class);
+//        if (mostrarAsignados) {
+//            ticketViewModel.getTicketsAsignadosAMi().observe(getActivity(), new Observer<List<Ticket>>() {
+//                @Override
+//                public void onChanged(List<Ticket> tickets) {
+//                    ticketList.addAll(tickets);
+//                    adapter.notifyDataSetChanged();
+//                }
+//            });
+//        } else {
+//            ticketViewModel.getTicketsCreadosPorMi().observe(getActivity(), new Observer<List<Ticket>>() {
+//                @Override
+//                public void onChanged(List<Ticket> tickets) {
+//                    ticketList.addAll(tickets);
+//                    adapter.notifyDataSetChanged();
+//                }
+//            });
+//        }
+    }
 
 }

@@ -15,14 +15,17 @@ import android.widget.Button;
 
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.tickets.CreateTicketActivity;
+import com.example.proyectosataapp.tickets.TicketFragment;
 import com.example.proyectosataapp.viewModel.TicketViewModel;
 
 public class DashboardFragment extends Fragment {
     final static int CREAR_TICKET_REQUEST = 2;
 
+    private TicketFragment ticketFragment = new TicketFragment();
     private DashboardViewModel dashboardViewModel;
     private TicketViewModel ticketViewModel;
-    private Button crearTicketButton;
+    private Button crearTicketButton, cambiarListaButton;
+    private boolean mostrandoAsignados = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -31,11 +34,29 @@ public class DashboardFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         crearTicketButton = root.findViewById(R.id.fragmentDashboardBotonCrearTicket);
+        cambiarListaButton = root.findViewById(R.id.fragmentDashboardBotonCambiarLista);
 
         crearTicketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getActivity(), CreateTicketActivity.class), CREAR_TICKET_REQUEST);
+            }
+        });
+
+        cambiarListaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mostrandoAsignados) {
+                    mostrandoAsignados = false;
+                    ticketFragment.cambiarLista(mostrandoAsignados);
+                    cambiarListaButton.setText("Tickets asignados");
+
+                } else {
+                    mostrandoAsignados = true;
+                    ticketFragment.cambiarLista(mostrandoAsignados);
+                    cambiarListaButton.setText("Tickets creados");
+                }
+
             }
         });
 

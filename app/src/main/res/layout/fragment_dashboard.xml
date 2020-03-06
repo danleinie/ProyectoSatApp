@@ -9,8 +9,12 @@
         android:id="@+id/fragmentDashboardBotonCrearTicket"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorPrimary"
         android:text="Crear Ticket"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/fragmentDashboardBotonCambiarLista"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,4 +27,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragmentDashboardBotonCrearTicket" />
+
+    <Button
+        android:id="@+id/fragmentDashboardBotonCambiarLista"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@color/colorPrimaryComplementary"
+        android:text="@string/tickets_creados"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/fragmentDashboardBotonCrearTicket"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.tickets.TicketFragment;
+import com.example.proyectosataapp.ui.dashboard.DashboardFragment;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
@@ -152,5 +153,4 @@ public class MainActivity extends AppCompatActivity implements TicketFragment.On
     public void onListFragmentInteraction(Ticket item) {
 
     }
-
 }

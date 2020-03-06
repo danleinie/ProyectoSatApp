@@ -157,6 +157,17 @@ public class CreateTicketActivity extends AppCompatActivity {
             }
         });
 
+        botonEquipo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialogSeleccion = new DialogSeleccionarTecnico();
+                Bundle bundleEquipos = new Bundle();
+                bundleEquipos.putString(Constantes.TIPO_SELECCION, Constantes.EQUIPO);
+                dialogSeleccion.setArguments(bundleEquipos);
+                dialogSeleccion.show(getSupportFragmentManager(), "SeleccionarTecnicoFragment");
+            }
+        });
+
     }
 
     public List<UserResponseRegister> getTecnicos() {

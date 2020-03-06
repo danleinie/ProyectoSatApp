@@ -33,7 +33,7 @@ public class Ticket {
     private List<TicketAsignacion> asignaciones = null;
     @SerializedName("fotos")
     @Expose
-    private List<Object> fotos = null;
+    private List<String> fotos = null;
     @SerializedName("createdAt")
     @Expose
     private String createdAt;
@@ -116,11 +116,11 @@ public class Ticket {
         this.asignaciones = asignaciones;
     }
 
-    public List<Object> getFotos() {
+    public List<String> getFotos() {
         return fotos;
     }
 
-    public void setFotos(List<Object> fotos) {
+    public void setFotos(List<String> fotos) {
         this.fotos = fotos;
     }
 
