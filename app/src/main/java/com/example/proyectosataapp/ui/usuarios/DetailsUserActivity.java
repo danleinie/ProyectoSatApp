@@ -1,6 +1,5 @@
 package com.example.proyectosataapp.ui.usuarios;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -24,6 +23,10 @@ import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.usuarios.UsuarioViewModel;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import okhttp3.ResponseBody;
 
@@ -54,28 +57,54 @@ public class DetailsUserActivity extends AppCompatActivity {
     private void loadData(UserResponseRegister userResponseRegister) {
         setContentView(R.layout.activity_details_user);
         initToolbar();
-        imgPerfil = findViewById(R.id.imgPerfilDetalle);
+        imgPerfil = findViewById(R.id.imgPerfilDetallePerfil);
         email = findViewById(R.id.txEmailDetalle);
         nombre = findViewById(R.id.txNombreDetalle);
         createdAt = findViewById(R.id.txCreatedAtDetalle);
         progressBar = findViewById(R.id.progressBarImgPerfil);
         role = findViewById(R.id.txRoleDetalle);
-        email.setText(userResponseRegister.getEmail());
+        if (userResponseRegister.getEmail().length()>20){
+            email.setText(userResponseRegister.getEmail());
+            email.setTextSize(12);
+        }else {
+            email.setText(userResponseRegister.getEmail());
+        }
         nombre.setText(userResponseRegister.getName());
         role.setText(userResponseRegister.getRole().toUpperCase());
-        createdAt.setText(userResponseRegister.getCreatedAt());
 
-        usuarioViewModel.getImg(userResponseRegister.getId()).observe(this, new Observer<ResponseBody>() {
-            @Override
-            public void onChanged(ResponseBody responseBody) {
-                progressBar.setVisibility(View.GONE);
-                Glide
-                        .with(MyApp.getCtx())
-                        .load(BitmapFactory.decodeStream(responseBody.byteStream()))
-                        .centerCrop()
-                        .into(imgPerfil);
-            }
-        });
+        Date fechaOriginal = new Date();
+        SimpleDateFormat formatoOriginal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        SimpleDateFormat formatoFinal = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            fechaOriginal = formatoOriginal.parse(userResponseRegister.getCreatedAt());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        String fechaFinal = formatoFinal.format(fechaOriginal);
+
+        createdAt.setText(fechaFinal.replace("-","/"));
+
+        if (userResponseRegister.getPicture() == null){
+            progressBar.setVisibility(View.GONE);
+            Glide
+                    .with(MyApp.getCtx())
+                    .load("https://recursospracticos.com/wp-content/uploads/2017/10/Sin-foto-de-perfil-en-Facebook.jpg")
+                    .centerCrop()
+                    .into(imgPerfil);
+        }else {
+            usuarioViewModel.getImg(userResponseRegister.getId()).observe(this, new Observer<ResponseBody>() {
+                @Override
+                public void onChanged(ResponseBody responseBody) {
+                    progressBar.setVisibility(View.GONE);
+                    Glide
+                            .with(MyApp.getCtx())
+                            .load(BitmapFactory.decodeStream(responseBody.byteStream()))
+                            .centerCrop()
+                            .into(imgPerfil);
+                }
+            });
+        }
     }
 
     @Override

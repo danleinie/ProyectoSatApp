@@ -1,5 +1,6 @@
 package com.example.proyectosataapp.services;
 
+import com.example.proyectosataapp.models.DtoName;
 import com.example.proyectosataapp.models.PasswordRequest;
 import com.example.proyectosataapp.models.UserResponseLogin;
 import com.example.proyectosataapp.models.UserResponseRegister;
@@ -63,6 +64,13 @@ public interface UserService {
     @PUT("/users/{id}/img")
     Call<UserResponseRegister> updatePhoto(@Path("id")String id,
                                     @Part MultipartBody.Part avatar);
+
+    @DELETE("/users/{id}/img")
+    Call<UserResponseRegister> deletePhoto(@Path("id") String idUser);
+
+    @PUT("/users/{id}")
+    Call<UserResponseRegister> changeName(@Path("id")String idUser,
+                                @Body DtoName name);
 
     @PUT("/users/{id}/password")
     Call<UserResponseRegister> updatePassword(@Header("Authorization") String authHeader ,@Path("id")String idUser, @Body PasswordRequest password);

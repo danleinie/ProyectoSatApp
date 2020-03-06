@@ -11,12 +11,18 @@ import android.view.View;
 
 import com.example.proyectosataapp.equipos.NuevoEquipoDialogFragMent;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.proyectosataapp.models.Ticket;
+import com.example.proyectosataapp.common.Constantes;
+import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.tickets.TicketFragment;
 import com.example.proyectosataapp.ui.dashboard.DashboardFragment;
@@ -57,13 +63,14 @@ public class MainActivity extends AppCompatActivity implements TicketFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pantalla_loading);
+
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
         usuarioViewModel.getUserLogeadoFromRepo().observe(this, new Observer<UserResponseRegister>() {
             @Override
             public void onChanged(UserResponseRegister userResponseRegister) {
                 usuarioViewModel.setUserLogeado(userResponseRegister);
                 roleUserLogeado = userResponseRegister.getRole();
-                if (userResponseRegister.getRole().equals("admin")){
+                if (SharedPreferencesManager.getStringValue(Constantes.ROLE_USER_LOGEADO).equals("admin")){
                     loadiuAdmin();
                 }else {
                     loadiuUser();
@@ -152,5 +159,49 @@ public class MainActivity extends AppCompatActivity implements TicketFragment.On
     @Override
     public void onListFragmentInteraction(Ticket item) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_menu, menu);
+        final MenuItem settingsItem = menu.findItem(R.id.profile);
+
+        /*Glide
+                .with(this)
+                .asBitmap()
+                .load(account.getPhotoUrl().toString())
+                .circleCrop()
+                .into(new CustomTarget<Bitmap>(100,100) {
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        settingsItem.setIcon(new BitmapDrawable(getResources(), resource));
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+
+                    }
+                });*/
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.profile:
+                // TODO goToProfile();
+                break;
+            case R.id.log_out:
+                SharedPreferencesManager.removeStringValue(Constantes.LABEL_TOKEN);
+                finish();
+            break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+        return true;
     }
 }

@@ -38,15 +38,13 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imgPerfilDetalle"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:id="@+id/imageViewPerfil"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <ProgressBar
@@ -55,7 +53,7 @@
                     android:layout_width="42dp"
                     android:layout_height="44dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/imgPerfilDetalle"
+                    app:layout_constraintEnd_toEndOf="@id/imageViewPerfil"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,7 +103,7 @@
                     android:layout_marginTop="8dp"
                     android:text="TextView"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toBottomOf="@+id/email" />
@@ -117,7 +115,7 @@
                     android:layout_marginTop="8dp"
                     android:text="TextView"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView5"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -129,7 +127,7 @@
                     android:layout_marginTop="8dp"
                     android:text="TextView"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/textView6"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -141,6 +139,7 @@
                     android:layout_marginTop="16dp"
                     android:text="EMAIL"
                     android:textColor="@android:color/white"
+                    android:textSize="12sp"
                     app:layout_constraintStart_toStartOf="@+id/txEmailDetalle"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -170,6 +169,7 @@
                     android:layout_height="wrap_content"
                     android:text="ROLE"
                     android:textColor="@android:color/white"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@+id/imageView4"
                     app:layout_constraintStart_toStartOf="@+id/txEmailDetalle" />
 
@@ -188,11 +188,22 @@
                     android:layout_height="wrap_content"
                     android:text="CREATED AT"
                     android:textColor="@android:color/white"
+                    android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@+id/imageView5"
                     app:layout_constraintStart_toStartOf="@+id/txRoleDetalle" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/editName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txNombreDetalle"
+            app:layout_constraintStart_toEndOf="@+id/txNombreDetalle"
+            app:layout_constraintTop_toTopOf="@+id/txNombreDetalle"
+            app:srcCompat="@drawable/ic_edit_black_24dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,8 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.isSuccessful()){
 
                             SharedPreferencesManager.setStringValue(Constantes.LABEL_TOKEN,response.body().getToken());
-                            SharedPreferencesManager.setStringValue(Constantes.ID_USER_LOGEADO,response.body().getUser().getId());
-                            cambiarDeActivity(MainActivity.class);
+                            SharedPreferencesManager.setStringValue(Constantes.ROLE_USER_LOGEADO,response.body().getUser().getRole());
+                            startActivity(mainActivity);
                         } else {
                             Toast.makeText(LoginActivity.this, "Error name o password incorrectas", Toast.LENGTH_SHORT).show();
                         }

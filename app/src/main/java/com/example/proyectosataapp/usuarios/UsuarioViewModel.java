@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.proyectosataapp.models.DtoName;
 import com.example.proyectosataapp.models.PasswordRequest;
 import com.example.proyectosataapp.models.UserResponseRegister;
 
@@ -50,6 +51,8 @@ public class UsuarioViewModel extends AndroidViewModel {
     public LiveData<UserResponseRegister> getUserLogeado(){return this.userLogeado;}
     public LiveData<UserResponseRegister> updatePhoto(String idUser, MultipartBody.Part avatar){return repo.updatePhoto(idUser,avatar);}
     public LiveData<UserResponseRegister> updatePassword(String autHeader, String idUser, PasswordRequest password){return repo.updatePassword(autHeader,idUser,password);}
+    public LiveData<UserResponseRegister> deletePhoto(String idUser){return repo.deletePhoto(idUser);}
+    public LiveData<UserResponseRegister> changeName(String idUser, DtoName newName){return repo.changeName(idUser,newName);}
     public LiveData<Boolean> deleteUserFromRepo(String idUser){
         this.idUserToRemove.postValue(idUser);
         return repo.deleteUser(idUser);

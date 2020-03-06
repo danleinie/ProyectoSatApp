@@ -12,6 +12,7 @@
         android:id="@+id/cardViewEmail"
         android:layout_width="325dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="128dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
