@@ -4,7 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_ticket">TicketActivity</string>
-    <string name="creado_por">Creado por:</string>
+    <string name="creado_por">Creado por</string>
     <string name="asignado_a">Asignado a:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -35,4 +35,8 @@
     <string name="create_ticket_boton_equipo">Asignar a un equiipo</string>
     <string name="create_ticket_boton_terminar">Registrar ticket</string>
     <string name="fragment_ticket_por_asignar">Aún por asignar</string>
+    <string name="creacion_fecha">"Creado"</string>
+    <string name="estado">Estado</string>
+    <string name="tecnico">"Tecnico asignado"</string>
+    <string name="equipo_nombre">"Nombre del equipo"</string>
 </resources>

@@ -15,19 +15,23 @@ import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.tickets.CreateTicketActivity;
+import com.example.proyectosataapp.tickets.DetalleTicketActivity;
 import com.example.proyectosataapp.tickets.TicketFragment;
 import com.example.proyectosataapp.ui.home.HomeFragment;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
 import com.example.proyectosataapp.viewModel.EquipoViewModel;
+import com.example.proyectosataapp.viewModel.TicketViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.View;
@@ -46,8 +50,10 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
     static final int CREAR_TICKET_REQUEST = 1;
 
     String idEquipo;
+    String idTicket;
     EquipoService service;
     EquipoViewModel equipoViewModel;
+    private TicketViewModel ticketViewModel;
     ServiceGenerator serviceGenerator;
     DetalleEquipoViewModel detalleEquipoViewModel;
     @BindView(R.id.boton_detalle_equipo_crear_ticket) FloatingActionButton botonCrearTicket;
@@ -56,6 +62,7 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
     @BindView(R.id.textView_detalle_equipo_ubicacion) TextView tvUbicacion;
     @BindView(R.id.editText_detalle_equipo_descripcion) TextView tvDescripcion;
     @BindView(R.id.imageView_detalle_equipo) CircularImageView ivFoto;
+    @BindView(R.id.fragment_lista_tickets) RecyclerView listaTickets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +114,19 @@ public class DetalleEquipoActivity extends AppCompatActivity implements TicketFr
                 startActivityForResult(crearTicketIntent, CREAR_TICKET_REQUEST);
             }
         });
-        Intent i = new Intent(MyApp.getCtx(), HomeFragment.class);
-        i.putExtra(Constantes.EXTRA_ID_EQUIPO, " ");
+
+        ticketViewModel = new ViewModelProvider(this).get(TicketViewModel.class);
+
+        ticketViewModel.getTicketById().observe(this, new Observer<String>() {
+            @Override
+            public void onChanged(String idTicket) {
+                Intent i = new Intent(MyApp.getCtx(), DetalleTicketActivity.class);
+                i.putExtra(Constantes.EXTRA_ID_TICKET, idTicket);
+                ticketViewModel.setIdTicketSeleccionado(null);
+                startActivity(i);
+            }
+        });
+
     }
 
     @Override

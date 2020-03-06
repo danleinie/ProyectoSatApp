@@ -112,7 +112,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView_detalle_equipo" />
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fragment_lista_tickets"
         android:name="com.example.proyectosataapp.tickets.TicketFragment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".tickets.CreateTicketActivity"></activity>
+        <activity android:name=".tickets.DetalleTicketActivity"></activity>
+        <activity android:name=".tickets.CreateTicketActivity" />
         <activity
             android:name=".ui.auth.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -33,7 +34,8 @@
         <activity
             android:name=".tickets.TicketActivity"
             android:label="Tickets" />
-        <activity android:name=".DetalleEquipoActivity"
+        <activity
+            android:name=".DetalleEquipoActivity"
             android:label="DetalleEquipoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

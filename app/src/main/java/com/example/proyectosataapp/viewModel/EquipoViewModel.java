@@ -23,6 +23,7 @@ public class EquipoViewModel extends AndroidViewModel {
     EquipoRepository equipoRepository;
     MutableLiveData<String> idEquipoSeleccionado;
     TicketRepository ticketRepository;
+ //   MutableLiveData<String> idTicketSeleccionado;
 
     public EquipoViewModel(@NonNull Application application) {
         super(application);
@@ -30,6 +31,8 @@ public class EquipoViewModel extends AndroidViewModel {
         ticketRepository = new TicketRepository();
         this.idEquipoSeleccionado =new MutableLiveData<>();
         this.idEquipoSeleccionado.setValue(null);
+      /*  this.idTicketSeleccionado = new MutableLiveData<>();
+        this.idTicketSeleccionado.setValue(null);*/
     }
 
     public MutableLiveData<List<EquipoResponse>> getEquipos() {
