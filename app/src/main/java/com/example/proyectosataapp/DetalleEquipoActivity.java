@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.common.Constantes;
 import com.example.proyectosataapp.common.MyApp;
@@ -15,8 +14,6 @@ import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
-import com.example.proyectosataapp.viewModel.EquipoViewModel;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -25,7 +22,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;

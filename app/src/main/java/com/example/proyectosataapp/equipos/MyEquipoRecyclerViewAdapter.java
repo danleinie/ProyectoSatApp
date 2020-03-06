@@ -6,13 +6,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.R;
-import com.example.proyectosataapp.common.Constantes;
-import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;

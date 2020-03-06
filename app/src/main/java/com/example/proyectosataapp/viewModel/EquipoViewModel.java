@@ -40,9 +40,9 @@ public class EquipoViewModel extends AndroidViewModel {
         return idEquipoSeleccionado;
     }
 
-    public List<String> getTipos(){
-        List<String> listaTipos = equipoRepository.getTipos();
-        return listaTipos;
+    public String[] getTipos(){
+        return equipoRepository.getTipos().getValue();
+
     }
 
 

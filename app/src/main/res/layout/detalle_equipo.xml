@@ -59,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:text="TextView"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textView_detalle_equipo_plain_tipo"
         app:layout_constraintStart_toStartOf="@+id/textView_detalle_equipo_plain_tipo"
         app:layout_constraintTop_toBottomOf="@+id/textView_detalle_equipo_plain_tipo" />
@@ -68,6 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/textView_detalle_equipo_plain_ubicacion"
         app:layout_constraintStart_toStartOf="@+id/textView_detalle_equipo_plain_ubicacion"
         app:layout_constraintTop_toTopOf="@+id/textView_detalle_equipo_tipo" />
@@ -77,33 +79,31 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:gravity="center"
         android:text="TextView"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_detalle_equipo" />
 
     <ImageView
         android:id="@+id/btnBorrar"
-        android:layout_width="43dp"
-        android:layout_height="44dp"
+        android:layout_width="58dp"
+        android:layout_height="78dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.339"
+        app:layout_constraintHorizontal_bias="0.334"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText_detalle_equipo_descripcion"
-        app:layout_constraintVertical_bias="0.372"
-        app:srcCompat="@drawable/ic_trash_bin" />
+        app:layout_constraintVertical_bias="0.364"
+        app:srcCompat="@drawable/ic_trash" />
 
     <ImageView
         android:id="@+id/btnEditar"
-        android:layout_width="37dp"
-        android:layout_height="45dp"
+        android:layout_width="58dp"
+        android:layout_height="78dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnBorrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.305"
-        app:layout_constraintStart_toEndOf="@+id/btnBorrar"
-        app:layout_constraintTop_toTopOf="@+id/btnBorrar"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/ic_edit" />
+        app:layout_constraintEnd_toEndOf="@+id/editText_detalle_equipo_descripcion"
+        app:srcCompat="@drawable/ic_edit2_" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

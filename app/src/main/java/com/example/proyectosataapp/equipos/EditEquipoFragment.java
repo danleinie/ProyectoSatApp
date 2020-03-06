@@ -3,21 +3,17 @@ package com.example.proyectosataapp.equipos;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.proyectosataapp.MainActivity;
 import com.example.proyectosataapp.R;
 import com.example.proyectosataapp.common.MyApp;
@@ -25,9 +21,7 @@ import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
 import com.example.proyectosataapp.viewModel.DetalleEquipoViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class EditEquipoFragment extends DialogFragment {
     String idEquipo;
     EditText etnombre,etubicacion,etdescripcion,ettipo;
@@ -53,7 +47,7 @@ public class EditEquipoFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,@Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_edit_equipo, container, false);
         etnombre = view.findViewById(R.id.EditNombre);
         etubicacion = view.findViewById(R.id.Ubicacion);
@@ -62,7 +56,7 @@ public class EditEquipoFragment extends DialogFragment {
         cancelar = view.findViewById(R.id.Cancelar);
         aceptar = view.findViewById(R.id.Aceptar);
 
-        Toast.makeText(getActivity(), "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Id: " + idEquipo, Toast.LENGTH_SHORT).show();
         viewModel.getEquipo(idEquipo).observe(getActivity(), new Observer<EquipoResponse>() {
             @Override
             public void onChanged(EquipoResponse equipo) {
@@ -83,7 +77,7 @@ public class EditEquipoFragment extends DialogFragment {
                     public void onClick(View v) {
                         String nombre = etnombre.getText().toString();
                         String descripcion = etdescripcion.getText().toString();
-                        String ubicacion = etubicacion.getText().toString();
+                        String ubicacion = etubicacion.getText().toString().toUpperCase();
                         if (nombre.isEmpty()) {
                             etnombre.setError("El nombre del equipo es requerido");
                         } else if (descripcion.isEmpty()) {

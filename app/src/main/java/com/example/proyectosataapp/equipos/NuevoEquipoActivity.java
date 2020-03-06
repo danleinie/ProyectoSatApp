@@ -1,11 +1,8 @@
 package com.example.proyectosataapp.equipos;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.proyectosataapp.R;
@@ -24,7 +20,6 @@ import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
-import com.example.proyectosataapp.viewModel.EquipoViewModel;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -48,7 +43,6 @@ public class NuevoEquipoActivity extends AppCompatActivity {
     EditText etNombre, etUbi, etDescripcion;
     Spinner etTipo;
     Uri UriSeleccionada;
-    EquipoViewModel equipoViewModel;
 
 
     @Override
@@ -63,7 +57,7 @@ public class NuevoEquipoActivity extends AppCompatActivity {
         imagen = findViewById(R.id.Newimagen);
         etTipo = (Spinner) findViewById(R.id.NewTipo);
 
-        List<String> lista = new ArrayList<String>();
+        List<String> lista = new ArrayList<>();
         lista.add("PC");
         lista.add("MONITOR");
         lista.add("RED");
@@ -85,7 +79,7 @@ public class NuevoEquipoActivity extends AppCompatActivity {
                 if (UriSeleccionada != null) {
 
                     EquipoService service = ServiceGenerator.createService(EquipoService.class);
-                    //TRY CATCH DEL BUFFER
+
                     try {
                         InputStream inputStream = getContentResolver().openInputStream(UriSeleccionada);
                         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -97,7 +91,6 @@ public class NuevoEquipoActivity extends AppCompatActivity {
                             baos.write(buffer, 0, cantBytes);
                         }
 
-                        //AQUI iria el requestBody
 
                         RequestBody requestFile =
                                 RequestBody.create(
@@ -110,10 +103,10 @@ public class NuevoEquipoActivity extends AppCompatActivity {
 
                         RequestBody nombre = RequestBody.create(etNombre.getText().toString(), MultipartBody.FORM);
                         RequestBody descripcion = RequestBody.create(etDescripcion.getText().toString(), MultipartBody.FORM);
-                        RequestBody ubicacion = RequestBody.create(etUbi.getText().toString(), MultipartBody.FORM);
+                        RequestBody ubicacion = RequestBody.create(etUbi.getText().toString().toUpperCase(), MultipartBody.FORM);
                         RequestBody tipo = RequestBody.create(texto, MultipartBody.FORM);
 
-                        Call<ResponseBody> call = service.crearEquipo(body, nombre, tipo, descripcion, ubicacion, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+                        Call<ResponseBody> call = service.crearEquipo(body, ubicacion, tipo, nombre, descripcion, SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
                         call.enqueue(new Callback<ResponseBody>() {
                             @Override
@@ -122,7 +115,7 @@ public class NuevoEquipoActivity extends AppCompatActivity {
                                     Toast.makeText(MyApp.getCtx(), "El Equipo ha sido registrado", Toast.LENGTH_SHORT).show();
 
 
-                                    onBackPressed(); //PREGUNTAR A MIGUEL SOBRE ONBACKPRESSED
+                                    onBackPressed();
                                 } else {
                                     Toast.makeText(MyApp.getCtx(), "Ha ocurrido un error", Toast.LENGTH_SHORT).show();
                                 }
@@ -171,7 +164,6 @@ public class NuevoEquipoActivity extends AppCompatActivity {
             Uri uri = null;
             if (data != null) {
                 uri = data.getData();
-                //Uriselected , obtenemos la imagen
                 Glide
                         .with(this)
                         .load(uri)

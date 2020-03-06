@@ -11,10 +11,7 @@ import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -127,25 +124,22 @@ public class EquipoRepository {
 
         return data;
     }
-    public List<String> getTipos(){
-        final List<String> data = new ArrayList<>();
+    public MutableLiveData<String[]> getTipos(){
+        final MutableLiveData<String[]> data = new MutableLiveData<>();
 
-        Call<List<String>> call = service.getTipos(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
-        call.enqueue(new Callback<List<String>>() {
+        Call<String[]> call = service.getTipos(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        call.enqueue(new Callback<String[]>() {
             @Override
-            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+            public void onResponse(Call<String[]> call, Response<String[]> response) {
                if(response.isSuccessful()) {
-                   List<String> clonedList = response.body();
-                   for(int i = 0; i<clonedList.size(); i++){
-                       data.add(clonedList.get(i));
-                   }
+                   data.setValue(response.body());
                }else{
                    Toast.makeText(MyApp.getCtx(),"Error ocurrido"+response.code(),Toast.LENGTH_SHORT).show();
                }
             }
 
             @Override
-            public void onFailure(Call<List<String>> call, Throwable t) {
+            public void onFailure(Call<String[]> call, Throwable t) {
                 Toast.makeText(MyApp.getCtx(),"Error de conexion",Toast.LENGTH_SHORT).show();
             }
         });

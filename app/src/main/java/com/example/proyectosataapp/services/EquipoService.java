@@ -2,15 +2,9 @@ package com.example.proyectosataapp.services;
 
 
 import android.net.Uri;
-
 import com.example.proyectosataapp.models.RequestEquipo;
-
 import com.example.proyectosataapp.models.EquipoResponse;
-import com.example.proyectosataapp.models.UserResponseRegister;
-
-import java.io.File;
 import java.util.List;
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -52,5 +46,5 @@ public interface EquipoService {
     Call<EquipoResponse> editarEquipo(@Path("id") String idEquipo,@Body RequestEquipo requestEquipo,@Query("access_token") String masterKey);
 
     @GET("/inventariable/tipos")
-    Call<List<String>> getTipos(@Query("access_token") String masterKey);
+    Call<String[]> getTipos(@Query("access_token") String masterKey);
 }

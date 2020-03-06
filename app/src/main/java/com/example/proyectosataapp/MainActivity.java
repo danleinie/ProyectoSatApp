@@ -2,13 +2,9 @@ package com.example.proyectosataapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.View;
-
 import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.equipos.NuevoEquipoActivity;
-
-
 import android.view.LayoutInflater;
 import android.widget.TextView;
 import com.example.proyectosataapp.models.UserResponseRegister;
@@ -17,7 +13,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -25,7 +20,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
