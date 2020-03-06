@@ -81,7 +81,6 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
             String url = holder.mItem.getFotos().get(0);
             String params[] = url.split("/");
 
-            holder.pbFoto.setVisibility(View.GONE);
             Toast.makeText(view.getContext(), "" + params[params.length - 2] + params[params.length - 1], Toast.LENGTH_SHORT).show();
 
             viewModel.getTicketImg(params[params.length - 2], params[params.length - 1]).observeForever(new Observer<ResponseBody>() {
@@ -98,6 +97,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
                             //.load(responseBody)
                             .centerCrop()
                             .into(holder.ivFotoTicket);
+                    holder.pbFoto.setVisibility(View.GONE);
                 }
             });
         } else
