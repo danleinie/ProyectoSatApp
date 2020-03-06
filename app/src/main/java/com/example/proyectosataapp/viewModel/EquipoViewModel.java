@@ -51,6 +51,9 @@ public class EquipoViewModel extends AndroidViewModel {
         return idEquipoSeleccionado;
     }
 
+    public MutableLiveData<List<String>> getUbicaciones(){
+        return equipoRepository.getUbicaciones();
+    }
 
     public void insertEquipo(String ubicacion, String nombre, String tipo, String descripcion) {
         equipoRepository.createEquipo(ubicacion,nombre,tipo,descripcion);

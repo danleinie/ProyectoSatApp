@@ -12,8 +12,6 @@ import android.view.View;
 import com.example.proyectosataapp.equipos.NuevoEquipoDialogFragMent;
 
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,8 +29,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -50,23 +46,54 @@ public class MainActivity extends AppCompatActivity implements TicketFragment.On
 
     TextView txNotificationsBadgeUsers;
     UsuarioViewModel usuarioViewModel;
+    BottomNavigationView navView;
+    AppBarConfiguration appBarConfiguration;
+    NavController navController;
+    String roleUserLogeado = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        setContentView(R.layout.pantalla_loading);
         usuarioViewModel = new ViewModelProvider(this).get(UsuarioViewModel.class);
+        usuarioViewModel.getUserLogeadoFromRepo().observe(this, new Observer<UserResponseRegister>() {
+            @Override
+            public void onChanged(UserResponseRegister userResponseRegister) {
+                usuarioViewModel.setUserLogeado(userResponseRegister);
+                roleUserLogeado = userResponseRegister.getRole();
+                if (userResponseRegister.getRole().equals("admin")){
+                    loadiuAdmin();
+                }else {
+                    loadiuUser();
+                }
+            }
+        });
 
+    }
+
+    private void loadiuUser() {
+        setContentView(R.layout.activity_main_user);
+        navView = findViewById(R.id.nav_view_user);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+        appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_profile)
+                .build();
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_user);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(navView, navController);
+    }
+
+    private void loadiuAdmin() {
+        setContentView(R.layout.activity_main);
+        navView = findViewById(R.id.nav_view_admin);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_admin);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
@@ -80,10 +107,21 @@ public class MainActivity extends AppCompatActivity implements TicketFragment.On
                 .inflate(R.layout.notification_badge, itemView, true);
         txNotificationsBadgeUsers = badge.findViewById(R.id.txNotificationsBadge);
         txNotificationsBadgeUsers.setVisibility(View.GONE);
+        loadData();
+    }
 
-        usuarioViewModel.getUsersNoValidated().observe(this, new Observer<List<UserResponseRegister>>() {
+    private void loadData() {
+        usuarioViewModel.getUsersFromRepo().observe(this, new Observer<List<UserResponseRegister>>() {
+            @Override
+            public void onChanged(final List<UserResponseRegister> userResponseRegisters) {
+                usuarioViewModel.setListUsers(userResponseRegisters);
+            }
+        });
+
+        usuarioViewModel.getUsersNoValidatedFromRepo().observe(this, new Observer<List<UserResponseRegister>>() {
             @Override
             public void onChanged(List<UserResponseRegister> userResponseRegisters) {
+                usuarioViewModel.setListUsersNoValidated(userResponseRegisters);
                 usuarioViewModel.setSizeListUsersNoValidated(userResponseRegisters.size());
             }
         });
@@ -100,43 +138,19 @@ public class MainActivity extends AppCompatActivity implements TicketFragment.On
 
             }
         });
-        /*AHBottomNavigation bottomNavigation = findViewById(R.id.nav_view);
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.title_home,R.drawable.ic_home_black_24dp,R.color.colorPrimary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.title_dashboard,R.drawable.ic_dashboard_black_24dp,R.color.colorPrimary);
-        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.title_usuarios,R.drawable.ic_supervisor_account_black_24dp,R.color.colorPrimary);
 
-        bottomNavigation.addItem(item1);
-        bottomNavigation.addItem(item2);
-        bottomNavigation.addItem(item3);
-
-
-        AHNotification notification = new AHNotification.Builder()
-                .setText("1")
-                .setBackgroundColor(ContextCompat.getColor(this,R.color.colorPrimary))
-                .setTextColor(ContextCompat.getColor(this,R.color.colorAccent))
-                .build();
-
-        bottomNavigation.setNotification(notification,2);
-
-        // Set listeners
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                // Do something cool here...
-                return true;
-            }
-        });
-        bottomNavigation.setOnNavigationPositionListener(new AHBottomNavigation.OnNavigationPositionListener() {
-            @Override public void onPositionChange(int y) {
-                // Manage the new y position
-            }
-        });*/
-
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (roleUserLogeado.equals("admin")){
+            loadData();
+        }
     }
 
     @Override
     public void onListFragmentInteraction(Ticket item) {
 
     }
-}
 
+}

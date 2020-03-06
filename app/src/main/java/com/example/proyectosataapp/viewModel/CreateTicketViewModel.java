@@ -1,11 +1,14 @@
 package com.example.proyectosataapp.viewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
+import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.models.User;
 import com.example.proyectosataapp.models.UserResponseRegister;
@@ -32,17 +35,11 @@ public class CreateTicketViewModel extends AndroidViewModel {
         ticketRepository = new TicketRepository();
     }
 
-    public List<UserResponseRegister> getTecnicos() {
-        List<UserResponseRegister> todos = usuarioRepository.getUsers().getValue();
-        List<UserResponseRegister> tecnicos = new ArrayList<>();
+    public LiveData<List<UserResponseRegister>> getUsers() {return usuarioRepository.getUsers();}
 
-        for (UserResponseRegister user : todos) {
-            if (user.getRole() == "tecnico")
-                tecnicos.add(user);
-        }
+    public LiveData<List<EquipoResponse>> getEquipos() {return equipoRepository.getEquipos();}
 
-        return tecnicos;
-    }
+    //public LiveData<EquipoResponse>
 
     public LiveData<Ticket> postTicket(
             RequestBody titulo,
