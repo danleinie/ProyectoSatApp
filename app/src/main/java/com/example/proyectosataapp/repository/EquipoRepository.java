@@ -2,6 +2,7 @@ package com.example.proyectosataapp.repository;
 
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.proyectosataapp.common.Constantes;
@@ -9,6 +10,7 @@ import com.example.proyectosataapp.common.MyApp;
 import com.example.proyectosataapp.common.SharedPreferencesManager;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
+import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.services.EquipoService;
 import com.example.proyectosataapp.servicesGenerators.ServiceGenerator;
 
@@ -24,7 +26,8 @@ public class EquipoRepository {
     EquipoService service;
     ServiceGenerator serviceGenerator;
     MutableLiveData<List<EquipoResponse>> equipoList;
-
+    int number = 0;
+    List<String> orden = new ArrayList<>();
 
     public EquipoRepository(){
         service = serviceGenerator.createService(EquipoService.class);
@@ -33,9 +36,13 @@ public class EquipoRepository {
 
 
     public MutableLiveData<List<EquipoResponse>> getEquipos(){
+        orden.add("ubicacion");
+        orden.add("tipo");
+        orden.add("nombre");
+
         final MutableLiveData<List<EquipoResponse>> data = new MutableLiveData<>();
 
-        Call<List<EquipoResponse>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        Call<List<EquipoResponse>> call = service.listEquipo(orden,SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
         call.enqueue(new Callback<List<EquipoResponse>>() {
             @Override
@@ -221,6 +228,25 @@ public class EquipoRepository {
                 Toast.makeText(MyApp.getCtx(),"Error ocurrido!)",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public LiveData<EquipoResponse> borrarFotoEquipo(String idEquipo){
+        final MutableLiveData<EquipoResponse> data = new MutableLiveData<>();
+
+        service.borrarFotoEquipo(idEquipo).enqueue(new Callback<EquipoResponse>() {
+            @Override
+            public void onResponse(Call<EquipoResponse> call, Response<EquipoResponse> response) {
+                if (response.isSuccessful()){
+                    data.setValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EquipoResponse> call, Throwable t) {
+
+            }
+        });
+        return data;
     }
 
 

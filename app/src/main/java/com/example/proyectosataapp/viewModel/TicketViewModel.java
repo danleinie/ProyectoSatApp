@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.proyectosataapp.models.Ticket;
 import com.example.proyectosataapp.models.UserResponseRegister;
@@ -21,6 +22,7 @@ public class TicketViewModel extends AndroidViewModel {
 
     private TicketRepository repositorio;
     private UsuarioRepository usuarioRepository;
+
 
     public TicketViewModel(@NonNull Application application) {
         super(application);

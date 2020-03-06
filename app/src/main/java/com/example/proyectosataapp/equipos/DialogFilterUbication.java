@@ -43,12 +43,14 @@ public class DialogFilterUbication extends DialogFragment {
             @Override
             public void onChanged(List<String> strings) {
                 listaUbicaciones=strings;
+                listaUbicaciones.add("TODOS");
                 adapter = new ArrayAdapter<String>(
                         getActivity(),
                         android.R.layout.simple_list_item_1,
                         listaUbicaciones
                 );
                 lv.setAdapter(adapter);
+
 
             }
         });

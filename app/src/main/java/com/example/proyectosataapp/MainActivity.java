@@ -186,22 +186,5 @@ public class MainActivity extends AppCompatActivity implements TicketFragment.On
 
         return true;
     }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.profile:
-                // TODO goToProfile();
-                break;
-            case R.id.log_out:
-                SharedPreferencesManager.removeStringValue(Constantes.LABEL_TOKEN);
-                finish();
-            break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-
-        return true;
-    }
 }
+

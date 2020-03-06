@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment implements IFiltroListener {
         private EquipoViewModel equipoViewModel;
         MyEquipoRecyclerViewAdapter adapter;
         RecyclerView recyclerView;
-        MenuItem  busqueda;
+        MenuItem  busqueda,itemLimpiarFiltro;
         List<EquipoResponse> listadoEquipos;
 
     public HomeFragment() {
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment implements IFiltroListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        listadoEquipos = new ArrayList<>();
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
@@ -132,9 +132,11 @@ public class HomeFragment extends Fragment implements IFiltroListener {
 
     @Override
     public void onClickFiltros(String filtro) {
-        Log.i("filtro", filtro);
-        llamadaBusqueda(filtro);
-
+        if (filtro =="TODOS"){
+            llamadaBusqueda("");
+        }else{
+            llamadaBusqueda(filtro);
+        }
     }
 
     public List<EquipoResponse> llamadaBusqueda(String palabraClave){
@@ -156,13 +158,14 @@ public class HomeFragment extends Fragment implements IFiltroListener {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         menu.clear();
         super.onPrepareOptionsMenu(menu);
+        itemLimpiarFiltro = menu.findItem(R.id.borrar_filtro);
         getActivity().getMenuInflater().inflate(R.menu.equipo_menu, menu);
         busqueda = menu.findItem(R.id.app_bar_search);
         SearchView searchView = (SearchView) busqueda.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //itemLimpiarFiltro.setVisible(true);
+                itemLimpiarFiltro.setVisible(true);
 
                 return false;
             }
@@ -181,7 +184,7 @@ public class HomeFragment extends Fragment implements IFiltroListener {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
             DialogFragment dialogoUbicacion =new DialogFilterUbication();
             dialogoUbicacion.setTargetFragment(this,0);
-            dialogoUbicacion.show(Objects.requireNonNull(getFragmentManager()),"FiltroMonedaFragment");
+            dialogoUbicacion.show(Objects.requireNonNull(getFragmentManager()),"FiltroEquipoFragment");
 
         Toast.makeText( MyApp.getCtx(), "Filtro", Toast.LENGTH_SHORT).show();
 

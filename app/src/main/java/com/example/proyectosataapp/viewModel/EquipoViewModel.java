@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.proyectosataapp.models.EquipoResponse;
 import com.example.proyectosataapp.models.RequestEquipo;
 import com.example.proyectosataapp.models.Ticket;
+import com.example.proyectosataapp.models.UserResponseRegister;
 import com.example.proyectosataapp.repository.EquipoRepository;
 import com.example.proyectosataapp.repository.TicketRepository;
 
@@ -23,6 +24,7 @@ public class EquipoViewModel extends AndroidViewModel {
     EquipoRepository equipoRepository;
     MutableLiveData<String> idEquipoSeleccionado;
     TicketRepository ticketRepository;
+ //   MutableLiveData<String> idTicketSeleccionado;
 
     public EquipoViewModel(@NonNull Application application) {
         super(application);
@@ -30,6 +32,8 @@ public class EquipoViewModel extends AndroidViewModel {
         ticketRepository = new TicketRepository();
         this.idEquipoSeleccionado =new MutableLiveData<>();
         this.idEquipoSeleccionado.setValue(null);
+      /*  this.idTicketSeleccionado = new MutableLiveData<>();
+        this.idTicketSeleccionado.setValue(null);*/
     }
 
     public MutableLiveData<List<EquipoResponse>> getEquipos() {
@@ -63,5 +67,6 @@ public class EquipoViewModel extends AndroidViewModel {
     public LiveData<List<Ticket>> getTicketsByInventariable(String id) {
         return ticketRepository.getTicketsByInventariable(id);
     }
+    public LiveData<EquipoResponse> borrarFotoEquipo(String idEquipo){return equipoRepository.borrarFotoEquipo(idEquipo);}
 
 }
