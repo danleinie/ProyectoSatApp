@@ -123,5 +123,31 @@ public class TicketRepository {
         return data;
     }
 
+    public LiveData<Ticket> getTicketById(String id) {
+        final MutableLiveData<Ticket> data = new MutableLiveData<>();
+
+        Call<Ticket> call = servicio.getTicketById(id);
+
+        call.enqueue(new Callback<Ticket>() {
+            @Override
+            public void onResponse(Call<Ticket> call, Response<Ticket> response) {
+                if (response.isSuccessful()) {
+                    data.setValue(response.body());
+                    Toast.makeText(MyApp.getCtx(), "Perfecto bro \n" + data.getValue().toString(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.e("Response", "Respuesta incorrecta");
+                    Toast.makeText(MyApp.getCtx(), "Algo ha ido mal", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Ticket> call, Throwable t) {
+                Log.e("Response", "Respuesta no realizada" + t.getMessage());
+                Toast.makeText(MyApp.getCtx(), "Algo fue MUY mal" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return data;
+    }
 
 }
