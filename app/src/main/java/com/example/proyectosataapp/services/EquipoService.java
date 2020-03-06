@@ -26,7 +26,7 @@ import retrofit2.http.Query;
 public interface EquipoService {
 
     @GET("inventariable")
-    Call<List<EquipoResponse>> listEquipo (@Query("access_token") String masterKey);
+    Call<List<EquipoResponse>> listEquipo (@Path("sort") String atributo,@Query("access_token") String masterKey);
 
     @GET("inventariable/img/{id}")
     Call<ResponseBody> imagenEquipo(@Path("id") String idImag, @Query("access_token") String masterKey);

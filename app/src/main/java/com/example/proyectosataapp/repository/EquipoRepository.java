@@ -24,6 +24,7 @@ public class EquipoRepository {
     EquipoService service;
     ServiceGenerator serviceGenerator;
     MutableLiveData<List<EquipoResponse>> equipoList;
+    int number = 0;
 
 
     public EquipoRepository(){
@@ -35,7 +36,7 @@ public class EquipoRepository {
     public MutableLiveData<List<EquipoResponse>> getEquipos(){
         final MutableLiveData<List<EquipoResponse>> data = new MutableLiveData<>();
 
-        Call<List<EquipoResponse>> call = service.listEquipo(SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
+        Call<List<EquipoResponse>> call = service.listEquipo("ubicacion",SharedPreferencesManager.getStringValue(Constantes.LABEL_TOKEN));
 
         call.enqueue(new Callback<List<EquipoResponse>>() {
             @Override
